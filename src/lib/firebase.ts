@@ -1,6 +1,6 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, type Auth } from "firebase/auth";
-import { getFirestore, type Firestore } from "firebase/firestore";
+import { initializeFirestore, getFirestore, type Firestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -21,7 +21,11 @@ function initFirebase() {
   try {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     auth = getAuth(app);
-    db = getFirestore(app);
+    try {
+      db = initializeFirestore(app, { ignoreUndefinedProperties: true });
+    } catch {
+      db = getFirestore(app);
+    }
   } catch (err) {
     console.warn("Firebase init failed:", err);
   }
@@ -46,6 +50,7 @@ export interface FirestoreLead {
   leadScore: number;
   priorityTier: "High" | "Medium" | "Low";
   status: LeadStatus;
+  ownerUid?: string;
   auditResult?: Record<string, unknown>;
   createdAt: number;
   updatedAt: number;

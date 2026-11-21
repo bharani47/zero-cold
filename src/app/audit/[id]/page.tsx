@@ -94,7 +94,7 @@ function ClientAuditReportContent() {
       {/* Top Header */}
       <header className="sticky top-0 z-50 nav-blur px-6 py-3.5 border-b border-white/8">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-white transition-colors">
+          <Link href="/dashboard" className="flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-white transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
 

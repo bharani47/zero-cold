@@ -1,689 +1,379 @@
-"use client";
+import Link from "next/link";
+import type { Metadata } from "next";
 
-import { useState, useEffect, useMemo, useRef } from "react";
-import {
-  Target, TrendingUp, Shield, CheckCircle2,
-  BarChart3, Zap, ArrowRight, Sparkles, Search,
-} from "lucide-react";
-import {
-  collection, onSnapshot, doc, setDoc, updateDoc,
-  type Unsubscribe,
-} from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import type { FirestoreLead } from "@/lib/firebase";
-import type { AuditResult } from "@/types/audit";
-import { SEED_LEADS } from "@/data/seedLeads";
-import { AuthButton }      from "@/components/AuthButton";
-import { KpiCard }         from "@/components/KpiCard";
-import { ProspectCard }    from "@/components/ProspectCard";
-import { PipelineStepper } from "@/components/PipelineStepper";
-import { SiteSignalsPanel }from "@/components/SiteSignalsPanel";
-import { AnalystPanel }    from "@/components/AnalystPanel";
-import { CriticPanel }     from "@/components/CriticPanel";
-import { ApprovalBox }     from "@/components/ApprovalBox";
+export const metadata: Metadata = {
+  title: "ZeroCold — Stop Guessing. Start Converting.",
+  description: "AI-powered B2B outbound intelligence for digital agencies. Verified digital footprint signals, BigQuery ML lead scoring, and Critic-audited cold outreach in under 30 seconds.",
+};
 
-type TabFilter = "all" | "pending" | "approved";
-
-interface AuditForm {
-  businessName: string;
-  websiteUrl:   string;
-  niche:        string;
-  city:         string;
-  googleRating: string;
-  reviewCount:  string;
-  senderOffer:  string;
+function ZLogo({ size = 36 }: { size?: number }) {
+  return (
+    <div
+      className="rounded-xl overflow-hidden flex items-center justify-center p-1 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-lg shadow-blue-500/25"
+      style={{ width: size, height: size }}
+    >
+      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+        <path d="M5 7h18l-12 14h12" stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M17 7l-8 10" stroke="rgba(96,165,250,0.85)" strokeWidth="1.8" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
 }
 
-export default function Home() {
-  const [leads, setLeads]               = useState<FirestoreLead[]>(SEED_LEADS as FirestoreLead[]);
-  const [selectedLead, setSelectedLead] = useState<FirestoreLead | null>(SEED_LEADS[0] as FirestoreLead);
-  const [auditResult, setAuditResult]   = useState<AuditResult | null>(
-    (SEED_LEADS[0]?.auditResult as unknown as AuditResult) ?? null
-  );
-  const [isRunning, setIsRunning]       = useState(false);
-  const [activeStep, setActiveStep]     = useState(5);
-  const [auditError, setAuditError]     = useState<string | null>(null);
-  const [tab, setTab]                   = useState<TabFilter>("all");
-  const [searchQuery, setSearchQuery]   = useState("");
+const STEPS = [
+  {
+    emoji: "🔍",
+    num: "01",
+    title: "Signal Extractor",
+    sub: "Server-side cheerio + PageSpeed Insights scan every public digital signal in real time.",
+    tags: ["HTTPS audit", "Mobile viewport", "Core Web Vitals", "Booking CTA", "Schema markup"],
+  },
+  {
+    emoji: "🧠",
+    num: "02",
+    title: "BigQuery ML Scorer",
+    sub: "Logistic regression model (97.69% accuracy, AUC 0.9969) scores conversion probability.",
+    tags: ["97.69% Accuracy", "AUC 0.9969", "Lead Priority Tier", "Top 3 factors"],
+  },
+  {
+    emoji: "🤖",
+    num: "03",
+    title: "Analyst Agent",
+    sub: "Gemini Flash evaluates digital gaps against dynamic local market competitors.",
+    tags: ["Digital Gap Score", "Competitor benchmark", "Recommended angle"],
+  },
+  {
+    emoji: "✍️",
+    num: "04",
+    title: "Writer Agent",
+    sub: "Gemini Pro drafts 3-channel outreach in one shot. No sales clichés. Under 100 words.",
+    tags: ["Cold Email", "48h Follow-Up", "WhatsApp DM"],
+  },
+  {
+    emoji: "🧪",
+    num: "05",
+    title: "Critic Agent",
+    sub: "Every factual claim is verified against raw DOM signals. Unverifiable claims are rewritten or removed.",
+    tags: ["Groundedness 0–100", "Fact-check each claim", "Revised final copy"],
+  },
+];
 
-  const timersRef = useRef<NodeJS.Timeout[]>([]);
+const FEATURES = [
+  {
+    icon: "🛰️",
+    title: "Verified Footprint Intelligence",
+    body: "We don't guess. Every signal — HTTPS, mobile viewport, analytics pixel, booking CTA, schema markup, Core Web Vitals — is scraped in real time from the prospect's live site. Zero hallucinations.",
+  },
+  {
+    icon: "📊",
+    title: "BigQuery ML Lead Scoring",
+    body: "A logistic regression model trained on real conversion data scores 0–100 and assigns Priority Tier with top contributing factors. 97.69% accuracy, 0.9969 AUC, 0.077 log-loss.",
+  },
+  {
+    icon: "✅",
+    title: "Critic-Verified Outreach",
+    body: "Every word of your cold email is audited by a Gemini Critic agent before it reaches your approve queue. Ground truth: extracted DOM signals. Result: 100% factually defensible pitches.",
+  },
+  {
+    icon: "📨",
+    title: "3-Channel Outreach Pack",
+    body: "One audit generates a full outreach kit: cold email (< 100 words), 48-hour competitor follow-up (< 70 words), and a WhatsApp/LinkedIn DM (< 45 words). Ready to send, human-approved.",
+  },
+  {
+    icon: "🔗",
+    title: "Shareable Audit Reports",
+    body: "Generate a white-label client report link in one click. Share it in your outreach email. Prospect sees their own digital health score, verified gaps, Core Web Vitals, and your CTA.",
+  },
+  {
+    icon: "⚡",
+    title: "Human-in-the-Loop Gate",
+    body: "Nothing goes out without you. Edit, revert, or reject any draft. Approve with one click. Full Firestore sync keeps your team aligned in real time across all prospects.",
+  },
+];
 
-  const [form, setForm] = useState<AuditForm>({
-    businessName: "",
-    websiteUrl:   "",
-    niche:        "",
-    city:         "Chennai",
-    googleRating: "",
-    reviewCount:  "",
-    senderOffer:  "web redesign, local SEO & conversion automation",
-  });
+const STATS = [
+  { value: "97.69%", label: "ML Model Accuracy" },
+  { value: "0.9969", label: "ROC-AUC Score" },
+  { value: "< 30s", label: "Full Pipeline Runtime" },
+  { value: "3", label: "Outreach Channels per Audit" },
+];
 
-  // Clear timers on unmount
-  useEffect(() => {
-    return () => {
-      timersRef.current.forEach(clearTimeout);
-    };
-  }, []);
-
-  // Firestore live sync with graceful fallback
-  useEffect(() => {
-    if (!db) return;
-    try {
-      const unsub: Unsubscribe = onSnapshot(
-        collection(db, "leads"),
-        (snap) => {
-          if (snap.empty) return;
-          const remote = snap.docs.map((d) => ({ ...(d.data() as FirestoreLead), id: d.id }));
-          setLeads((prev) => {
-            const ids = new Set(remote.map((l) => l.id));
-            return [...remote, ...prev.filter((l) => !ids.has(l.id))];
-          });
-        },
-        (error) => {
-          console.warn("Firestore onSnapshot error:", error);
-        }
-      );
-      return () => unsub();
-    } catch (e) {
-      console.warn("Firestore sync setup error:", e);
-    }
-  }, []);
-
-  // Search & tab filter
-  const filteredLeads = useMemo(() => {
-    let list = tab === "all" ? leads : leads.filter((l) => l.status === tab);
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      list = list.filter(
-        (l) =>
-          l.businessName.toLowerCase().includes(q) ||
-          l.niche.toLowerCase().includes(q) ||
-          l.city.toLowerCase().includes(q)
-      );
-    }
-    return list;
-  }, [leads, tab, searchQuery]);
-
-  // Dynamic KPI calculations
-  const kpis = useMemo(() => {
-    const audited = leads.filter((l) => l.auditResult);
-    const avg = (fn: (ar: Record<string, unknown>) => number) =>
-      audited.length
-        ? Math.round(audited.reduce((s, l) => s + fn(l.auditResult as Record<string, unknown>), 0) / audited.length)
-        : 0;
-    return {
-      total:     leads.length,
-      avgGap:    avg((ar) => ((ar?.analystOutput as Record<string, unknown>)?.digitalGapScore as number) ?? 0),
-      avgGround: avg((ar) => ((ar?.criticAudit  as Record<string, unknown>)?.groundednessScore as number) ?? 0),
-      approved:  leads.filter((l) => l.status === "approved").length,
-    };
-  }, [leads]);
-
-  const set = (k: keyof AuditForm) => (v: string) => setForm((p) => ({ ...p, [k]: v }));
-
-  // Handle lead selection from list
-  function handleSelectLead(lead: FirestoreLead) {
-    setSelectedLead(lead);
-    setAuditError(null);
-    if (lead.auditResult) {
-      setAuditResult(lead.auditResult as unknown as AuditResult);
-      setActiveStep(5);
-    } else {
-      setAuditResult(null);
-      setActiveStep(-1);
-    }
-  }
-
-  // Multi-agent audit runner
-  async function runAudit(overrides?: Partial<AuditForm & { leadId?: string }>) {
-    const data: AuditForm & { leadId?: string } = { ...form, ...overrides };
-    if (!data.businessName.trim()) return;
-
-    // Reset previous timers
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
-
-    setIsRunning(true);
-    setAuditError(null);
-    setActiveStep(0);
-
-    // Staged visual progress
-    const stepsDelays = [1200, 2600, 5200, 9000];
-    timersRef.current = stepsDelays.map((d, i) =>
-      setTimeout(() => setActiveStep(i + 1), d)
-    );
-
-    try {
-      const res = await fetch("/api/audit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          businessName: data.businessName,
-          niche:        data.niche || "Local Business",
-          city:         data.city || "Chennai",
-          websiteUrl:   data.websiteUrl || "",
-          googleRating: parseFloat(data.googleRating || "0") || 0,
-          reviewCount:  parseInt(data.reviewCount  || "0") || 0,
-          senderOffer:  data.senderOffer || "web redesign, local SEO & conversion automation",
-        }),
-      });
-
-      timersRef.current.forEach(clearTimeout);
-
-      if (!res.ok) {
-        const errorJson = (await res.json().catch(() => ({}))) as { error?: string };
-        throw new Error(errorJson.error ?? `Audit failed with status ${res.status}`);
-      }
-
-      const result: AuditResult = (await res.json()) as AuditResult;
-      setActiveStep(5);
-      setAuditResult(result);
-
-      const id = data.leadId ?? `audit-${Date.now()}`;
-      const originalCreatedAt = data.leadId ? leads.find((l) => l.id === data.leadId)?.createdAt : undefined;
-      const updatedLead: FirestoreLead = {
-        id,
-        businessName: data.businessName,
-        niche:        data.niche || "Local Business",
-        city:         data.city || "Chennai",
-        websiteUrl:   data.websiteUrl || "",
-        googleRating: parseFloat(data.googleRating || "0") || undefined,
-        reviewCount:  parseInt(data.reviewCount  || "0") || undefined,
-        leadScore:    result.mlScore.leadScore,
-        priorityTier: result.mlScore.priorityTier,
-        status:       "pending",
-        auditResult:  result as unknown as Record<string, unknown>,
-        createdAt:    originalCreatedAt ?? Date.now(),
-        updatedAt:    Date.now(),
-      };
-
-      // Always update local state
-      setSelectedLead(updatedLead);
-      setLeads((prev) => [updatedLead, ...prev.filter((l) => l.id !== id)]);
-
-      // Sync to Firestore if db is available
-      if (db) {
-        try {
-          await setDoc(doc(db, "leads", id), updatedLead);
-        } catch (dbErr) {
-          console.warn("Could not persist lead to Firestore:", dbErr);
-        }
-      }
-    } catch (err: unknown) {
-      timersRef.current.forEach(clearTimeout);
-      let msg = err instanceof Error ? err.message : "Audit request failed";
-      try {
-        const parsed = typeof msg === "string" && msg.startsWith("{") ? JSON.parse(msg) : null;
-        if (parsed?.error?.message) {
-          msg = parsed.error.message;
-        }
-      } catch {
-        // Keep original message if parsing fails
-      }
-      setAuditError(msg);
-      setActiveStep(0);
-    } finally {
-      setIsRunning(false);
-    }
-  }
-
-  // Audit now triggered from card
-  async function handleLeadAudit(lead: FirestoreLead) {
-    setSelectedLead(lead);
-    setForm({
-      businessName: lead.businessName,
-      websiteUrl:   lead.websiteUrl ?? "",
-      niche:        lead.niche,
-      city:         lead.city,
-      googleRating: String(lead.googleRating ?? ""),
-      reviewCount:  String(lead.reviewCount ?? ""),
-      senderOffer:  "web redesign, local SEO & conversion automation",
-    });
-    await runAudit({
-      businessName: lead.businessName,
-      websiteUrl:   lead.websiteUrl ?? "",
-      niche:        lead.niche,
-      city:         lead.city,
-      googleRating: String(lead.googleRating ?? ""),
-      reviewCount:  String(lead.reviewCount ?? ""),
-      leadId:       lead.id,
-    });
-  }
-
-  // Approve action
-  async function handleApprove(subject: string, body: string) {
-    if (!selectedLead) return;
-
-    // Local state update
-    const updatedLead: FirestoreLead = {
-      ...selectedLead,
-      status: "approved",
-      updatedAt: Date.now(),
-      auditResult: selectedLead.auditResult
-        ? {
-            ...selectedLead.auditResult,
-            finalEmail: { subject, body },
-            criticAudit: {
-              ...((selectedLead.auditResult as unknown as AuditResult).criticAudit || {}),
-              finalEmail: { subject, body },
-            },
-          }
-        : undefined,
-    };
-
-    setLeads((prev) => prev.map((l) => (l.id === selectedLead.id ? updatedLead : l)));
-    setSelectedLead(updatedLead);
-
-    // Sync to Firestore if db exists
-    if (db) {
-      try {
-        await updateDoc(doc(db, "leads", selectedLead.id), {
-          status: "approved",
-          updatedAt: Date.now(),
-          "auditResult.finalEmail": { subject, body },
-          "auditResult.criticAudit.finalEmail": { subject, body },
-        });
-      } catch (err) {
-        console.warn("Firestore update error:", err);
-      }
-    }
-  }
-
-  // Reject action
-  async function handleReject() {
-    if (!selectedLead) return;
-
-    const updatedLead: FirestoreLead = {
-      ...selectedLead,
-      status: "rejected",
-      updatedAt: Date.now(),
-    };
-
-    setLeads((prev) => prev.map((l) => (l.id === selectedLead.id ? updatedLead : l)));
-    setSelectedLead(updatedLead);
-
-    if (db) {
-      try {
-        await updateDoc(doc(db, "leads", selectedLead.id), {
-          status: "rejected",
-          updatedAt: Date.now(),
-        });
-      } catch (err) {
-        console.warn("Firestore reject update error:", err);
-      }
-    }
-  }
-
-  const selectedAudit: AuditResult | null =
-    auditResult ?? (selectedLead?.auditResult ? (selectedLead.auditResult as unknown as AuditResult) : null);
-
-  // Dynamic model badge computed from pipeline output
-  const activeModelBadge = useMemo(() => {
-    if (selectedAudit?.pipeline?.length) {
-      const flash = selectedAudit.pipeline.find((p) => p.model.toLowerCase().includes("flash"))?.model;
-      const pro = selectedAudit.pipeline.find((p) => p.model.toLowerCase().includes("pro"))?.model;
-      if (flash && pro) {
-        return `${flash} · ${pro}`;
-      }
-      if (flash) return flash;
-    }
-    return "Gemini Flash + Pro";
-  }, [selectedAudit]);
-
-  const tabCounts = {
-    all:      leads.length,
-    pending:  leads.filter((l) => l.status === "pending").length,
-    approved: leads.filter((l) => l.status === "approved").length,
-  };
-
+export default function LandingPage() {
   return (
-    <div className="relative min-h-screen flex flex-col">
-      {/* Ambient background gradient */}
+    <div className="relative min-h-screen flex flex-col" style={{ background: "var(--bg)" }}>
       <div className="bg-gradient-layer" />
 
-      {/* ── NAV ── */}
+      {/* ═══ NAV ═══ */}
       <header className="sticky top-0 z-50 nav-blur">
-        <div className="max-w-[1800px] mx-auto px-6 h-14 flex items-center justify-between gap-6">
-
-          {/* Logo container — Sharp dark-mode geometric SVG "Z" emblem + ZERO COLD */}
-          <div className="flex items-center gap-4 shrink-0">
-            <div className="flex items-center gap-2.5 cursor-pointer">
-              <div className="relative w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center p-0.5 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-sm shadow-blue-500/20">
-                <svg
-                  viewBox="0 0 28 28"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-full h-full"
-                >
-                  <path
-                    d="M5 7h18l-12 14h12"
-                    stroke="#ffffff"
-                    strokeWidth="3.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d="M17 7l-8 10"
-                    stroke="rgba(96,165,250,0.85)"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </div>
-              <div className="flex items-baseline tracking-wider select-none">
-                <span className="text-lg font-black tracking-tight text-white">ZERO</span>
-                <span className="text-lg font-black tracking-tight text-blue-500 ml-1">COLD</span>
-              </div>
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
+          <Link href="/" className="flex items-center gap-3 select-none">
+            <ZLogo size={34} />
+            <div className="flex items-baseline">
+              <span className="text-xl font-black tracking-tight text-white">ZERO</span>
+              <span className="text-xl font-black tracking-tight text-blue-500 ml-1">COLD</span>
             </div>
+          </Link>
 
-            {/* AI badge */}
-            <div
-              className="hidden sm:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold"
-              style={{ border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-2)" }}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/login"
+              className="text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+              style={{ color: "var(--text-2)", border: "1px solid transparent" }}
             >
-              <Sparkles className="w-3.5 h-3.5 text-blue-500" />
-              {activeModelBadge}
-            </div>
-          </div>
-
-          {/* Right section */}
-          <div className="flex items-center gap-4 ml-auto">
-            <span
-              className="text-xs hidden lg:block"
-              style={{ color: "var(--text-3)" }}
+              Sign In
+            </Link>
+            <Link
+              href="/login"
+              className="btn-primary text-sm font-semibold px-5 py-2 rounded-xl"
             >
-              Code Ruptors · Startup Buildathon India 2026
-            </span>
-            <AuthButton />
+              Get Started →
+            </Link>
           </div>
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-[1800px] mx-auto w-full px-6 py-6 space-y-5">
+      <main className="relative z-10 flex-1">
 
-        {/* ── KPI STRIP ── */}
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
-          <KpiCard
-            label="Total Prospects"
-            value={kpis.total}
-            sub="in intelligence pipeline"
-            icon={<BarChart3 className="w-4 h-4 text-blue-400" />}
-            animDelay="0ms"
-          />
-          <KpiCard
-            label="Avg Gap Score"
-            value={kpis.avgGap ? `${kpis.avgGap}/100` : "—"}
-            sub="higher = bigger buying opportunity"
-            icon={<TrendingUp className="w-4 h-4 text-blue-400" />}
-            animDelay="60ms"
-          />
-          <KpiCard
-            label="Critic Groundedness"
-            value={kpis.avgGround ? `${kpis.avgGround}%` : "—"}
-            sub="verified hallucination-free accuracy"
-            icon={<Shield className="w-4 h-4 text-blue-400" />}
-            animDelay="120ms"
-          />
-          <KpiCard
-            label="Approved Queue"
-            value={kpis.approved}
-            sub="ready for outreach dispatch"
-            icon={<CheckCircle2 className="w-4 h-4 text-blue-400" />}
-            animDelay="180ms"
-          />
-        </div>
+        {/* ═══ HERO ═══ */}
+        <section className="max-w-6xl mx-auto px-6 pt-24 pb-20 text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 mb-8 px-3 py-1.5 rounded-full text-xs font-semibold"
+            style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.25)", color: "#60a5fa" }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
+            Startup Buildathon India 2026 · Team Code Ruptors · Google DeepMind × Google Cloud
+          </div>
 
-        {/* ── AUDIT COMMAND BAR ── */}
-        <div className="glass-lg p-5 anim-fade-up d-200">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2.5">
-              <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center"
-                style={{ background: "rgba(37,99,235,0.12)", border: "1px solid rgba(37,99,235,0.2)" }}
-              >
-                <Zap className="w-4 h-4 text-blue-400" />
-              </div>
-              <div>
-                <h2 className="text-base font-bold" style={{ color: "var(--text-1)" }}>
-                  Live Audit Command Bar
-                </h2>
-                <p className="text-xs" style={{ color: "var(--text-3)" }}>
-                  Trigger real-time cheerio scraping, logistic regression scoring, and the 3-agent Gemini chain
-                </p>
-              </div>
-            </div>
-            <span className="text-xs hidden lg:block" style={{ color: "var(--text-3)" }}>
-              Extractor → ML Scorer → Analyst → Writer → Critic
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6"
+            style={{ color: "var(--text-1)" }}>
+            Stop guessing.<br />
+            <span style={{
+              background: "linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #2563eb 100%)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}>
+              Start converting.
             </span>
+          </h1>
+
+          <p className="text-xl sm:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--text-2)" }}>
+            AI-powered outbound intelligence for digital agencies. Verified signals, ML-scored leads, and Critic-audited cold pitches — in under 30 seconds.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <Link
+              href="/login"
+              className="btn-primary text-base font-bold px-8 py-4 rounded-2xl flex items-center gap-2 w-full sm:w-auto justify-center"
+            >
+              Start auditing leads
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </Link>
+            <a
+              href="#how-it-works"
+              className="text-base font-semibold px-8 py-4 rounded-2xl transition-all w-full sm:w-auto justify-center flex items-center gap-2"
+              style={{ color: "var(--text-2)", border: "1px solid var(--border)" }}
+            >
+              See how it works
+            </a>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2.5">
-            <input
-              placeholder="Business Name *"
-              value={form.businessName}
-              onChange={(e) => set("businessName")(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
-            />
-            <input
-              placeholder="Website URL"
-              value={form.websiteUrl}
-              onChange={(e) => set("websiteUrl")(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
-            />
-            <input
-              placeholder="Niche (Dental, Gym...)"
-              value={form.niche}
-              onChange={(e) => set("niche")(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
-            />
-            <input
-              placeholder="City (Chennai)"
-              value={form.city}
-              onChange={(e) => set("city")(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
-            />
-            <input
-              placeholder="Your Service Offer"
-              value={form.senderOffer}
-              onChange={(e) => set("senderOffer")(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
-            />
-            <button
-              onClick={() => runAudit()}
-              disabled={isRunning || !form.businessName.trim()}
-              className="btn-primary flex items-center justify-center gap-2 px-4 py-2.5 text-base font-semibold"
-            >
-              {isRunning ? (
-                <>
-                  <div className="spinner" style={{ width: 14, height: 14 }} />
-                  Auditing…
-                </>
-              ) : (
-                <>
-                  <Zap className="w-4 h-4" />
-                  Run Audit
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* ── SPLIT WORKSPACE ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-5 items-start">
-
-          {/* Left Column — Prospect Queue */}
-          <div className="space-y-3 anim-fade-up d-250">
-
-            {/* Quick Search */}
-            <div className="relative">
-              <Search className="w-4 h-4 absolute left-3 top-3 text-zinc-500 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search leads by name, niche..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="input pl-9 pr-3 py-2 text-sm w-full"
-              />
-            </div>
-
-            {/* Tab Filter switcher */}
-            <div
-              className="flex items-center gap-1 p-1 rounded-xl"
-              style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
-            >
-              {(["all", "pending", "approved"] as TabFilter[]).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTab(t)}
-                  className="flex-1 text-sm font-semibold py-1.5 px-2 rounded-lg transition-all duration-200 capitalize"
-                  style={
-                    tab === t
-                      ? { background: "rgba(255,255,255,0.08)", color: "var(--text-1)" }
-                      : { color: "var(--text-3)" }
-                  }
-                >
-                  {t === "all"
-                    ? `All (${tabCounts.all})`
-                    : t === "pending"
-                    ? `Pending (${tabCounts.pending})`
-                    : `Approved (${tabCounts.approved})`}
-                </button>
-              ))}
-            </div>
-
-            {/* Lead Cards List */}
-            <div
-              className="space-y-2 overflow-y-auto pr-0.5"
-              style={{ maxHeight: "calc(100vh - 350px)" }}
-            >
-              {filteredLeads.length === 0 && (
-                <div className="text-center py-12 px-4 rounded-xl border border-white/5">
-                  <p className="text-sm font-semibold text-zinc-400">No leads match your criteria</p>
-                  <p className="text-xs text-zinc-600 mt-1">Try clearing your search or add a new lead above</p>
-                </div>
-              )}
-              {filteredLeads.map((lead, i) => (
-                <div
-                  key={lead.id}
-                  className="anim-fade-up"
-                  style={{ animationDelay: `${i * 25}ms` }}
-                >
-                  <ProspectCard
-                    lead={lead}
-                    isSelected={selectedLead?.id === lead.id}
-                    onSelect={handleSelectLead}
-                    onAuditNow={handleLeadAudit}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column — Multi-Agent Intelligence & Approval Gate */}
-          <div className="space-y-4 anim-slide-right d-300 min-w-0">
-
-            <PipelineStepper
-              steps={selectedAudit?.pipeline ?? []}
-              activeStep={isRunning ? activeStep : selectedAudit ? 5 : -1}
-              isRunning={isRunning}
-              error={auditError}
-              onRetry={() => runAudit()}
-            />
-
-            {selectedAudit && (
-              <>
-                <SiteSignalsPanel siteSignals={selectedAudit.siteSignals} mlScore={selectedAudit.mlScore} />
-                <AnalystPanel analyst={selectedAudit.analystOutput} />
-                <CriticPanel critic={selectedAudit.criticAudit} writerDraft={selectedAudit.writerDraft} />
-                <ApprovalBox
-                  key={selectedLead?.id ?? selectedAudit.businessName}
-                  critic={selectedAudit.criticAudit}
-                  businessName={selectedAudit.businessName}
-                  leadId={selectedLead?.id}
-                  initialEmail={selectedAudit.writerDraft?.initialEmail}
-                  onApprove={handleApprove}
-                  onReject={handleReject}
-                  currentStatus={selectedLead?.status ?? "pending"}
-                />
-              </>
-            )}
-
-            {!selectedAudit && !isRunning && (
-              <div
-                className="rounded-2xl flex flex-col items-center justify-center min-h-[400px] anim-fade-in p-8 text-center"
-                style={{
-                  border: "1px solid var(--border)",
-                  background: "rgba(255,255,255,0.01)",
-                }}
+          {/* Pipeline badge cluster */}
+          <div
+            className="inline-flex flex-wrap items-center justify-center gap-2 px-6 py-4 rounded-2xl"
+            style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
+          >
+            {["Cheerio Scraper", "BigQuery ML", "Gemini Flash Analyst", "Gemini Writer", "Critic Agent", "Cloud Firestore"].map((t) => (
+              <span
+                key={t}
+                className="text-xs font-semibold px-3 py-1.5 rounded-full"
+                style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", color: "#93c5fd" }}
               >
-                <div className="space-y-5 max-w-md mx-auto">
-                  <div
-                    className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto"
-                    style={{
-                      background: "rgba(37,99,235,0.08)",
-                      border: "1px solid rgba(37,99,235,0.15)",
-                    }}
-                  >
-                    <Target className="w-8 h-8 text-blue-500" />
-                  </div>
+                {t}
+              </span>
+            ))}
+          </div>
+        </section>
 
+        {/* ═══ STATS STRIP ═══ */}
+        <section className="max-w-6xl mx-auto px-6 pb-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {STATS.map((s) => (
+              <div
+                key={s.value}
+                className="text-center p-6 rounded-2xl"
+                style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
+              >
+                <div className="text-3xl font-black tracking-tight mb-1"
+                  style={{
+                    background: "linear-gradient(135deg, #60a5fa, #a78bfa)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                  }}>
+                  {s.value}
+                </div>
+                <div className="text-xs font-semibold tracking-wide" style={{ color: "var(--text-3)" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ PROBLEM ═══ */}
+        <section className="max-w-6xl mx-auto px-6 pb-24">
+          <div
+            className="rounded-3xl p-10 sm:p-14"
+            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}
+          >
+            <div className="max-w-2xl">
+              <div className="text-xs font-bold tracking-widest mb-4" style={{ color: "#2563eb" }}>THE PROBLEM</div>
+              <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6" style={{ color: "var(--text-1)" }}>
+                98% of cold emails get ignored.<br />
+                <span style={{ color: "var(--text-3)" }}>Here&apos;s why agencies waste hours per lead.</span>
+              </h2>
+              <div className="space-y-4">
+                {[
+                  "45 minutes of manual research per prospect — Google Maps, Lighthouse, SEMrush",
+                  "Generic copy that sounds like every other agency's pitch",
+                  "No way to verify if your gap claims are even true before sending",
+                  "One-size-fits-all email when prospects need email, WhatsApp, and LinkedIn",
+                ].map((point) => (
+                  <div key={point} className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+                      style={{ background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.2)" }}>
+                      <svg className="w-3 h-3 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                        <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{point}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ HOW IT WORKS ═══ */}
+        <section id="how-it-works" className="max-w-6xl mx-auto px-6 pb-24">
+          <div className="text-center mb-14">
+            <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>HOW IT WORKS</div>
+            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
+              5-step intelligence pipeline
+            </h2>
+            <p className="text-lg mt-3 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
+              Every audit runs the full chain in parallel — from raw DOM to ready-to-send pitch — in under 30 seconds.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {STEPS.map((step, i) => (
+              <div
+                key={step.num}
+                className="flex flex-col sm:flex-row gap-5 p-6 sm:p-8 rounded-2xl transition-all"
+                style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
+              >
+                <div className="flex items-start gap-4 sm:w-72 shrink-0">
+                  <div className="text-2xl">{step.emoji}</div>
                   <div>
-                    <h3 className="text-lg font-bold" style={{ color: "var(--text-1)" }}>
-                      Select a prospect or run a live audit
-                    </h3>
-                    <p className="text-sm mt-2 leading-relaxed" style={{ color: "var(--text-3)" }}>
-                      Choose any local business from the queue or input a new one in the Command Bar to run the complete 5-step Gemini intelligence chain.
-                    </p>
+                    <div className="text-[10px] font-black tracking-widest mb-0.5" style={{ color: "var(--text-3)" }}>
+                      STEP {step.num}
+                    </div>
+                    <div className="text-base font-black" style={{ color: "var(--text-1)" }}>{step.title}</div>
                   </div>
-
-                  <div className="flex items-center justify-center gap-2 pt-2">
-                    {["Signal Extractor", "ML Scorer", "Analyst", "Writer", "Critic"].map((s, i) => (
-                      <div key={s} className="flex flex-col items-center gap-1.5">
-                        <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
-                          style={{
-                            background: "rgba(255,255,255,0.03)",
-                            border: "1px solid var(--border)",
-                          }}
-                        >
-                          {["🔍", "🧠", "🤖", "✍️", "🧪"][i]}
-                        </div>
-                        <span className="text-[10px] font-semibold tracking-wide" style={{ color: "var(--text-3)" }}>
-                          {s.split(" ")[0]}
-                        </span>
-                      </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--text-2)" }}>{step.sub}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {step.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
+                        style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.15)", color: "#93c5fd" }}
+                      >
+                        {tag}
+                      </span>
                     ))}
                   </div>
                 </div>
+                {i < STEPS.length - 1 && (
+                  <div className="hidden sm:flex items-center pl-2">
+                    <svg className="w-4 h-4" style={{ color: "var(--text-3)" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        </div>
+        </section>
+
+        {/* ═══ FEATURES ═══ */}
+        <section className="max-w-6xl mx-auto px-6 pb-24">
+          <div className="text-center mb-14">
+            <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>DIFFERENTIATORS</div>
+            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
+              Built different. By design.
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {FEATURES.map((f) => (
+              <div
+                key={f.title}
+                className="p-6 rounded-2xl flex flex-col gap-3 card"
+              >
+                <div className="text-2xl">{f.icon}</div>
+                <h3 className="text-base font-black" style={{ color: "var(--text-1)" }}>{f.title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>{f.body}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ═══ CTA SECTION ═══ */}
+        <section className="max-w-6xl mx-auto px-6 pb-24">
+          <div
+            className="rounded-3xl p-12 sm:p-20 text-center"
+            style={{
+              background: "linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(124,58,237,0.08) 100%)",
+              border: "1px solid rgba(37,99,235,0.2)",
+            }}
+          >
+            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: "#60a5fa" }}>GET STARTED FREE</div>
+            <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4" style={{ color: "var(--text-1)" }}>
+              Start auditing leads in 30 seconds →
+            </h2>
+            <p className="text-lg mb-10 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
+              Sign in with Google. Add a prospect. Watch the 5-agent pipeline turn a URL into a ready-to-send pitch.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/login"
+                className="btn-primary text-base font-bold px-10 py-4 rounded-2xl"
+              >
+                Start for free
+              </Link>
+              <div className="text-sm" style={{ color: "var(--text-3)" }}>
+                No credit card · Google Sign-In only
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      {/* Footer */}
-      <footer
-        className="relative z-10 mt-8"
-        style={{ borderTop: "1px solid var(--border)" }}
-      >
-        <div className="max-w-[1800px] mx-auto px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-2">
-            <div className="relative w-6 h-6 rounded-md overflow-hidden flex items-center justify-center p-0.5 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600">
-              <svg viewBox="0 0 28 28" fill="none" className="w-full h-full">
-                <path d="M5 7h18l-12 14h12" stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+      {/* ═══ FOOTER ═══ */}
+      <footer className="relative z-10" style={{ borderTop: "1px solid var(--border)" }}>
+        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <ZLogo size={28} />
+            <div className="flex items-baseline">
+              <span className="text-sm font-black text-white">ZERO</span>
+              <span className="text-sm font-black text-blue-500 ml-0.5">COLD</span>
             </div>
-            <span className="text-xs font-bold text-white tracking-wider">ZERO<span className="text-blue-500 ml-0.5">COLD</span></span>
           </div>
-          <span className="text-xs" style={{ color: "var(--text-3)" }}>
-            Google Cloud BigQuery ML · Gemini Intelligence · Cloud Firestore · Team: Code Ruptors · Startup Buildathon India 2026
-          </span>
+          <p className="text-xs text-center sm:text-right" style={{ color: "var(--text-3)" }}>
+            Gemini · BigQuery ML · Cloud Firestore · PageSpeed Insights · Team Code Ruptors · Startup Buildathon India 2026
+          </p>
         </div>
       </footer>
     </div>
