@@ -8,20 +8,29 @@ import type { AuditRequest } from "@/types/audit";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? "" });
 
-const FLASH_MODELS = [
-  process.env.GEMINI_FLASH_MODEL,
-  "gemini-3.8-flash",
-  "gemini-3.5-flash",
-  "gemini-3.5-flash-lite",
-  "gemini-2.5-flash-lite",
-].filter(Boolean) as string[];
+const FLASH_MODELS = Array.from(
+  new Set(
+    [
+      process.env.GEMINI_FLASH_MODEL,
+      "gemini-3.5-flash-lite",
+      "gemini-3.5-flash",
+      "gemini-2.5-flash",
+      "gemini-2.5-flash-lite",
+    ].filter((m): m is string => Boolean(m) && m !== "gemini-flash-latest")
+  )
+);
 
-const PRO_MODELS = [
-  process.env.GEMINI_PRO_MODEL,
-  "gemini-3.5-flash",
-  "gemini-3.8-flash",
-  "gemini-2.5-flash-lite",
-].filter((m): m is string => Boolean(m) && m !== "gemini-flash-latest");
+const PRO_MODELS = Array.from(
+  new Set(
+    [
+      process.env.GEMINI_PRO_MODEL,
+      "gemini-3.5-flash",
+      "gemini-3.5-flash-lite",
+      "gemini-2.5-flash",
+      "gemini-2.5-flash-lite",
+    ].filter((m): m is string => Boolean(m) && m !== "gemini-flash-latest")
+  )
+);
 
 // Simple in-memory IP rate limiter: max 20 requests per IP per hour
 const ipRateLimitMap = new Map<string, { count: number; resetAt: number }>();

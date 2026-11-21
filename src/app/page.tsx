@@ -1,15 +1,38 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import {
+  Globe,
+  Cpu,
+  SearchCheck,
+  PenTool,
+  ShieldCheck,
+  ArrowRight,
+  CheckCircle2,
+  XCircle,
+  Sparkles,
+  BarChart3,
+  MessagesSquare,
+  FileText,
+  UserCheck,
+  Zap,
+  Lock,
+  Smartphone,
+  Calendar,
+  Code,
+  Gauge,
+  Layers,
+} from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "ZeroCold — Stop Guessing. Start Converting.",
-  description: "AI-powered B2B outbound intelligence for digital agencies. Verified digital footprint signals, BigQuery ML lead scoring, and Critic-audited cold outreach in under 30 seconds.",
+  title: "ZeroCold — B2B Outbound Intelligence Platform",
+  description:
+    "AI-powered B2B outbound intelligence for digital agencies. Real-time DOM & Core Web Vitals extraction, BigQuery ML lead scoring, and Critic-verified 3-channel cold outreach.",
 };
 
-function ZLogo({ size = 36 }: { size?: number }) {
+function ZLogo({ size = 34 }: { size?: number }) {
   return (
     <div
-      className="rounded-xl overflow-hidden flex items-center justify-center p-1 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-lg shadow-blue-500/25"
+      className="rounded-xl overflow-hidden flex items-center justify-center p-1 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-lg shadow-blue-500/20 shrink-0"
       style={{ width: size, height: size }}
     >
       <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
@@ -20,82 +43,95 @@ function ZLogo({ size = 36 }: { size?: number }) {
   );
 }
 
-const STEPS = [
+const PIPELINE_STEPS = [
   {
-    emoji: "🔍",
     num: "01",
-    title: "Signal Extractor",
-    sub: "Server-side cheerio + PageSpeed Insights scan every public digital signal in real time.",
-    tags: ["HTTPS audit", "Mobile viewport", "Core Web Vitals", "Booking CTA", "Schema markup"],
+    title: "Real-Time Signal Extractor",
+    engine: "Cheerio DOM + Google PSI API",
+    icon: Globe,
+    sub: "Fetches live prospect HTML and mobile Lighthouse telemetry in parallel with strict 4.5s timeouts and Cloudflare/WAF edge detection.",
+    tags: ["HTTPS & SSL", "Mobile Viewport", "Core Web Vitals (LCP)", "Booking / WhatsApp CTA", "JSON-LD Schema"],
   },
   {
-    emoji: "🧠",
     num: "02",
-    title: "BigQuery ML Scorer",
-    sub: "Logistic regression model (97.69% accuracy, AUC 0.9969) scores conversion probability.",
-    tags: ["97.69% Accuracy", "AUC 0.9969", "Lead Priority Tier", "Top 3 factors"],
+    title: "BigQuery ML Lead Scorer",
+    engine: "Logistic Regression (BQML)",
+    icon: Cpu,
+    sub: "Evaluates 8 normalized technical and reputation features using weights exported from Google Cloud BigQuery ML (97.69% accuracy).",
+    tags: ["0–100 Urgency Score", "High / Medium / Low Tier", "Top 3 Factor Attribution", "ROC-AUC 0.9969"],
   },
   {
-    emoji: "🤖",
     num: "03",
-    title: "Analyst Agent",
-    sub: "Gemini Flash evaluates digital gaps against dynamic local market competitors.",
-    tags: ["Digital Gap Score", "Competitor benchmark", "Recommended angle"],
+    title: "Gemini Analyst Agent",
+    engine: "Gemini Flash · Structured JSON",
+    icon: SearchCheck,
+    sub: "Cross-examines extracted DOM gaps against local market competitors in the prospect's exact city and niche to isolate high-leverage buying triggers.",
+    tags: ["Digital Gap Score", "Evidence-Backed Findings", "City Competitor Benchmark", "Recommended Pitch Angle"],
   },
   {
-    emoji: "✍️",
     num: "04",
-    title: "Writer Agent",
-    sub: "Gemini Pro drafts 3-channel outreach in one shot. No sales clichés. Under 100 words.",
-    tags: ["Cold Email", "48h Follow-Up", "WhatsApp DM"],
+    title: "Gemini Writer Agent",
+    engine: "Gemini Pro / Flash · Multi-Touch",
+    icon: PenTool,
+    sub: "Synthesizes a synchronized 3-channel outreach pack in a single deterministic JSON pass—strictly banning generic sales clichés.",
+    tags: ["Cold Email (<100w)", "48h Follow-Up (<70w)", "WhatsApp / LinkedIn DM (<45w)", "Zero Buzzwords"],
   },
   {
-    emoji: "🧪",
     num: "05",
-    title: "Critic Agent",
-    sub: "Every factual claim is verified against raw DOM signals. Unverifiable claims are rewritten or removed.",
-    tags: ["Groundedness 0–100", "Fact-check each claim", "Revised final copy"],
+    title: "Gemini Critic Agent",
+    engine: "Gemini Flash · Groundedness Gate",
+    icon: ShieldCheck,
+    sub: "Audits every sentence of the Writer's draft against raw extracted DOM signals. Rewrites or strips any claim lacking hard technical evidence.",
+    tags: ["Groundedness Score 0–100", "Claim-by-Claim Fact Check", "Auto-Revised Final Copy", "Human Approval Gate"],
   },
 ];
 
 const FEATURES = [
   {
-    icon: "🛰️",
+    icon: Globe,
+    badge: "Real-Time Telemetry",
     title: "Verified Footprint Intelligence",
-    body: "We don't guess. Every signal — HTTPS, mobile viewport, analytics pixel, booking CTA, schema markup, Core Web Vitals — is scraped in real time from the prospect's live site. Zero hallucinations.",
+    body: "Every signal—HTTPS, mobile viewport, analytics pixel, booking CTA, schema markup, and Google PageSpeed Core Web Vitals—is scraped live from the target URL.",
   },
   {
-    icon: "📊",
-    title: "BigQuery ML Lead Scoring",
-    body: "A logistic regression model trained on real conversion data scores 0–100 and assigns Priority Tier with top contributing factors. 97.69% accuracy, 0.9969 AUC, 0.077 log-loss.",
+    icon: BarChart3,
+    badge: "Google Cloud BQML",
+    title: "Explainable ML Lead Scoring",
+    body: "Trained on Google Cloud BigQuery ML with 97.69% accuracy and 0.9969 ROC-AUC. Surfaces the exact top 3 positive or negative drivers behind every score.",
   },
   {
-    icon: "✅",
+    icon: ShieldCheck,
+    badge: "Hallucination Firewall",
     title: "Critic-Verified Outreach",
-    body: "Every word of your cold email is audited by a Gemini Critic agent before it reaches your approve queue. Ground truth: extracted DOM signals. Result: 100% factually defensible pitches.",
+    body: "Before any draft reaches your queue, a dedicated Critic agent audits every factual claim against raw DOM signals and auto-revises unsupported statements.",
   },
   {
-    icon: "📨",
-    title: "3-Channel Outreach Pack",
-    body: "One audit generates a full outreach kit: cold email (< 100 words), 48-hour competitor follow-up (< 70 words), and a WhatsApp/LinkedIn DM (< 45 words). Ready to send, human-approved.",
+    icon: MessagesSquare,
+    badge: "Omni-Channel Pack",
+    title: "3-Channel Synchronized Copy",
+    body: "One audit generates an initial cold email (<100 words), a 48-hour competitor nudge (<70 words), and a conversational WhatsApp/LinkedIn opener (<45 words).",
   },
   {
-    icon: "🔗",
-    title: "Shareable Audit Reports",
-    body: "Generate a white-label client report link in one click. Share it in your outreach email. Prospect sees their own digital health score, verified gaps, Core Web Vitals, and your CTA.",
+    icon: FileText,
+    badge: "Client Deliverable",
+    title: "White-Label Public Audit Links",
+    body: "Share a live /audit/[id] report link directly in your outreach. Prospects see their digital health gauge, Core Web Vitals, verified gaps, and booking CTA.",
   },
   {
-    icon: "⚡",
-    title: "Human-in-the-Loop Gate",
-    body: "Nothing goes out without you. Edit, revert, or reject any draft. Approve with one click. Full Firestore sync keeps your team aligned in real time across all prospects.",
+    icon: UserCheck,
+    badge: "Enterprise Control",
+    title: "Human-in-the-Loop Dispatch",
+    body: "Edit copy inline with live word-count guardrails, revert to Critic defaults, approve to Cloud Firestore, and launch directly in Mail or WhatsApp Web.",
   },
 ];
 
-const STATS = [
-  { value: "97.69%", label: "ML Model Accuracy" },
-  { value: "0.9969", label: "ROC-AUC Score" },
-  { value: "< 30s", label: "Full Pipeline Runtime" },
-  { value: "3", label: "Outreach Channels per Audit" },
+const BQML_WEIGHTS = [
+  { feature: "reviewsNorm", label: "High Review Volume (Established Business)", weight: "+4.53", pct: 98, positive: true },
+  { feature: "ratingNorm", label: "Strong Google Rating (3.0★ – 5.0★)", weight: "+3.63", pct: 79, positive: true },
+  { feature: "hasWebsite", label: "Missing Website (Highest Urgency Signal)", weight: "-4.61", pct: 100, positive: false },
+  { feature: "hasViewportMeta", label: "Missing Mobile Viewport Meta Tag", weight: "-2.68", pct: 58, positive: false },
+  { feature: "hasBookingCta", label: "Missing Online Booking / WhatsApp CTA", weight: "-2.66", pct: 57, positive: false },
+  { feature: "hasHttps", label: "Insecure HTTP Connection (No SSL)", weight: "-2.42", pct: 52, positive: false },
 ];
 
 export default function LandingPage() {
@@ -103,150 +139,383 @@ export default function LandingPage() {
     <div className="relative min-h-screen flex flex-col" style={{ background: "var(--bg)" }}>
       <div className="bg-gradient-layer" />
 
-      {/* ═══ NAV ═══ */}
+      {/* ═══ TOP NAVIGATION ═══ */}
       <header className="sticky top-0 z-50 nav-blur">
-        <div className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-          <Link href="/" className="flex items-center gap-2 sm:gap-3 select-none shrink-0">
-            <ZLogo size={34} />
-            <div className="flex items-baseline">
-              <span className="text-lg sm:text-xl font-black tracking-tight text-white">ZERO</span>
-              <span className="text-lg sm:text-xl font-black tracking-tight text-blue-500 ml-1">COLD</span>
-            </div>
-          </Link>
-
+        <div className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2.5 select-none shrink-0">
+              <ZLogo size={34} />
+              <div className="flex items-baseline">
+                <span className="text-lg sm:text-xl font-black tracking-tight text-white">ZERO</span>
+                <span className="text-lg sm:text-xl font-black tracking-tight text-blue-500 ml-1">COLD</span>
+              </div>
+            </Link>
+            <span
+              className="hidden md:inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full"
+              style={{
+                background: "rgba(37,99,235,0.1)",
+                border: "1px solid rgba(37,99,235,0.22)",
+                color: "#93c5fd",
+              }}
+            >
+              v2.4 · BQML + Gemini
+            </span>
+          </div>
+
+          {/* Center nav links */}
+          <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold" style={{ color: "var(--text-2)" }}>
+            <a href="#comparison" className="hover:text-white transition-colors">Why ZeroCold</a>
+            <a href="#how-it-works" className="hover:text-white transition-colors">5-Agent Pipeline</a>
+            <a href="#bigquery-ml" className="hover:text-white transition-colors">BigQuery ML</a>
+            <a href="#features" className="hover:text-white transition-colors">Capabilities</a>
+          </nav>
+
+          {/* Right CTAs */}
+          <div className="flex items-center gap-2.5">
             <Link
               href="/login"
-              className="hidden sm:inline-flex text-sm font-semibold px-4 py-2 rounded-xl transition-all"
-              style={{ color: "var(--text-2)", border: "1px solid transparent" }}
+              className="hidden sm:inline-flex text-xs font-semibold px-3.5 py-2 rounded-lg transition-colors hover:text-white"
+              style={{ color: "var(--text-2)", border: "1px solid var(--border)" }}
             >
               Sign In
             </Link>
             <Link
               href="/login"
-              className="btn-primary text-sm font-semibold px-4 sm:px-5 py-2 rounded-xl whitespace-nowrap"
+              className="btn-primary text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2 rounded-lg inline-flex items-center gap-1.5 whitespace-nowrap"
             >
-              Get Started →
+              Launch Workspace
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
         </div>
       </header>
 
       <main className="relative z-10 flex-1">
-
-        {/* ═══ HERO ═══ */}
-        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 xl:pt-24 pb-14 sm:pb-16 xl:pb-20 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center justify-center gap-2 mb-8 px-3 py-1.5 rounded-2xl sm:rounded-full text-[11px] sm:text-xs font-semibold max-w-full text-center leading-snug"
-            style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.25)", color: "#60a5fa" }}>
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
-            Startup Buildathon India 2026 · Team Code Ruptors · Google DeepMind × Google Cloud
-          </div>
-
-          <h1 className="text-[2.5rem] sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05] mb-6 break-words"
-            style={{ color: "var(--text-1)" }}>
-            Stop guessing.<br />
-            <span style={{
-              background: "linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #2563eb 100%)",
-              backgroundClip: "text",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}>
-              Start converting.
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--text-2)" }}>
-            AI-powered outbound intelligence for digital agencies. Verified signals, ML-scored leads, and Critic-audited cold pitches — in under 30 seconds.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 xl:mb-16">
-            <Link
-              href="/login"
-              className="btn-primary text-base font-bold px-8 py-4 rounded-2xl flex items-center gap-2 w-full sm:w-auto justify-center"
+        {/* ═══ HERO SECTION ═══ */}
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 xl:pt-20 pb-14 sm:pb-20">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Event / Architecture Badge */}
+            <div
+              className="inline-flex items-center justify-center gap-2 mb-6 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold max-w-full"
+              style={{
+                background: "rgba(37,99,235,0.1)",
+                border: "1px solid rgba(37,99,235,0.25)",
+                color: "#93c5fd",
+              }}
             >
-              Start auditing leads
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
-            <a
-              href="#how-it-works"
-              className="text-base font-semibold px-8 py-4 rounded-2xl transition-all w-full sm:w-auto justify-center flex items-center gap-2"
-              style={{ color: "var(--text-2)", border: "1px solid var(--border)" }}
-            >
-              See how it works
-            </a>
-          </div>
+              <Sparkles className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+              <span>Startup Buildathon India 2026 · Team Code Ruptors · Google DeepMind × Google Cloud</span>
+            </div>
 
-          {/* Pipeline badge cluster */}
-          <div
-            className="inline-flex flex-wrap items-center justify-center gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-2xl max-w-full"
-            style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
-          >
-            {["Cheerio Scraper", "BigQuery ML", "Gemini Flash Analyst", "Gemini Writer", "Critic Agent", "Cloud Firestore"].map((t) => (
+            <h1
+              className="text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.06] mb-6"
+              style={{ color: "var(--text-1)" }}
+            >
+              Outbound intelligence built on{" "}
               <span
-                key={t}
-                className="text-xs font-semibold px-3 py-1.5 rounded-full"
-                style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.2)", color: "#93c5fd" }}
+                style={{
+                  background: "linear-gradient(135deg, #3b82f6 0%, #60a5fa 50%, #818cf8 100%)",
+                  backgroundClip: "text",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
               >
-                {t}
+                verified evidence.
               </span>
-            ))}
+            </h1>
+
+            <p
+              className="text-base sm:text-xl max-w-2xl mx-auto mb-9 leading-relaxed"
+              style={{ color: "var(--text-2)" }}
+            >
+              ZeroCold scrapes live DOM &amp; Core Web Vitals, scores conversion urgency with{" "}
+              <span className="text-zinc-200 font-semibold">BigQuery ML</span>, and runs a{" "}
+              <span className="text-zinc-200 font-semibold">3-agent Gemini pipeline</span> to craft fact-checked cold outreach in under 30 seconds.
+            </p>
+
+            {/* Hero CTAs */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-12">
+              <Link
+                href="/login"
+                className="btn-primary text-sm sm:text-base font-bold px-7 py-3.5 rounded-xl flex items-center justify-center gap-2 w-full sm:w-auto"
+              >
+                <Zap className="w-4 h-4" />
+                Start Auditing Leads Free
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <a
+                href="#how-it-works"
+                className="btn-ghost text-sm sm:text-base font-semibold px-7 py-3.5 rounded-xl flex items-center justify-center gap-2 w-full sm:w-auto"
+              >
+                <Layers className="w-4 h-4 text-blue-400" />
+                Inspect 5-Agent Pipeline
+              </a>
+            </div>
+          </div>
+
+          {/* ═══ INTERACTIVE ARCHITECTURE PREVIEW WINDOW ═══ */}
+          <div
+            className="rounded-2xl overflow-hidden anim-fade-up d-150"
+            style={{
+              background: "rgba(13, 13, 18, 0.85)",
+              border: "1px solid rgba(255, 255, 255, 0.09)",
+              boxShadow: "0 24px 80px rgba(0, 0, 0, 0.65)",
+            }}
+          >
+            {/* Window Chrome Bar */}
+            <div
+              className="px-4 py-3 flex items-center justify-between gap-3 flex-wrap"
+              style={{
+                background: "rgba(255, 255, 255, 0.025)",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.07)",
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+                <span className="ml-2 text-xs font-mono text-zinc-400">
+                  zerocold://pipeline/5-stage-autonomous-audit
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="badge badge-blue">BigQuery ML · 97.69% Acc</span>
+                <span className="badge badge-green">Critic Verified ✓</span>
+              </div>
+            </div>
+
+            {/* 3-Column Live Architecture Preview */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-white/8 p-5 sm:p-6 gap-6">
+              {/* Col 1: DOM + PageSpeed Extraction */}
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                    <Globe className="w-3.5 h-3.5" /> 1. Signal Extraction
+                  </span>
+                  <span className="text-[11px] font-mono text-zinc-400">cheerio + Google PSI</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { label: "HTTPS / SSL", ok: true, icon: Lock },
+                    { label: "Mobile Viewport", ok: true, icon: Smartphone },
+                    { label: "Booking CTA", ok: false, icon: Calendar },
+                    { label: "JSON-LD Schema", ok: false, icon: Code },
+                  ].map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <div
+                        key={item.label}
+                        className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium"
+                        style={
+                          item.ok
+                            ? { background: "rgba(34,197,94,0.06)", border: "1px solid rgba(34,197,94,0.16)", color: "#86efac" }
+                            : { background: "rgba(239,68,68,0.06)", border: "1px solid rgba(239,68,68,0.18)", color: "#fca5a5" }
+                        }
+                      >
+                        <span className="flex items-center gap-1.5 truncate">
+                          <Icon className="w-3.5 h-3.5 shrink-0" />
+                          <span className="truncate">{item.label}</span>
+                        </span>
+                        {item.ok ? <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> : <XCircle className="w-3.5 h-3.5 shrink-0" />}
+                      </div>
+                    );
+                  })}
+                </div>
+                <div
+                  className="rounded-xl p-3 flex items-center justify-between"
+                  style={{ background: "rgba(255,255,255,0.02)", border: "1px solid var(--border)" }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Gauge className="w-4 h-4 text-amber-400" />
+                    <div>
+                      <div className="text-xs font-semibold text-zinc-200">Core Web Vitals (Mobile)</div>
+                      <div className="text-[11px] text-zinc-400">LCP 4.2s · Mobile Perf 48/100</div>
+                    </div>
+                  </div>
+                  <span className="badge badge-amber">Friction Detected</span>
+                </div>
+              </div>
+
+              {/* Col 2: BigQuery ML Scoring */}
+              <div className="lg:pl-6 space-y-3.5 pt-5 lg:pt-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                    <Cpu className="w-3.5 h-3.5" /> 2. BigQuery ML Scorer
+                  </span>
+                  <span className="text-[11px] font-mono text-zinc-400">ROC-AUC 0.9969</span>
+                </div>
+                <div
+                  className="rounded-xl p-3.5 flex items-center justify-between"
+                  style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.2)" }}
+                >
+                  <div>
+                    <div className="text-xs text-zinc-400 font-medium">Conversion Urgency Score</div>
+                    <div className="text-xs text-emerald-400 font-semibold mt-0.5">High Priority Opportunity</div>
+                  </div>
+                  <div className="text-right">
+                    <span className="text-3xl font-black text-emerald-400 tabular-nums">84</span>
+                    <span className="text-xs text-zinc-400">/100</span>
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <div className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400">
+                    Top Explanatory Feature Drivers
+                  </div>
+                  {[
+                    { label: "Review Volume (140+ reviews)", val: "+3.17", pos: true },
+                    { label: "Missing Online Booking CTA", val: "+2.66", pos: true },
+                    { label: "Missing LocalBusiness Schema", val: "+1.84", pos: true },
+                  ].map((f) => (
+                    <div key={f.label} className="flex items-center justify-between text-xs py-1">
+                      <span className="text-zinc-300 truncate">{f.label}</span>
+                      <span className="font-mono font-semibold text-emerald-400">{f.val}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Col 3: 3-Agent Gemini Chain */}
+              <div className="lg:pl-6 space-y-3.5 pt-5 lg:pt-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5" /> 3. Analyst → Writer → Critic
+                  </span>
+                  <span className="text-[11px] font-mono text-emerald-400">Groundedness 96%</span>
+                </div>
+                <div
+                  className="rounded-xl p-3 space-y-2"
+                  style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
+                >
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="font-semibold text-zinc-200">Omni-Channel Output</span>
+                    <span className="text-blue-400 font-mono">Email · 48h Follow-Up · DM</span>
+                  </div>
+                  <p className="text-xs text-zinc-300 leading-relaxed">
+                    &ldquo;Noticed your mobile site takes 4.2s to load and lacks a direct WhatsApp or booking CTA—while 140+ Google reviewers actively search for appointments…&rdquo;
+                  </p>
+                  <div className="flex items-center justify-between pt-1 border-t border-white/5 text-[11px]">
+                    <span className="text-emerald-400 flex items-center gap-1 font-medium">
+                      <CheckCircle2 className="w-3 h-3" /> All 3 claims verified against DOM
+                    </span>
+                    <span className="text-zinc-400 font-mono">68 words</span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-xs px-1">
+                  <span className="text-zinc-400">Public White-Label Audit Link:</span>
+                  <span className="font-mono text-blue-400">/audit/verified-report ↗</span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* ═══ STATS STRIP ═══ */}
-        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-14 sm:pb-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {STATS.map((s) => (
+        {/* ═══ EXECUTIVE METRICS STRIP ═══ */}
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+            {[
+              { value: "97.69%", label: "BigQuery ML Accuracy", sub: " trained logistic regression model" },
+              { value: "0.9969", label: "ROC-AUC Validation", sub: "0.077 log-loss · 96.8% precision" },
+              { value: "< 30s", label: "End-to-End Pipeline", sub: "parallel scraper + 3 Gemini agents" },
+              { value: "3-in-1", label: "Omni-Channel Outreach", sub: "Cold Email · 48h Follow-Up · DM" },
+            ].map((s) => (
               <div
-                key={s.value}
-                className="text-center p-4 sm:p-6 rounded-2xl"
-                style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
+                key={s.label}
+                className="kpi-card p-5 sm:p-6 flex flex-col justify-between"
               >
-                <div className="text-2xl sm:text-3xl font-black tracking-tight mb-1"
+                <div
+                  className="text-3xl sm:text-4xl font-black tracking-tight tabular-nums mb-1.5"
                   style={{
-                    background: "linear-gradient(135deg, #60a5fa, #a78bfa)",
+                    background: "linear-gradient(135deg, #ffffff 0%, #93c5fd 100%)",
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                  }}>
+                  }}
+                >
                   {s.value}
                 </div>
-                <div className="text-xs font-semibold tracking-wide" style={{ color: "var(--text-3)" }}>{s.label}</div>
+                <div>
+                  <div className="text-xs sm:text-sm font-bold text-zinc-100">{s.label}</div>
+                  <div className="text-[11px] text-zinc-400 mt-0.5">{s.sub}</div>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* ═══ PROBLEM ═══ */}
-        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
-          <div
-            className="rounded-3xl p-6 sm:p-14"
-            style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}
-          >
-            <div className="max-w-2xl">
-              <div className="text-xs font-bold tracking-widest mb-4" style={{ color: "#2563eb" }}>THE PROBLEM</div>
-              <h2 className="text-2xl sm:text-4xl font-black tracking-tight mb-6" style={{ color: "var(--text-1)" }}>
-                98% of cold emails get ignored.<br />
-                <span style={{ color: "var(--text-3)" }}>Here&apos;s why agencies waste hours per lead.</span>
-              </h2>
-              <div className="space-y-4">
+        {/* ═══ BEFORE VS AFTER COMPARISON ═══ */}
+        <section id="comparison" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 scroll-mt-20">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold tracking-widest uppercase mb-2.5 text-blue-500">
+              THE AGENCY BOTTLENECK
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              Why 98% of cold outreach gets ignored
+            </h2>
+            <p className="text-sm sm:text-base mt-2.5 max-w-2xl mx-auto" style={{ color: "var(--text-2)" }}>
+              Agencies either burn 45 minutes manually auditing a single prospect or blast generic AI templates filled with unverified claims. ZeroCold replaces both.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {/* Manual / Generic AI Way */}
+            <div
+              className="rounded-2xl p-6 sm:p-8 space-y-5"
+              style={{
+                background: "rgba(239, 68, 68, 0.025)",
+                border: "1px solid rgba(239, 68, 68, 0.15)",
+              }}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-red-400">
+                  Legacy Manual Outbound
+                </span>
+                <span className="badge badge-red">45 mins / prospect</span>
+              </div>
+              <h3 className="text-xl font-bold text-zinc-100">
+                Manual tab-switching &amp; unverified guesswork
+              </h3>
+              <div className="space-y-3">
                 {[
-                  "45 minutes of manual research per prospect — Google Maps, Lighthouse, SEMrush",
-                  "Generic copy that sounds like every other agency's pitch",
-                  "No way to verify if your gap claims are even true before sending",
-                  "One-size-fits-all email when prospects need email, WhatsApp, and LinkedIn",
-                ].map((point) => (
-                  <div key={point} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
-                      style={{ background: "rgba(248,113,113,0.1)", border: "1px solid rgba(248,113,113,0.2)" }}>
-                      <svg className="w-3 h-3 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
-                        <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
-                      </svg>
-                    </div>
-                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>{point}</p>
+                  "Juggling Google Maps, DevTools, PageSpeed Insights, and spreadsheets by hand",
+                  "Generic LLM prompts that hallucinate technical flaws the business doesn't actually have",
+                  "No quantitative lead scoring—wasting outreach slots on low-conversion prospects",
+                  "Single-channel email blasts with no coordinated follow-up or WhatsApp/LinkedIn touch",
+                ].map((pt) => (
+                  <div key={pt} className="flex items-start gap-3">
+                    <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-1" />
+                    <p className="text-sm leading-relaxed text-zinc-300">{pt}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ZeroCold Autonomous Pipeline */}
+            <div
+              className="rounded-2xl p-6 sm:p-8 space-y-5"
+              style={{
+                background: "rgba(37, 99, 235, 0.05)",
+                border: "1px solid rgba(37, 99, 235, 0.28)",
+              }}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+                  ZeroCold Autonomous Pipeline
+                </span>
+                <span className="badge badge-blue">&lt; 30 secs / prospect</span>
+              </div>
+              <h3 className="text-xl font-bold text-white">
+                Real DOM telemetry + BigQuery ML + Critic fact-checking
+              </h3>
+              <div className="space-y-3">
+                {[
+                  "Automated server-side Cheerio DOM inspection + Google PageSpeed Core Web Vitals",
+                  "BigQuery ML logistic regression scores urgency (0–100) with top 3 factor explanations",
+                  "Gemini Critic Agent verifies every pitch claim against raw HTML signals before approval",
+                  "Instant 3-channel outreach pack + shareable white-label /audit/[id] client report link",
+                ].map((pt) => (
+                  <div key={pt} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-1" />
+                    <p className="text-sm leading-relaxed text-zinc-200">{pt}</p>
                   </div>
                 ))}
               </div>
@@ -254,108 +523,226 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ═══ HOW IT WORKS ═══ */}
-        <section id="how-it-works" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
-          <div className="text-center mb-14">
-            <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>HOW IT WORKS</div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
-              5-step intelligence pipeline
+        {/* ═══ 5-STEP INTELLIGENCE PIPELINE ═══ */}
+        <section id="how-it-works" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 scroll-mt-20">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold tracking-widest uppercase mb-2.5 text-blue-500">
+              SYSTEM ARCHITECTURE
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              The 5-Stage Intelligence Chain
             </h2>
-            <p className="text-base sm:text-lg mt-3 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
-              Every audit runs the full chain in parallel — from raw DOM to ready-to-send pitch — in under 30 seconds.
+            <p className="text-sm sm:text-base mt-2.5 max-w-2xl mx-auto" style={{ color: "var(--text-2)" }}>
+              Every audit executes a deterministic 5-step pipeline combining deterministic web scraping, Google Cloud BigQuery ML, and structured multi-agent Gemini reasoning.
             </p>
           </div>
 
-          <div className="space-y-4">
-            {STEPS.map((step, i) => (
-              <div
-                key={step.num}
-                className="flex flex-col md:flex-row gap-4 md:gap-5 p-5 sm:p-6 lg:p-8 rounded-2xl transition-all"
-                style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
-              >
-                <div className="flex items-start gap-4 md:w-56 lg:w-64 shrink-0">
-                  <div className="text-2xl">{step.emoji}</div>
-                  <div>
-                    <div className="text-[10px] font-black tracking-widest mb-0.5" style={{ color: "var(--text-3)" }}>
-                      STEP {step.num}
+          <div className="space-y-3.5">
+            {PIPELINE_STEPS.map((step) => {
+              const Icon = step.icon;
+              return (
+                <div
+                  key={step.num}
+                  className="card p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center gap-5"
+                >
+                  <div className="flex items-center gap-4 md:w-72 shrink-0">
+                    <div
+                      className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0"
+                      style={{
+                        background: "rgba(37, 99, 235, 0.12)",
+                        border: "1px solid rgba(37, 99, 235, 0.25)",
+                      }}
+                    >
+                      <Icon className="w-5 h-5 text-blue-400" />
                     </div>
-                    <div className="text-base font-black" style={{ color: "var(--text-1)" }}>{step.title}</div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-400">
+                          STAGE {step.num}
+                        </span>
+                        <span className="text-[11px] font-mono text-zinc-400">· {step.engine}</span>
+                      </div>
+                      <h3 className="text-base font-bold text-white mt-0.5">{step.title}</h3>
+                    </div>
+                  </div>
+
+                  <div className="flex-1 min-w-0 space-y-2.5">
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>
+                      {step.sub}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {step.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-[11px] font-semibold px-2.5 py-0.5 rounded-md"
+                          style={{
+                            background: "rgba(255, 255, 255, 0.03)",
+                            border: "1px solid rgba(255, 255, 255, 0.08)",
+                            color: "#d4d4d8",
+                          }}
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm leading-relaxed mb-3" style={{ color: "var(--text-2)" }}>{step.sub}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {step.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-                        style={{ background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.15)", color: "#93c5fd" }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                {i < STEPS.length - 1 && (
-                  <div className="hidden md:flex items-center pl-2">
-                    <svg className="w-4 h-4" style={{ color: "var(--text-3)" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        {/* ═══ FEATURES ═══ */}
-        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
-          <div className="text-center mb-14">
-            <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>DIFFERENTIATORS</div>
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
-              Built different. By design.
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map((f) => (
-              <div
-                key={f.title}
-                className="p-6 rounded-2xl flex flex-col gap-3 card"
-              >
-                <div className="text-2xl">{f.icon}</div>
-                <h3 className="text-base font-black" style={{ color: "var(--text-1)" }}>{f.title}</h3>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--text-3)" }}>{f.body}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ═══ CTA SECTION ═══ */}
-        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        {/* ═══ BIGQUERY ML MODEL TRANSPARENCY ═══ */}
+        <section id="bigquery-ml" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 scroll-mt-20">
           <div
-            className="rounded-3xl p-6 sm:p-20 text-center"
+            className="rounded-3xl p-6 sm:p-10 lg:p-12"
             style={{
-              background: "linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(124,58,237,0.08) 100%)",
-              border: "1px solid rgba(37,99,235,0.2)",
+              background: "rgba(255, 255, 255, 0.02)",
+              border: "1px solid rgba(255, 255, 255, 0.08)",
             }}
           >
-            <div className="text-xs font-bold tracking-widest mb-4" style={{ color: "#60a5fa" }}>GET STARTED FREE</div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-4" style={{ color: "var(--text-1)" }}>
-              Start auditing leads in 30 seconds →
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              {/* Left explanation */}
+              <div className="lg:col-span-5 space-y-4">
+                <div className="inline-flex items-center gap-2 text-xs font-mono font-semibold px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                  <Cpu className="w-3.5 h-3.5" /> Google Cloud BigQuery ML
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                  Trained Logistic Regression Lead Scorer
+                </h2>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>
+                  Instead of arbitrary heuristic points, ZeroCold uses exported weights from our BigQuery ML model{" "}
+                  <code className="text-xs font-mono text-blue-300 bg-white/5 px-1.5 py-0.5 rounded">
+                    zerocold_analytics.lead_scorer_bqml
+                  </code>
+                  . High reputation businesses with technical footprint gaps score highest for immediate agency conversion.
+                </p>
+
+                <div className="grid grid-cols-3 gap-2.5 pt-2">
+                  {[
+                    { k: "Accuracy", v: "97.69%" },
+                    { k: "F1 Score", v: "96.34%" },
+                    { k: "Log Loss", v: "0.077" },
+                  ].map((m) => (
+                    <div
+                      key={m.k}
+                      className="rounded-xl p-3 text-center"
+                      style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
+                    >
+                      <div className="text-lg font-black text-white tabular-nums">{m.v}</div>
+                      <div className="text-[11px] text-zinc-400 font-medium">{m.k}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right feature weights visualization */}
+              <div className="lg:col-span-7 space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono text-zinc-400 pb-1 border-b border-white/8">
+                  <span>EXPORTED BQML FEATURE WEIGHTS (intercept = -0.4959)</span>
+                  <span>IMPACT ON URGENCY</span>
+                </div>
+                {BQML_WEIGHTS.map((w) => (
+                  <div key={w.feature} className="space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-medium text-zinc-200">
+                        <code className="text-blue-400 font-mono mr-2">{w.feature}</code>
+                        {w.label}
+                      </span>
+                      <span
+                        className="font-mono font-bold tabular-nums"
+                        style={{ color: w.positive ? "#4ade80" : "#60a5fa" }}
+                      >
+                        {w.weight}
+                      </span>
+                    </div>
+                    <div className="h-1.5 rounded-full overflow-hidden bg-white/5">
+                      <div
+                        className="h-full rounded-full"
+                        style={{
+                          width: `${w.pct}%`,
+                          background: w.positive ? "#22c55e" : "#2563eb",
+                        }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══ 6 CORE CAPABILITIES ═══ */}
+        <section id="features" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 scroll-mt-20">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold tracking-widest uppercase mb-2.5 text-blue-500">
+              CAPABILITIES
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              Everything required to close local B2B deals
             </h2>
-            <p className="text-base sm:text-lg mb-10 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
-              Sign in with Google. Add a prospect. Watch the 5-agent pipeline turn a URL into a ready-to-send pitch.
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+            {FEATURES.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.title} className="p-6 rounded-2xl flex flex-col justify-between gap-4 card">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center"
+                        style={{
+                          background: "rgba(37, 99, 235, 0.1)",
+                          border: "1px solid rgba(37, 99, 235, 0.22)",
+                        }}
+                      >
+                        <Icon className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <span className="text-[11px] font-mono font-semibold text-zinc-400 px-2.5 py-0.5 rounded-full border border-white/8 bg-white/2">
+                        {f.badge}
+                      </span>
+                    </div>
+                    <h3 className="text-base font-bold text-white">{f.title}</h3>
+                    <p className="text-sm leading-relaxed" style={{ color: "var(--text-2)" }}>
+                      {f.body}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ═══ BOTTOM CONVERSION CTA ═══ */}
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+          <div
+            className="rounded-3xl p-8 sm:p-14 text-center space-y-6"
+            style={{
+              background: "linear-gradient(135deg, rgba(37,99,235,0.12) 0%, rgba(13,13,18,0.9) 100%)",
+              border: "1px solid rgba(37,99,235,0.28)",
+            }}
+          >
+            <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-blue-400">
+              <Zap className="w-3.5 h-3.5" /> Ready for Live Audits
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white max-w-2xl mx-auto">
+              Turn any business URL into a verified pitch in 30 seconds.
+            </h2>
+            <p className="text-sm sm:text-base max-w-xl mx-auto" style={{ color: "var(--text-2)" }}>
+              Sign in with Google or launch the instant demo workspace. Start at zero, audit real businesses, and dispatch Critic-approved outreach.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
               <Link
                 href="/login"
-                className="btn-primary text-base font-bold px-10 py-4 rounded-2xl"
+                className="btn-primary text-sm sm:text-base font-bold px-8 py-3.5 rounded-xl inline-flex items-center gap-2"
               >
-                Start for free
+                Launch Workspace
+                <ArrowRight className="w-4 h-4" />
               </Link>
-              <div className="text-sm" style={{ color: "var(--text-3)" }}>
-                No credit card · Google Sign-In only
-              </div>
+              <span className="text-xs text-zinc-400">
+                Google OAuth or 1-Click Guest Demo Mode available
+              </span>
             </div>
           </div>
         </section>
@@ -364,15 +751,16 @@ export default function LandingPage() {
       {/* ═══ FOOTER ═══ */}
       <footer className="relative z-10" style={{ borderTop: "1px solid var(--border)" }}>
         <div className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <ZLogo size={28} />
             <div className="flex items-baseline">
               <span className="text-sm font-black text-white">ZERO</span>
               <span className="text-sm font-black text-blue-500 ml-0.5">COLD</span>
             </div>
+            <span className="text-xs text-zinc-500 ml-2">· Outbound Intelligence</span>
           </div>
           <p className="text-xs text-center sm:text-right" style={{ color: "var(--text-3)" }}>
-            Gemini · BigQuery ML · Cloud Firestore · PageSpeed Insights · Team Code Ruptors · Startup Buildathon India 2026
+            Gemini Multi-Agent Chain · BigQuery ML · Cloud Firestore · Team Code Ruptors · Startup Buildathon India 2026
           </p>
         </div>
       </footer>

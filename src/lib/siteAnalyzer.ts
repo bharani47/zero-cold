@@ -176,9 +176,35 @@ export async function analyzeWebsite(url: string): Promise<SiteSignalsData> {
   }
 
   const trimmed = url.trim();
-  const normalizedUrl = trimmed.startsWith("http://") || trimmed.startsWith("https://")
-    ? trimmed
-    : `https://${trimmed}`;
+  const candidateUrl =
+    trimmed.startsWith("http://") || trimmed.startsWith("https://")
+      ? trimmed
+      : `https://${trimmed}`;
+
+  let normalizedUrl = candidateUrl;
+  try {
+    const parsed = new URL(candidateUrl);
+    if (!parsed.hostname || !parsed.hostname.includes(".")) {
+      throw new Error("Invalid hostname");
+    }
+    normalizedUrl = parsed.toString();
+  } catch {
+    return {
+      reachable: false,
+      reason: "Invalid website URL format",
+      url: trimmed,
+      responseTimeMs: 0,
+      hasHttps: false,
+      title: null,
+      metaDescription: null,
+      hasViewportMeta: false,
+      h1Count: 0,
+      hasAnalyticsOrPixel: false,
+      hasBookingOrContactCta: false,
+      hasSchemaMarkup: false,
+      pageSpeed: null,
+    };
+  }
 
   // Run cheerio extraction and PageSpeed analysis in parallel
   const [cheerioData, pageSpeed] = await Promise.all([

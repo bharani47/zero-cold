@@ -16,9 +16,9 @@
   --accent:        #2563eb;
   --accent-dim:    rgba(37, 99, 235, 0.12);
   --accent-hover:  #3b82f6;
-  --text-1:        #f0f0f4;
-  --text-2:        #8b8b99;
-  --text-3:        #3f3f4d;
+  --text-1:        #f4f4f8;
+  --text-2:        #9ca3af;
+  --text-3:        #6b7280;
   --radius-sm:     8px;
   --radius:        12px;
   --radius-lg:     16px;
@@ -51,9 +51,15 @@ body {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 60% at 10% -10%, rgba(37, 99, 235, 0.09) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 90% 110%, rgba(37, 99, 235, 0.05) 0%, transparent 55%),
-    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(37, 99, 235, 0.02) 0%, transparent 70%);
+    radial-gradient(ellipse 80% 55% at 15% -10%, rgba(37, 99, 235, 0.11) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 88% 108%, rgba(37, 99, 235, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 45% 35% at 50% 45%, rgba(37, 99, 235, 0.025) 0%, transparent 70%);
+}
+
+/* Subtle architectural dot/grid overlay */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* ══ Glassmorphism card ══ */

@@ -26,6 +26,29 @@ function ClientAuditReportContent() {
 
     let isCancelled = false;
     async function fetchLead() {
+      // First check localStorage fallback (supports Guest Demo Mode & immediate tab previews)
+      try {
+        if (typeof window !== "undefined") {
+          for (let i = 0; i < window.localStorage.length; i++) {
+            const key = window.localStorage.key(i);
+            if (key && key.startsWith("zc_leads_")) {
+              const raw = window.localStorage.getItem(key);
+              if (raw) {
+                const parsed = JSON.parse(raw) as FirestoreLead[];
+                const found = parsed.find((item) => item.id === id);
+                if (found && found.auditResult && !isCancelled) {
+                  setLead(found);
+                  setLoading(false);
+                  return;
+                }
+              }
+            }
+          }
+        }
+      } catch {
+        // ignore localStorage read errors
+      }
+
       if (!db) {
         setLoading(false);
         return;

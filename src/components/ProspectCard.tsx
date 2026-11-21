@@ -1,4 +1,5 @@
 "use client";
+import { Globe, RotateCcw, Trash2, Zap } from "lucide-react";
 import { StatusPill } from "./StatusPill";
 import type { FirestoreLead } from "@/lib/firebase";
 
@@ -7,6 +8,7 @@ interface ProspectCardProps {
   isSelected: boolean;
   onSelect: (lead: FirestoreLead) => void;
   onAuditNow: (lead: FirestoreLead) => void;
+  onDelete?: (id: string) => void;
 }
 
 function ScoreBar({ score }: { score: number }) {
@@ -14,68 +16,112 @@ function ScoreBar({ score }: { score: number }) {
     score >= 65 ? "#22c55e" : score >= 40 ? "#f59e0b" : "#6b7280";
   return (
     <div className="flex items-center gap-2.5">
-      <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
+      <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.06)" }}>
         <div
           className="h-full rounded-full bar-grow"
           style={{ width: `${score}%`, background: color }}
         />
       </div>
-      <span className="text-xs font-bold tabular-nums w-7 text-right" style={{ color }}>
+      <span className="text-xs font-mono font-bold tabular-nums w-8 text-right" style={{ color }}>
         {score}
       </span>
     </div>
   );
 }
 
-export function ProspectCard({ lead, isSelected, onSelect, onAuditNow }: ProspectCardProps) {
+function cleanDomain(url?: string) {
+  if (!url) return null;
+  try {
+    const u = new URL(url.startsWith("http") ? url : `https://${url}`);
+    return u.hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+export function ProspectCard({ lead, isSelected, onSelect, onAuditNow, onDelete }: ProspectCardProps) {
   const hasAudit = !!lead.auditResult;
+  const domain = cleanDomain(lead.websiteUrl);
 
   return (
     <div
       onClick={() => onSelect(lead)}
-      className={`cursor-pointer rounded-xl p-4 transition-all duration-250 ${
+      className={`group cursor-pointer rounded-xl p-3.5 transition-all duration-200 ${
         isSelected ? "card-selected" : "card"
       }`}
-      style={{ willChange: "transform" }}
     >
-      <div className="flex items-start justify-between gap-2 mb-3">
+      <div className="flex items-start justify-between gap-2 mb-2.5">
         <div className="min-w-0 flex-1">
-          <p className="text-base font-semibold truncate" style={{ color: "var(--text-1)" }}>
+          <p className="text-sm sm:text-base font-bold truncate" style={{ color: "var(--text-1)" }}>
             {lead.businessName}
           </p>
-          <p className="text-sm mt-0.5 truncate" style={{ color: "var(--text-2)" }}>
-            {lead.niche} · {lead.city}
-          </p>
+          <div className="flex items-center gap-1.5 text-xs mt-0.5 truncate" style={{ color: "var(--text-2)" }}>
+            <span className="truncate">{lead.niche}</span>
+            <span>·</span>
+            <span className="truncate">{lead.city}</span>
+          </div>
         </div>
-        <StatusPill status={lead.status} />
+        <div className="flex items-center gap-1.5 shrink-0">
+          <StatusPill status={lead.status} />
+          {onDelete && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(lead.id);
+              }}
+              title="Remove prospect"
+              className="opacity-60 group-hover:opacity-100 p-1 rounded-md text-zinc-500 hover:text-red-400 hover:bg-red-500/10 transition-all cursor-pointer"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          )}
+        </div>
       </div>
 
       <ScoreBar score={lead.leadScore} />
 
       <div
-        className="flex items-center justify-between mt-3 pt-3"
+        className="flex items-center justify-between gap-2 mt-2.5 pt-2.5"
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 min-w-0 flex-wrap">
           <StatusPill status={lead.priorityTier} size="sm" />
           {lead.googleRating != null && lead.googleRating > 0 && (
-            <span className="text-xs" style={{ color: "var(--text-3)" }}>
+            <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-white/3 text-amber-300/90">
               ★ {lead.googleRating}
+              {lead.reviewCount ? ` (${lead.reviewCount})` : ""}
             </span>
           )}
-          {!lead.websiteUrl && (
-            <span className="text-xs text-red-500/70 font-medium">No site</span>
+          {domain ? (
+            <span className="text-[11px] text-zinc-400 flex items-center gap-1 truncate max-w-[120px]">
+              <Globe className="w-3 h-3 text-blue-400 shrink-0" />
+              <span className="truncate">{domain}</span>
+            </span>
+          ) : (
+            <span className="text-[11px] text-amber-400/90 font-medium px-1.5 py-0.5 rounded bg-amber-500/10">
+              No site
+            </span>
           )}
         </div>
+
         <button
-          onClick={(e) => { e.stopPropagation(); onAuditNow(lead); }}
-          className="text-xs font-bold transition-colors flex items-center gap-1"
-          style={{ color: hasAudit ? "#60a5fa" : "var(--accent)" }}
-          onMouseEnter={e => (e.currentTarget.style.color = "var(--accent-hover)")}
-          onMouseLeave={e => (e.currentTarget.style.color = hasAudit ? "#60a5fa" : "var(--accent)")}
-          title={hasAudit ? "Re-run full agent audit" : "Run multi-agent audit"}
+          onClick={(e) => {
+            e.stopPropagation();
+            onAuditNow(lead);
+          }}
+          className="text-xs font-bold transition-colors flex items-center gap-1 shrink-0 px-2 py-1 rounded-md hover:bg-blue-500/10 cursor-pointer"
+          style={{ color: hasAudit ? "#60a5fa" : "#3b82f6" }}
+          title={hasAudit ? "Re-run full 5-stage audit" : "Run 5-stage audit"}
         >
-          {hasAudit ? "Re-Audit ↺" : "Audit →"}
+          {hasAudit ? (
+            <>
+              <RotateCcw className="w-3 h-3" /> Re-Audit
+            </>
+          ) : (
+            <>
+              <Zap className="w-3 h-3" /> Audit
+            </>
+          )}
         </button>
       </div>
     </div>
