@@ -65,7 +65,7 @@ function ClientAuditReportContent() {
   if (!lead || !lead.auditResult) {
     return (
       <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-6 text-center">
-        <div className="max-w-md space-y-4 glass-lg p-8 rounded-2xl border border-white/10">
+        <div className="max-w-md space-y-4 glass-lg p-5 sm:p-8 rounded-2xl border border-white/10">
           <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto" />
           <h1 className="text-xl font-bold text-white">Report Not Found</h1>
           <p className="text-sm text-zinc-400">
@@ -92,8 +92,8 @@ function ClientAuditReportContent() {
       <div className="bg-gradient-layer" />
 
       {/* Top Header */}
-      <header className="sticky top-0 z-50 nav-blur px-6 py-3.5 border-b border-white/8">
-        <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
+      <header className="sticky top-0 z-50 nav-blur px-4 sm:px-6 py-3.5 border-b border-white/8">
+        <div className="max-w-5xl mx-auto flex items-center justify-between gap-3 flex-wrap">
           <Link href="/dashboard" className="flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-white transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
@@ -105,10 +105,10 @@ function ClientAuditReportContent() {
       </header>
 
       {/* Main Content Report Container */}
-      <main className="relative z-10 max-w-5xl mx-auto w-full px-6 py-10 space-y-8 flex-1">
+      <main className="relative z-10 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8 flex-1">
 
         {/* Hero Banner */}
-        <div className="glass-lg p-8 rounded-2xl border border-white/10 space-y-4">
+        <div className="glass-lg p-5 sm:p-8 rounded-2xl border border-white/10 space-y-4">
           <div className="flex items-start justify-between gap-6 flex-wrap">
             <div className="space-y-1.5">
               <span className="text-xs font-bold uppercase tracking-wider text-blue-400">

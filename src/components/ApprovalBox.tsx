@@ -149,7 +149,7 @@ export function ApprovalBox({
           <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>{businessName}</p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {leadId && (
             <button
               onClick={handleCopyReportLink}
@@ -200,36 +200,36 @@ export function ApprovalBox({
       >
         <button
           onClick={() => setActiveTab("email")}
-          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold py-2 px-3 rounded-lg transition-all"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold py-2 px-1.5 sm:px-3 rounded-lg transition-all"
           style={
             activeTab === "email"
               ? { background: "rgba(37,99,235,0.18)", color: "#93c5fd", border: "1px solid rgba(37,99,235,0.3)" }
               : { color: "var(--text-3)" }
           }
         >
-          <Mail className="w-3.5 h-3.5" /> Cold Email
+          <Mail className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Cold Email</span>
         </button>
         <button
           onClick={() => setActiveTab("followup")}
-          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold py-2 px-3 rounded-lg transition-all"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold py-2 px-1.5 sm:px-3 rounded-lg transition-all"
           style={
             activeTab === "followup"
               ? { background: "rgba(37,99,235,0.18)", color: "#93c5fd", border: "1px solid rgba(37,99,235,0.3)" }
               : { color: "var(--text-3)" }
           }
         >
-          <Clock className="w-3.5 h-3.5" /> 48h Follow-Up
+          <Clock className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">48h Follow-Up</span>
         </button>
         <button
           onClick={() => setActiveTab("dm")}
-          className="flex-1 flex items-center justify-center gap-2 text-xs font-semibold py-2 px-3 rounded-lg transition-all"
+          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold py-2 px-1.5 sm:px-3 rounded-lg transition-all"
           style={
             activeTab === "dm"
               ? { background: "rgba(37,99,235,0.18)", color: "#93c5fd", border: "1px solid rgba(37,99,235,0.3)" }
               : { color: "var(--text-3)" }
           }
         >
-          <MessageSquare className="w-3.5 h-3.5" /> WhatsApp / LinkedIn
+          <MessageSquare className="w-3.5 h-3.5 shrink-0" /> <span className="truncate"><span className="sm:hidden">DM</span><span className="hidden sm:inline">WhatsApp / LinkedIn</span></span>
         </button>
       </div>
 
@@ -298,7 +298,7 @@ export function ApprovalBox({
         <button
           onClick={handleApprove}
           disabled={saving || currentStatus === "approved"}
-          className="btn-primary flex items-center gap-2 px-5 py-2.5 text-base font-semibold"
+          className="btn-primary flex items-center gap-2 px-4 sm:px-5 py-2.5 text-sm sm:text-base font-semibold"
         >
           <Send className="w-4 h-4" />
           {currentStatus === "approved" ? "Approved ✓" : saving ? "Saving…" : "Approve & Save"}
@@ -306,7 +306,7 @@ export function ApprovalBox({
 
         <button
           onClick={handleCopyCurrentTab}
-          className="btn-ghost flex items-center gap-2 px-4 py-2.5 text-base font-semibold"
+          className="btn-ghost flex items-center gap-2 px-3 sm:px-4 py-2.5 text-sm sm:text-base font-semibold"
         >
           {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
           {copied
@@ -327,7 +327,7 @@ export function ApprovalBox({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ghost flex items-center gap-1.5 px-3.5 py-2.5 text-base font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+            className="btn-ghost flex items-center gap-1.5 px-3 sm:px-3.5 py-2.5 text-sm sm:text-base font-semibold text-blue-400 hover:text-blue-300 transition-colors"
             title="Launch default email client with draft preloaded"
           >
             <Mail className="w-4 h-4" /> Open in Mail
@@ -337,7 +337,7 @@ export function ApprovalBox({
             href={`https://wa.me/?text=${encodeURIComponent(dmText)}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ghost flex items-center gap-1.5 px-3.5 py-2.5 text-base font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+            className="btn-ghost flex items-center gap-1.5 px-3 sm:px-3.5 py-2.5 text-sm sm:text-base font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
             title="Open WhatsApp Web with pre-filled message"
           >
             <MessageSquare className="w-4 h-4" /> Open WhatsApp
@@ -347,7 +347,7 @@ export function ApprovalBox({
         <button
           onClick={handleReject}
           disabled={saving || currentStatus === "rejected"}
-          className="btn-danger flex items-center gap-2 px-4 py-2.5 text-base font-semibold ml-auto disabled:opacity-40"
+          className="btn-danger flex items-center gap-2 px-3 sm:px-4 py-2.5 text-sm sm:text-base font-semibold ml-auto disabled:opacity-40"
         >
           <X className="w-4 h-4" /> Reject
         </button>

@@ -105,26 +105,26 @@ export default function LandingPage() {
 
       {/* ═══ NAV ═══ */}
       <header className="sticky top-0 z-50 nav-blur">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between gap-6">
-          <Link href="/" className="flex items-center gap-3 select-none">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 select-none shrink-0">
             <ZLogo size={34} />
             <div className="flex items-baseline">
-              <span className="text-xl font-black tracking-tight text-white">ZERO</span>
-              <span className="text-xl font-black tracking-tight text-blue-500 ml-1">COLD</span>
+              <span className="text-lg sm:text-xl font-black tracking-tight text-white">ZERO</span>
+              <span className="text-lg sm:text-xl font-black tracking-tight text-blue-500 ml-1">COLD</span>
             </div>
           </Link>
 
           <div className="flex items-center gap-3">
             <Link
               href="/login"
-              className="text-sm font-semibold px-4 py-2 rounded-xl transition-all"
+              className="hidden sm:inline-flex text-sm font-semibold px-4 py-2 rounded-xl transition-all"
               style={{ color: "var(--text-2)", border: "1px solid transparent" }}
             >
               Sign In
             </Link>
             <Link
               href="/login"
-              className="btn-primary text-sm font-semibold px-5 py-2 rounded-xl"
+              className="btn-primary text-sm font-semibold px-4 sm:px-5 py-2 rounded-xl whitespace-nowrap"
             >
               Get Started →
             </Link>
@@ -135,15 +135,15 @@ export default function LandingPage() {
       <main className="relative z-10 flex-1">
 
         {/* ═══ HERO ═══ */}
-        <section className="max-w-6xl mx-auto px-6 pt-24 pb-20 text-center">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-24 pb-14 sm:pb-20 text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-3 py-1.5 rounded-full text-xs font-semibold"
+          <div className="inline-flex items-center justify-center gap-2 mb-8 px-3 py-1.5 rounded-2xl sm:rounded-full text-[11px] sm:text-xs font-semibold max-w-full text-center leading-snug"
             style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.25)", color: "#60a5fa" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
             Startup Buildathon India 2026 · Team Code Ruptors · Google DeepMind × Google Cloud
           </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6"
+          <h1 className="text-[2.5rem] sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6 break-words"
             style={{ color: "var(--text-1)" }}>
             Stop guessing.<br />
             <span style={{
@@ -156,7 +156,7 @@ export default function LandingPage() {
             </span>
           </h1>
 
-          <p className="text-xl sm:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--text-2)" }}>
+          <p className="text-base sm:text-2xl max-w-2xl mx-auto mb-10 leading-relaxed" style={{ color: "var(--text-2)" }}>
             AI-powered outbound intelligence for digital agencies. Verified signals, ML-scored leads, and Critic-audited cold pitches — in under 30 seconds.
           </p>
 
@@ -181,7 +181,7 @@ export default function LandingPage() {
 
           {/* Pipeline badge cluster */}
           <div
-            className="inline-flex flex-wrap items-center justify-center gap-2 px-6 py-4 rounded-2xl"
+            className="inline-flex flex-wrap items-center justify-center gap-2 px-3 sm:px-6 py-3 sm:py-4 rounded-2xl max-w-full"
             style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
           >
             {["Cheerio Scraper", "BigQuery ML", "Gemini Flash Analyst", "Gemini Writer", "Critic Agent", "Cloud Firestore"].map((t) => (
@@ -197,15 +197,15 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ STATS STRIP ═══ */}
-        <section className="max-w-6xl mx-auto px-6 pb-20">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-14 sm:pb-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {STATS.map((s) => (
               <div
                 key={s.value}
-                className="text-center p-6 rounded-2xl"
+                className="text-center p-4 sm:p-6 rounded-2xl"
                 style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
               >
-                <div className="text-3xl font-black tracking-tight mb-1"
+                <div className="text-2xl sm:text-3xl font-black tracking-tight mb-1"
                   style={{
                     background: "linear-gradient(135deg, #60a5fa, #a78bfa)",
                     backgroundClip: "text",
@@ -221,14 +221,14 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ PROBLEM ═══ */}
-        <section className="max-w-6xl mx-auto px-6 pb-24">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div
-            className="rounded-3xl p-10 sm:p-14"
+            className="rounded-3xl p-6 sm:p-14"
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}
           >
             <div className="max-w-2xl">
               <div className="text-xs font-bold tracking-widest mb-4" style={{ color: "#2563eb" }}>THE PROBLEM</div>
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight mb-6" style={{ color: "var(--text-1)" }}>
+              <h2 className="text-2xl sm:text-4xl font-black tracking-tight mb-6" style={{ color: "var(--text-1)" }}>
                 98% of cold emails get ignored.<br />
                 <span style={{ color: "var(--text-3)" }}>Here&apos;s why agencies waste hours per lead.</span>
               </h2>
@@ -255,13 +255,13 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ HOW IT WORKS ═══ */}
-        <section id="how-it-works" className="max-w-6xl mx-auto px-6 pb-24">
+        <section id="how-it-works" className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div className="text-center mb-14">
             <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>HOW IT WORKS</div>
-            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
               5-step intelligence pipeline
             </h2>
-            <p className="text-lg mt-3 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
+            <p className="text-base sm:text-lg mt-3 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
               Every audit runs the full chain in parallel — from raw DOM to ready-to-send pitch — in under 30 seconds.
             </p>
           </div>
@@ -270,10 +270,10 @@ export default function LandingPage() {
             {STEPS.map((step, i) => (
               <div
                 key={step.num}
-                className="flex flex-col sm:flex-row gap-5 p-6 sm:p-8 rounded-2xl transition-all"
+                className="flex flex-col sm:flex-row gap-4 sm:gap-5 p-5 sm:p-8 rounded-2xl transition-all"
                 style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
               >
-                <div className="flex items-start gap-4 sm:w-72 shrink-0">
+                <div className="flex items-start gap-4 sm:w-64 shrink-0">
                   <div className="text-2xl">{step.emoji}</div>
                   <div>
                     <div className="text-[10px] font-black tracking-widest mb-0.5" style={{ color: "var(--text-3)" }}>
@@ -309,10 +309,10 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ FEATURES ═══ */}
-        <section className="max-w-6xl mx-auto px-6 pb-24">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div className="text-center mb-14">
             <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>DIFFERENTIATORS</div>
-            <h2 className="text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
               Built different. By design.
             </h2>
           </div>
@@ -331,19 +331,19 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ CTA SECTION ═══ */}
-        <section className="max-w-6xl mx-auto px-6 pb-24">
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div
-            className="rounded-3xl p-12 sm:p-20 text-center"
+            className="rounded-3xl p-6 sm:p-20 text-center"
             style={{
               background: "linear-gradient(135deg, rgba(37,99,235,0.08) 0%, rgba(124,58,237,0.08) 100%)",
               border: "1px solid rgba(37,99,235,0.2)",
             }}
           >
             <div className="text-xs font-bold tracking-widest mb-4" style={{ color: "#60a5fa" }}>GET STARTED FREE</div>
-            <h2 className="text-4xl sm:text-5xl font-black tracking-tight mb-4" style={{ color: "var(--text-1)" }}>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight mb-4" style={{ color: "var(--text-1)" }}>
               Start auditing leads in 30 seconds →
             </h2>
-            <p className="text-lg mb-10 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
+            <p className="text-base sm:text-lg mb-10 max-w-xl mx-auto" style={{ color: "var(--text-3)" }}>
               Sign in with Google. Add a prospect. Watch the 5-agent pipeline turn a URL into a ready-to-send pitch.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -363,7 +363,7 @@ export default function LandingPage() {
 
       {/* ═══ FOOTER ═══ */}
       <footer className="relative z-10" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <ZLogo size={28} />
             <div className="flex items-baseline">

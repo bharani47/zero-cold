@@ -40,8 +40,8 @@ export function PipelineStepper({ steps, activeStep, isRunning, error, onRetry }
   return (
     <div className="glass-lg p-5 anim-fade-up">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2.5">
+      <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
+        <div className="flex items-center gap-2.5 min-w-0">
           <div
             className="w-7 h-7 rounded-lg flex items-center justify-center"
             style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.18)" }}
@@ -124,8 +124,8 @@ export function PipelineStepper({ steps, activeStep, isRunning, error, onRetry }
 
               {/* Model + latency */}
               {stepData ? (
-                <div className="flex items-center gap-2 shrink-0">
-                  <ModelTag model={stepData.model} />
+                <div className="flex flex-col sm:flex-row items-end sm:items-center gap-1 sm:gap-2 shrink-0">
+                  <span className="hidden sm:inline-flex"><ModelTag model={stepData.model} /></span>
                   <span
                     className="text-xs font-mono tabular-nums"
                     style={{ color: "var(--text-3)" }}

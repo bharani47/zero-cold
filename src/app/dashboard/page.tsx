@@ -345,10 +345,8 @@ export default function Dashboard() {
 
   const activeModelBadge = useMemo(() => {
     if (selectedAudit?.pipeline?.length) {
-      const flash = selectedAudit.pipeline.find((p) => p.model.toLowerCase().includes("flash"))?.model;
-      const pro = selectedAudit.pipeline.find((p) => p.model.toLowerCase().includes("pro"))?.model;
-      if (flash && pro) return `${flash} · ${pro}`;
-      if (flash) return flash;
+      const models = Array.from(new Set(selectedAudit.pipeline.map((p) => p.model).filter((m) => m.toLowerCase().includes("gemini"))));
+      if (models.length) return models.join(" · ");
     }
     return "Gemini Flash + Pro";
   }, [selectedAudit]);
@@ -385,7 +383,7 @@ export default function Dashboard() {
 
       {/* NAV */}
       <header className="sticky top-0 z-50 nav-blur">
-        <div className="max-w-[1800px] mx-auto px-6 h-14 flex items-center justify-between gap-6">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3 sm:gap-6">
           <div className="flex items-center gap-4 shrink-0">
             <Link href="/" className="flex items-center gap-2.5 cursor-pointer">
               <ZLogo size={32} />
@@ -395,7 +393,7 @@ export default function Dashboard() {
               </div>
             </Link>
             <div
-              className="hidden sm:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold"
+              className="hidden md:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold max-w-[320px] truncate"
               style={{ border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-2)" }}
             >
               <Sparkles className="w-3.5 h-3.5 text-blue-500" />
@@ -403,7 +401,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 ml-auto">
+          <div className="flex items-center gap-2 sm:gap-4 ml-auto min-w-0">
             {user && (
               <div className="flex items-center gap-3">
                 {user.photoURL && (
@@ -421,13 +419,13 @@ export default function Dashboard() {
               style={{ color: "var(--text-2)", border: "1px solid var(--border)" }}
             >
               <LogOut className="w-3.5 h-3.5" />
-              Sign out
+              <span className="hidden sm:inline">Sign out</span>
             </button>
           </div>
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-[1800px] mx-auto w-full px-6 py-6 space-y-5">
+      <main className="relative z-10 flex-1 max-w-[1800px] mx-auto w-full px-3 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-5">
 
         {/* KPI STRIP */}
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
@@ -462,7 +460,7 @@ export default function Dashboard() {
         </div>
 
         {/* AUDIT COMMAND BAR */}
-        <div className="glass-lg p-5 anim-fade-up d-200">
+        <div className="glass-lg p-4 sm:p-5 anim-fade-up d-200">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2.5">
               <div
@@ -491,35 +489,35 @@ export default function Dashboard() {
               value={form.businessName}
               onChange={(e) => set("businessName")(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
+              className="input px-3.5 py-2.5 text-base w-full min-w-0"
             />
             <input
               placeholder="Website URL"
               value={form.websiteUrl}
               onChange={(e) => set("websiteUrl")(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
+              className="input px-3.5 py-2.5 text-base w-full min-w-0"
             />
             <input
               placeholder="Niche (Dental, Gym...)"
               value={form.niche}
               onChange={(e) => set("niche")(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
+              className="input px-3.5 py-2.5 text-base w-full min-w-0"
             />
             <input
               placeholder="City"
               value={form.city}
               onChange={(e) => set("city")(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
+              className="input px-3.5 py-2.5 text-base w-full min-w-0"
             />
             <input
               placeholder="Your Service Offer"
               value={form.senderOffer}
               onChange={(e) => set("senderOffer")(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && runAudit()}
-              className="input px-3.5 py-2.5 text-base"
+              className="input px-3.5 py-2.5 text-base w-full min-w-0"
             />
             <button
               onClick={() => runAudit()}
@@ -583,8 +581,7 @@ export default function Dashboard() {
             </div>
 
             <div
-              className="space-y-2 overflow-y-auto pr-0.5"
-              style={{ maxHeight: "calc(100vh - 350px)" }}
+              className="space-y-2 overflow-y-auto pr-0.5 max-h-[420px] lg:max-h-[calc(100vh-350px)]"
             >
               {leads.length === 0 && (
                 <div
@@ -656,7 +653,7 @@ export default function Dashboard() {
 
             {!selectedAudit && !isRunning && (
               <div
-                className="rounded-2xl flex flex-col items-center justify-center min-h-[400px] anim-fade-in p-8 text-center"
+                className="rounded-2xl flex flex-col items-center justify-center min-h-[280px] sm:min-h-[400px] anim-fade-in p-5 sm:p-8 text-center"
                 style={{ border: "1px solid var(--border)", background: "rgba(255,255,255,0.01)" }}
               >
                 <div className="space-y-5 max-w-md mx-auto">
@@ -674,7 +671,7 @@ export default function Dashboard() {
                       Choose a lead from the queue or input a new one in the Command Bar to run the complete 5-step Gemini intelligence chain.
                     </p>
                   </div>
-                  <div className="flex items-center justify-center gap-2 pt-2">
+                  <div className="flex items-center justify-center gap-1.5 sm:gap-2 pt-2 flex-wrap">
                     {["Signal Extractor", "ML Scorer", "Analyst", "Writer", "Critic"].map((s, i) => (
                       <div key={s} className="flex flex-col items-center gap-1.5">
                         <div
@@ -697,7 +694,7 @@ export default function Dashboard() {
       </main>
 
       <footer className="relative z-10 mt-8" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="max-w-[1800px] mx-auto px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
+        <div className="max-w-[1800px] mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-2">
             <div className="relative w-6 h-6 rounded-md overflow-hidden flex items-center justify-center p-0.5 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600">
               <svg viewBox="0 0 28 28" fill="none" className="w-full h-full">

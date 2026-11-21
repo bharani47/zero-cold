@@ -19,7 +19,7 @@ export function CriticPanel({ critic, writerDraft }: CriticPanelProps) {
   return (
     <div className="glass-lg p-5 anim-fade-up d-200 space-y-4">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
         <div>
           <h3 className="text-base font-bold" style={{ color: "var(--text-1)" }}>Critic Verification</h3>
           <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>Gemini Flash · groundedness audit</p>
@@ -100,7 +100,7 @@ export function CriticPanel({ critic, writerDraft }: CriticPanelProps) {
 
           {showDraft && (
             <div
-              className="grid grid-cols-2 gap-3 pt-3 anim-fade-in"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-3 anim-fade-in"
               style={{ borderTop: "1px solid var(--border)" }}
             >
               <div

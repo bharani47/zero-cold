@@ -62,11 +62,16 @@ async function callGeminiWithFailover(
 
   for (const model of candidates) {
     try {
-      const response = await ai.models.generateContent({
-        model,
-        contents,
-        config: schemaConfig as unknown as undefined,
-      });
+      const response = await Promise.race([
+        ai.models.generateContent({
+          model,
+          contents,
+          config: schemaConfig as unknown as undefined,
+        }),
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error(`${model} timed out after 22s`)), 22000)
+        ),
+      ]);
 
       const text = response.text ? cleanJsonText(response.text) : "";
       if (text) {

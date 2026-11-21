@@ -9,7 +9,7 @@ export function AnalystPanel({ analyst }: AnalystPanelProps) {
   return (
     <div className="glass-lg p-5 anim-fade-up d-150 space-y-4">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex items-start justify-between gap-3 flex-wrap">
         <div>
           <h3 className="text-base font-bold" style={{ color: "var(--text-1)" }}>Analyst Findings</h3>
           <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>Gemini Flash · verified gaps</p>
