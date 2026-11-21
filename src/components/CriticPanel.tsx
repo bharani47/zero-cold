@@ -149,16 +149,16 @@ export function CriticPanel({ critic, writerDraft }: CriticPanelProps) {
               </p>
             </div>
             <div
-              className="rounded-xl p-3.5 space-y-2"
-              style={{ background: "rgba(37,99,235,0.06)", border: "1px solid rgba(37,99,235,0.2)" }}
+              className="rounded-xl p-4 space-y-2"
+              style={{ background: "rgba(6,182,212,0.07)", border: "1px solid rgba(34,211,238,0.25)" }}
             >
-              <p className="section-label" style={{ color: "#60a5fa" }}>
+              <p className="section-label text-cyan-400">
                 Stage 5 · Critic Verified Output ✓
               </p>
-              <p className="text-xs sm:text-sm font-semibold" style={{ color: "var(--text-1)" }}>
+              <p className="text-sm sm:text-base font-bold" style={{ color: "var(--text-1)" }}>
                 {critic.finalEmail?.subject}
               </p>
-              <p className="text-xs sm:text-sm leading-relaxed whitespace-pre-line" style={{ color: "var(--text-2)" }}>
+              <p className="text-sm sm:text-base leading-relaxed whitespace-pre-line" style={{ color: "var(--text-2)" }}>
                 {critic.finalEmail?.body}
               </p>
             </div>

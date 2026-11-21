@@ -188,14 +188,14 @@ export function ApprovalBox({
 
   return (
     <div
-      className="rounded-2xl p-5 anim-fade-up d-250 space-y-4"
-      style={{ border: "1px solid rgba(37,99,235,0.25)", background: "rgba(37,99,235,0.04)" }}
+      className="rounded-2xl p-6 anim-fade-up d-250 space-y-5"
+      style={{ border: "1px solid rgba(34,211,238,0.28)", background: "rgba(6,182,212,0.05)" }}
     >
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
-          <div className="flex items-center gap-2">
-            <h3 className="text-base font-bold" style={{ color: "var(--text-1)" }}>
+          <div className="flex items-center gap-2.5">
+            <h3 className="text-lg font-bold" style={{ color: "var(--text-1)" }}>
               Omni-Channel Outreach Pack
             </h3>
             {currentStatus !== "pending" && (
@@ -211,8 +211,8 @@ export function ApprovalBox({
               </span>
             )}
           </div>
-          <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
-            Human-in-the-loop gate for <span className="text-zinc-300 font-medium">{businessName}</span>
+          <p className="text-xs sm:text-sm mt-0.5" style={{ color: "var(--text-2)" }}>
+            Human-in-the-loop gate for <span className="text-white font-semibold">{businessName}</span>
           </p>
         </div>
 
@@ -222,11 +222,11 @@ export function ApprovalBox({
               <button
                 onClick={handleInsertReportLink}
                 title="Append live client audit report URL directly into the current message"
-                className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer hover:bg-blue-500/20"
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border transition-colors cursor-pointer hover:bg-cyan-500/20"
                 style={{
-                  color: "#93c5fd",
-                  border: "1px solid rgba(37,99,235,0.3)",
-                  background: "rgba(37,99,235,0.1)",
+                  color: "#67e8f9",
+                  border: "1px solid rgba(34,211,238,0.32)",
+                  background: "rgba(6,182,212,0.12)",
                 }}
               >
                 <Link2 className="w-3.5 h-3.5" /> + Insert Report Link
@@ -235,11 +235,11 @@ export function ApprovalBox({
               <button
                 onClick={handleCopyReportLink}
                 title="Copy shareable white-label report link"
-                className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border transition-colors cursor-pointer"
                 style={{
-                  color: copiedLink ? "#4ade80" : "#d4d4d8",
-                  border: copiedLink ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(255,255,255,0.1)",
-                  background: copiedLink ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.03)",
+                  color: copiedLink ? "#4ade80" : "#e2e8f0",
+                  border: copiedLink ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(255,255,255,0.12)",
+                  background: copiedLink ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.04)",
                 }}
               >
                 {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
@@ -249,10 +249,10 @@ export function ApprovalBox({
               <Link
                 href={`/audit/${encodeURIComponent(leadId)}`}
                 target="_blank"
-                className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-white/10 text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
+                className="flex items-center gap-1 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg border border-white/12 text-slate-200 hover:text-cyan-300 hover:bg-white/5 transition-colors"
                 title="Open client-facing white-label audit report in a new tab"
               >
-                Preview <ExternalLink className="w-3 h-3" />
+                Preview <ExternalLink className="w-3.5 h-3.5" />
               </Link>
             </>
           )}
@@ -260,17 +260,17 @@ export function ApprovalBox({
           <button
             onClick={handleResetCurrentTab}
             title="Reset current tab to Critic-verified draft"
-            className="flex items-center gap-1 text-xs text-zinc-400 hover:text-zinc-200 transition-colors px-2.5 py-1.5 rounded-lg border border-white/10 cursor-pointer"
+            className="flex items-center gap-1 text-xs sm:text-sm text-slate-300 hover:text-white transition-colors px-3 py-1.5 rounded-lg border border-white/12 cursor-pointer"
           >
-            <RotateCcw className="w-3 h-3" /> Revert
+            <RotateCcw className="w-3.5 h-3.5" /> Revert
           </button>
 
           <span
-            className="text-xs font-mono tabular-nums px-2 py-1 rounded-md"
+            className="text-xs sm:text-sm font-mono font-semibold tabular-nums px-2.5 py-1 rounded-md"
             style={
               withinWordLimit
-                ? { color: "#4ade80", background: "rgba(34,197,94,0.08)" }
-                : { color: "#fbbf24", background: "rgba(245,158,11,0.1)" }
+                ? { color: "#4ade80", background: "rgba(34,197,94,0.1)" }
+                : { color: "#fbbf24", background: "rgba(245,158,11,0.12)" }
             }
           >
             {activeWordCount}/{wordLimit}w
@@ -280,41 +280,41 @@ export function ApprovalBox({
 
       {/* 3 Channel Tabs */}
       <div
-        className="flex items-center gap-1 p-1 rounded-xl"
+        className="flex items-center gap-1.5 p-1.5 rounded-xl"
         style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}
       >
         <button
           onClick={() => setActiveTab("email")}
-          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold py-2 px-1.5 sm:px-3 rounded-lg transition-all cursor-pointer"
+          className="flex-1 min-w-0 flex items-center justify-center gap-2 text-xs sm:text-sm font-bold py-2.5 px-2 sm:px-3.5 rounded-lg transition-all cursor-pointer"
           style={
             activeTab === "email"
-              ? { background: "rgba(37,99,235,0.2)", color: "#93c5fd", border: "1px solid rgba(37,99,235,0.35)" }
+              ? { background: "rgba(6,182,212,0.18)", color: "#67e8f9", border: "1px solid rgba(34,211,238,0.38)" }
               : { color: "var(--text-2)" }
           }
         >
-          <Mail className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">Cold Email</span>
+          <Mail className="w-4 h-4 shrink-0" /> <span className="truncate">Cold Email</span>
         </button>
         <button
           onClick={() => setActiveTab("followup")}
-          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold py-2 px-1.5 sm:px-3 rounded-lg transition-all cursor-pointer"
+          className="flex-1 min-w-0 flex items-center justify-center gap-2 text-xs sm:text-sm font-bold py-2.5 px-2 sm:px-3.5 rounded-lg transition-all cursor-pointer"
           style={
             activeTab === "followup"
-              ? { background: "rgba(37,99,235,0.2)", color: "#93c5fd", border: "1px solid rgba(37,99,235,0.35)" }
+              ? { background: "rgba(6,182,212,0.18)", color: "#67e8f9", border: "1px solid rgba(34,211,238,0.38)" }
               : { color: "var(--text-2)" }
           }
         >
-          <Clock className="w-3.5 h-3.5 shrink-0" /> <span className="truncate">48h Follow-Up</span>
+          <Clock className="w-4 h-4 shrink-0" /> <span className="truncate">48h Follow-Up</span>
         </button>
         <button
           onClick={() => setActiveTab("dm")}
-          className="flex-1 min-w-0 flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-semibold py-2 px-1.5 sm:px-3 rounded-lg transition-all cursor-pointer"
+          className="flex-1 min-w-0 flex items-center justify-center gap-2 text-xs sm:text-sm font-bold py-2.5 px-2 sm:px-3.5 rounded-lg transition-all cursor-pointer"
           style={
             activeTab === "dm"
-              ? { background: "rgba(37,99,235,0.2)", color: "#93c5fd", border: "1px solid rgba(37,99,235,0.35)" }
+              ? { background: "rgba(6,182,212,0.18)", color: "#67e8f9", border: "1px solid rgba(34,211,238,0.38)" }
               : { color: "var(--text-2)" }
           }
         >
-          <MessageSquare className="w-3.5 h-3.5 shrink-0" />
+          <MessageSquare className="w-4 h-4 shrink-0" />
           <span className="truncate">
             <span className="sm:hidden">DM</span>
             <span className="hidden sm:inline">WhatsApp / LinkedIn</span>
@@ -437,7 +437,7 @@ export function ApprovalBox({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-ghost flex items-center gap-1.5 px-3 sm:px-3.5 py-2.5 text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+            className="btn-ghost flex items-center gap-1.5 px-3.5 py-2.5 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors"
             title="Launch default email client with draft preloaded"
           >
             <Mail className="w-4 h-4" /> Open in Mail

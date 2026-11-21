@@ -93,12 +93,12 @@ export function ProspectCard({ lead, isSelected, onSelect, onAuditNow, onDelete 
             </span>
           )}
           {domain ? (
-            <span className="text-[11px] text-zinc-400 flex items-center gap-1 truncate max-w-[120px]">
-              <Globe className="w-3 h-3 text-blue-400 shrink-0" />
+            <span className="text-xs text-slate-300 flex items-center gap-1 truncate max-w-[135px]">
+              <Globe className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
               <span className="truncate">{domain}</span>
             </span>
           ) : (
-            <span className="text-[11px] text-amber-400/90 font-medium px-1.5 py-0.5 rounded bg-amber-500/10">
+            <span className="text-xs text-amber-400 font-semibold px-2 py-0.5 rounded bg-amber-500/12">
               No site
             </span>
           )}
@@ -109,8 +109,7 @@ export function ProspectCard({ lead, isSelected, onSelect, onAuditNow, onDelete 
             e.stopPropagation();
             onAuditNow(lead);
           }}
-          className="text-xs font-bold transition-colors flex items-center gap-1 shrink-0 px-2 py-1 rounded-md hover:bg-blue-500/10 cursor-pointer"
-          style={{ color: hasAudit ? "#60a5fa" : "#3b82f6" }}
+          className="text-xs sm:text-sm font-bold transition-colors flex items-center gap-1 shrink-0 px-2.5 py-1 rounded-lg hover:bg-cyan-500/12 cursor-pointer text-cyan-400 hover:text-cyan-300"
           title={hasAudit ? "Re-run full 5-stage audit" : "Run 5-stage audit"}
         >
           {hasAudit ? (

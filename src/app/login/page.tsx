@@ -17,15 +17,15 @@ import {
   Zap,
 } from "lucide-react";
 
-function ZLogo({ size = 40 }: { size?: number }) {
+function ZLogo({ size = 44 }: { size?: number }) {
   return (
     <div
-      className="rounded-xl overflow-hidden flex items-center justify-center p-1 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 shadow-lg shadow-blue-500/25 shrink-0"
+      className="rounded-xl overflow-hidden flex items-center justify-center p-1 bg-gradient-to-br from-cyan-400 via-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/25 shrink-0"
       style={{ width: size, height: size }}
     >
       <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <path d="M5 7h18l-12 14h12" stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M17 7l-8 10" stroke="rgba(96,165,250,0.85)" strokeWidth="1.8" strokeLinecap="round" />
+        <path d="M5 7h18l-12 14h12" stroke="#031117" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M17 7l-8 10" stroke="rgba(255,255,255,0.75)" strokeWidth="1.8" strokeLinecap="round" />
       </svg>
     </div>
   );
@@ -95,24 +95,24 @@ export default function LoginPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "var(--bg)" }}>
         <div className="flex flex-col items-center gap-3">
-          <div className="spinner" style={{ width: 32, height: 32 }} />
-          <span className="text-xs font-mono text-zinc-400">Initializing ZeroCold Workspace…</span>
+          <div className="spinner" style={{ width: 36, height: 36 }} />
+          <span className="text-sm font-mono text-slate-300">Initializing ZeroCold Workspace…</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between px-4 py-6 sm:px-6" style={{ background: "var(--bg)" }}>
+    <div className="relative min-h-screen flex flex-col justify-between px-5 py-6 sm:px-8 bg-grid-pattern" style={{ background: "var(--bg)" }}>
       <div className="bg-gradient-layer" />
 
       {/* Top Bar */}
       <header className="relative z-10 max-w-6xl w-full mx-auto flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors hover:text-white"
-            style={{ color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}
+            className="inline-flex items-center gap-2 text-sm font-semibold px-3.5 py-2 rounded-xl transition-colors hover:text-cyan-300"
+            style={{ color: "var(--text-1)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.03)" }}
           >
             <ArrowLeft className="w-4 h-4" />
             ZeroCold Overview
@@ -121,75 +121,71 @@ export default function LoginPage() {
             href="https://nxt-apex.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors hover:text-blue-400"
-            style={{ color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold px-3.5 py-2 rounded-xl transition-colors hover:text-cyan-300"
+            style={{ color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.03)" }}
           >
             Nxt Apex Platform ↗
           </a>
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+        <div className="flex items-center gap-2 text-xs sm:text-sm font-mono text-emerald-400 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
           Nxt Apex × ZeroCold Engine Operational
         </div>
       </header>
 
       {/* Center Split Grid */}
-      <main className="relative z-10 max-w-5xl w-full mx-auto my-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <main className="relative z-10 max-w-6xl w-full mx-auto my-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
         {/* Left Column — Architecture & Value Prop */}
-        <div className="lg:col-span-7 space-y-6 order-2 lg:order-1">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold text-blue-400 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
-              <Sparkles className="w-3.5 h-3.5" /> ZeroCold Intelligence Workspace
+        <div className="lg:col-span-7 space-y-6 order-2 lg:order-1 anim-fade-up">
+          <div className="space-y-3.5">
+            <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-cyan-300 px-3.5 py-1.5 rounded-full bg-cyan-500/12 border border-cyan-400/25">
+              <Sparkles className="w-4 h-4 text-cyan-400" /> ZeroCold Intelligence Workspace
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
               Audit live digital footprints.{" "}
-              <span className="text-blue-500">Dispatch verified outreach.</span>
+              <span className="text-cyan-400">Dispatch verified outreach.</span>
             </h1>
-            <p className="text-sm sm:text-base leading-relaxed" style={{ color: "var(--text-2)" }}>
+            <p className="text-base sm:text-lg leading-relaxed" style={{ color: "var(--text-2)" }}>
               Your workspace starts clean at zero. Every prospect you audit runs through real-time Cheerio DOM scraping, BigQuery ML scoring, and the 3-agent Gemini verification pipeline.
             </p>
           </div>
 
           {/* Pipeline Telemetry Cards */}
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {SYSTEM_NODES.map((node) => {
               const Icon = node.icon;
               return (
                 <div
                   key={node.name}
-                  className="flex items-center justify-between p-3.5 rounded-xl"
-                  style={{
-                    background: "rgba(255, 255, 255, 0.02)",
-                    border: "1px solid var(--border)",
-                  }}
+                  className="flex items-center justify-between p-4 rounded-xl card"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3.5">
                     <div
-                      className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                       style={{
-                        background: "rgba(37, 99, 235, 0.1)",
-                        border: "1px solid rgba(37, 99, 235, 0.22)",
+                        background: "rgba(6, 182, 212, 0.12)",
+                        border: "1px solid rgba(34, 211, 238, 0.28)",
                       }}
                     >
-                      <Icon className="w-4 h-4 text-blue-400" />
+                      <Icon className="w-5 h-5 text-cyan-400" />
                     </div>
                     <div>
-                      <div className="text-sm font-bold text-white">{node.name}</div>
-                      <div className="text-xs text-zinc-400">{node.detail}</div>
+                      <div className="text-base font-bold text-white">{node.name}</div>
+                      <div className="text-sm text-slate-300">{node.detail}</div>
                     </div>
                   </div>
-                  <span className="text-[11px] font-mono text-emerald-400 flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Ready
+                  <span className="text-xs font-mono font-semibold text-emerald-400 flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4" /> Ready
                   </span>
                 </div>
               );
             })}
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-zinc-400">
+          <div className="flex flex-wrap items-center gap-4 pt-1 text-xs sm:text-sm text-slate-300">
             <span className="flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-blue-400" /> Per-User Data Isolation
+              <Lock className="w-4 h-4 text-cyan-400" /> Per-User Data Isolation
             </span>
             <span>·</span>
             <span>White-Label /audit/[id] Client Reports</span>
@@ -201,22 +197,22 @@ export default function LoginPage() {
         {/* Right Column — Auth Card */}
         <div className="lg:col-span-5 order-1 lg:order-2">
           <div
-            className="rounded-2xl p-6 sm:p-8 flex flex-col gap-6 anim-fade-up"
+            className="rounded-2xl p-7 sm:p-9 flex flex-col gap-6 anim-fade-up d-100"
             style={{
-              background: "rgba(255, 255, 255, 0.03)",
-              backdropFilter: "blur(24px) saturate(1.4)",
-              border: "1px solid rgba(255, 255, 255, 0.1)",
-              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.5)",
+              background: "rgba(10, 15, 24, 0.85)",
+              backdropFilter: "blur(24px) saturate(1.5)",
+              border: "1px solid rgba(34, 211, 238, 0.25)",
+              boxShadow: "0 24px 64px rgba(0, 0, 0, 0.6), 0 0 40px -10px rgba(6, 182, 212, 0.15)",
             }}
           >
             {/* Brand Header */}
             <div className="flex flex-col items-center text-center gap-2.5">
-              <ZLogo size={46} />
+              <ZLogo size={48} />
               <div className="flex items-baseline gap-1 select-none mt-1">
-                <span className="text-2xl font-black tracking-tight text-white">ZERO</span>
-                <span className="text-2xl font-black tracking-tight text-blue-500">COLD</span>
+                <span className="text-2xl sm:text-3xl font-black tracking-tight text-white">ZERO</span>
+                <span className="text-2xl sm:text-3xl font-black tracking-tight text-cyan-400">COLD</span>
               </div>
-              <p className="text-xs sm:text-sm" style={{ color: "var(--text-2)" }}>
+              <p className="text-sm sm:text-base" style={{ color: "var(--text-2)" }}>
                 Choose how you want to access your outbound workspace
               </p>
             </div>
@@ -224,15 +220,15 @@ export default function LoginPage() {
             <div className="divider" />
 
             {/* Action Buttons */}
-            <div className="space-y-3">
+            <div className="space-y-3.5">
               {/* Primary Google OAuth */}
               <button
                 onClick={handleGoogleSignIn}
                 disabled={loading}
-                className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer hover:bg-white/12"
+                className="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl font-semibold text-base transition-all duration-200 cursor-pointer hover:bg-white/12"
                 style={{
                   background: loading ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.16)",
+                  border: "1px solid rgba(255,255,255,0.18)",
                   color: "var(--text-1)",
                 }}
               >
@@ -250,28 +246,28 @@ export default function LoginPage() {
               </button>
 
               <div className="flex items-center gap-3 py-1">
-                <div className="flex-1 h-px bg-white/8" />
-                <span className="text-[11px] font-mono uppercase text-zinc-500">or instant access</span>
-                <div className="flex-1 h-px bg-white/8" />
+                <div className="flex-1 h-px bg-white/10" />
+                <span className="text-xs font-mono uppercase text-slate-400">or instant access</span>
+                <div className="flex-1 h-px bg-white/10" />
               </div>
 
               {/* Instant Guest Demo Workspace */}
               <button
                 onClick={handleGuestLaunch}
-                className="btn-primary w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold"
+                className="btn-primary w-full flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl text-base font-bold"
               >
-                <Zap className="w-4 h-4" />
+                <Zap className="w-5 h-5" />
                 <span>Launch Instant Demo Workspace</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-5 h-5" />
               </button>
 
               {error && (
                 <div
-                  className="text-xs leading-relaxed rounded-xl p-3"
+                  className="text-xs sm:text-sm leading-relaxed rounded-xl p-3.5"
                   style={{
                     color: "#fca5a5",
                     background: "rgba(239, 68, 68, 0.08)",
-                    border: "1px solid rgba(239, 68, 68, 0.2)",
+                    border: "1px solid rgba(239, 68, 68, 0.22)",
                   }}
                 >
                   {error}
@@ -279,7 +275,7 @@ export default function LoginPage() {
               )}
             </div>
 
-            <p className="text-[11px] text-center leading-relaxed" style={{ color: "var(--text-3)" }}>
+            <p className="text-xs text-center leading-relaxed" style={{ color: "var(--text-3)" }}>
               Google Sign-In syncs prospects across devices via Cloud Firestore. Instant Demo Workspace persists leads locally in your browser.
             </p>
           </div>
@@ -287,14 +283,14 @@ export default function LoginPage() {
       </main>
 
       {/* Bottom Footer */}
-      <footer className="relative z-10 max-w-6xl w-full mx-auto text-center sm:flex items-center justify-between text-xs" style={{ color: "var(--text-3)" }}>
+      <footer className="relative z-10 max-w-6xl w-full mx-auto text-center sm:flex items-center justify-between text-xs sm:text-sm" style={{ color: "var(--text-3)" }}>
         <span>
           ZeroCold Outbound Intelligence · An{" "}
           <a
             href="https://nxt-apex.vercel.app"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-400 hover:underline font-semibold"
+            className="text-cyan-400 hover:underline font-semibold"
           >
             Nxt Apex
           </a>{" "}

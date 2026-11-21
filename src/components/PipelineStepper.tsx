@@ -33,11 +33,11 @@ function ModelTag({ model }: { model: string }) {
   const label = model.length > 24 ? model.split("-").slice(-3).join("-") : model;
   return (
     <span
-      className="text-[10px] font-mono px-2 py-0.5 rounded-md"
+      className="text-xs font-mono px-2.5 py-0.5 rounded-md"
       style={
         isPro
-          ? { color: "#93c5fd", border: "1px solid rgba(37,99,235,0.25)", background: "rgba(37,99,235,0.1)" }
-          : { color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.03)" }
+          ? { color: "#67e8f9", border: "1px solid rgba(34,211,238,0.28)", background: "rgba(6,182,212,0.12)" }
+          : { color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.04)" }
       }
     >
       {label}
@@ -50,21 +50,21 @@ export function PipelineStepper({ steps, activeStep, isRunning, error, onRetry }
   const totalMs = steps.reduce((acc, s) => acc + (s.latencyMs || 0), 0);
 
   return (
-    <div className="glass-lg p-5 anim-fade-up">
+    <div className="glass-lg p-6 anim-fade-up">
       {/* Header */}
       <div className="flex items-center justify-between gap-3 flex-wrap mb-4">
-        <div className="flex items-center gap-2.5 min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-            style={{ background: "rgba(37,99,235,0.12)", border: "1px solid rgba(37,99,235,0.22)" }}
+            className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+            style={{ background: "rgba(6,182,212,0.12)", border: "1px solid rgba(34,211,238,0.25)" }}
           >
-            <Zap className="w-4 h-4 text-blue-400" />
+            <Zap className="w-4 h-4 text-cyan-400" />
           </div>
           <div>
-            <h3 className="text-base font-bold" style={{ color: "var(--text-1)" }}>
+            <h3 className="text-lg font-bold" style={{ color: "var(--text-1)" }}>
               5-Stage Intelligence Pipeline
             </h3>
-            <p className="text-xs" style={{ color: "var(--text-3)" }}>
+            <p className="text-xs sm:text-sm" style={{ color: "var(--text-2)" }}>
               Real-time DOM telemetry → BigQuery ML → 3-Agent Gemini chain
             </p>
           </div>
@@ -72,20 +72,20 @@ export function PipelineStepper({ steps, activeStep, isRunning, error, onRetry }
 
         <div className="flex items-center gap-2.5">
           {isRunning && (
-            <span className="flex items-center gap-2 text-xs font-semibold px-2.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/20" style={{ color: "#60a5fa" }}>
-              <div className="spinner" style={{ width: 13, height: 13 }} />
+            <span className="flex items-center gap-2 text-xs sm:text-sm font-semibold px-3 py-1 rounded-full bg-cyan-500/12 border border-cyan-400/25 text-cyan-300">
+              <div className="spinner" style={{ width: 14, height: 14 }} />
               Stage {Math.min(activeStep + 1, 5)}/5 running…
             </span>
           )}
           {!isRunning && activeStep >= 5 && (
             <div className="flex items-center gap-2">
               {totalMs > 0 && (
-                <span className="text-xs font-mono text-zinc-400 px-2 py-0.5 rounded bg-white/3 border border-white/6">
+                <span className="text-xs sm:text-sm font-mono text-slate-300 px-2.5 py-1 rounded-lg bg-white/4 border border-white/8">
                   {(totalMs / 1000).toFixed(1)}s total
                 </span>
               )}
-              <span className="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                <CheckCircle className="w-3.5 h-3.5" />
+              <span className="flex items-center gap-1.5 text-xs sm:text-sm text-emerald-400 font-semibold px-3 py-1 rounded-full bg-emerald-500/12 border border-emerald-500/25">
+                <CheckCircle className="w-4 h-4" />
                 Verified (5/5)
               </span>
             </div>
@@ -113,36 +113,36 @@ export function PipelineStepper({ steps, activeStep, isRunning, error, onRetry }
           return (
             <div
               key={s.label}
-              className="flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
+              className="flex items-center gap-3.5 rounded-xl px-3.5 py-3 transition-all duration-200"
               style={
                 active
-                  ? { background: "rgba(37,99,235,0.08)", border: "1px solid rgba(37,99,235,0.25)" }
+                  ? { background: "rgba(6,182,212,0.1)", border: "1px solid rgba(34,211,238,0.3)" }
                   : done
-                  ? { background: "rgba(255,255,255,0.015)", border: "1px solid transparent" }
+                  ? { background: "rgba(255,255,255,0.02)", border: "1px solid transparent" }
                   : { border: "1px solid transparent" }
               }
             >
               {/* Step indicator */}
               <div
-                className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
                 style={
                   hasErr
                     ? { background: "rgba(239,68,68,0.12)", border: "1px solid rgba(239,68,68,0.25)" }
                     : done
-                    ? { background: "rgba(34,197,94,0.1)", border: "1px solid rgba(34,197,94,0.22)" }
+                    ? { background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.25)" }
                     : active
-                    ? { background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)" }
-                    : { background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }
+                    ? { background: "rgba(6,182,212,0.18)", border: "1px solid rgba(34,211,238,0.35)" }
+                    : { background: "rgba(255,255,255,0.04)", border: "1px solid var(--border)" }
                 }
               >
                 {hasErr ? (
-                  <AlertCircle className="w-3.5 h-3.5 text-red-400" />
+                  <AlertCircle className="w-4 h-4 text-red-400" />
                 ) : done ? (
-                  <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                  <CheckCircle className="w-4 h-4 text-emerald-400" />
                 ) : active ? (
-                  <div className="spinner" style={{ width: 13, height: 13 }} />
+                  <div className="spinner" style={{ width: 14, height: 14 }} />
                 ) : (
-                  <StepIcon className="w-3.5 h-3.5" style={{ color: "var(--text-3)" }} />
+                  <StepIcon className="w-4 h-4" style={{ color: "var(--text-3)" }} />
                 )}
               </div>
 
@@ -150,15 +150,15 @@ export function PipelineStepper({ steps, activeStep, isRunning, error, onRetry }
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p
-                    className="text-sm font-semibold transition-colors duration-200 truncate"
+                    className="text-base font-bold transition-colors duration-200 truncate"
                     style={{
-                      color: done ? "var(--text-1)" : active ? "#ffffff" : "var(--text-3)",
+                      color: done ? "var(--text-1)" : active ? "#ffffff" : "var(--text-2)",
                     }}
                   >
                     {s.label}
                   </p>
                 </div>
-                <p className="text-xs truncate" style={{ color: "var(--text-3)" }}>{s.meta}</p>
+                <p className="text-xs sm:text-sm truncate" style={{ color: "var(--text-3)" }}>{s.meta}</p>
               </div>
 
               {/* Model + latency */}

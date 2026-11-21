@@ -78,7 +78,7 @@ function ClientAuditReportContent() {
     return (
       <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-6 text-center">
         <div className="space-y-4">
-          <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-sm font-semibold text-zinc-400">Loading verified digital footprint audit...</p>
         </div>
       </div>
@@ -110,48 +110,48 @@ function ClientAuditReportContent() {
   const scoreColor = score >= 65 ? "#22c55e" : score >= 40 ? "#f59e0b" : "#ef4444";
 
   return (
-    <div className="min-h-screen bg-[#07070a] text-zinc-100 flex flex-col selection:bg-blue-600/30">
+    <div className="min-h-screen bg-[#05070b] text-slate-50 flex flex-col selection:bg-cyan-500/30 bg-grid-pattern">
       {/* Subtle top ambient glow */}
       <div className="bg-gradient-layer" />
 
       {/* Top Header */}
-      <header className="sticky top-0 z-50 nav-blur px-4 sm:px-6 py-3.5 border-b border-white/8">
+      <header className="sticky top-0 z-50 nav-blur px-4 sm:px-6 py-4 border-b border-white/10">
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
-            <Link href="/dashboard" className="flex items-center gap-2 text-xs font-semibold text-zinc-400 hover:text-white transition-colors">
+            <Link href="/dashboard" className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-300 hover:text-cyan-300 transition-colors">
               <ArrowLeft className="w-4 h-4" /> Workspace
             </Link>
-            <span className="text-zinc-700">|</span>
+            <span className="text-slate-700">|</span>
             <a
               href="https://nxt-apex.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-bold tracking-wide text-zinc-300 hover:text-blue-400 transition-colors flex items-center gap-1"
+              className="text-xs sm:text-sm font-bold tracking-wide text-slate-200 hover:text-cyan-400 transition-colors flex items-center gap-1"
             >
-              NXT <span className="text-blue-500">APEX</span> <ExternalLink className="w-3 h-3" />
+              NXT <span className="text-cyan-400">APEX</span> <ExternalLink className="w-3.5 h-3.5" />
             </a>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400">
-            <Shield className="w-3.5 h-3.5" /> Nxt Apex Verified Footprint Audit
+          <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold px-3.5 py-1.5 rounded-full bg-cyan-500/12 border border-cyan-400/25 text-cyan-300">
+            <Shield className="w-4 h-4" /> Nxt Apex Verified Footprint Audit
           </div>
         </div>
       </header>
 
       {/* Main Content Report Container */}
-      <main className="relative z-10 max-w-5xl mx-auto w-full px-4 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-8 flex-1">
+      <main className="relative z-10 max-w-5xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12 space-y-6 sm:space-y-8 flex-1">
 
         {/* Hero Banner */}
-        <div className="glass-lg p-5 sm:p-8 rounded-2xl border border-white/10 space-y-4">
+        <div className="glass-lg p-6 sm:p-8 rounded-2xl border border-cyan-400/20 space-y-4">
           <div className="flex items-start justify-between gap-6 flex-wrap">
-            <div className="space-y-1.5">
-              <span className="text-xs font-bold uppercase tracking-wider text-blue-400">
+            <div className="space-y-2">
+              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-cyan-400">
                 Independent Digital Health Audit
               </span>
-              <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
                 {lead.businessName}
               </h1>
-              <p className="text-sm text-zinc-400 flex items-center gap-2">
+              <p className="text-sm sm:text-base text-slate-300 flex items-center gap-2 flex-wrap">
                 <span>{lead.niche}</span> · <span>{lead.city}</span>
                 {lead.websiteUrl && (
                   <>
@@ -160,9 +160,9 @@ function ClientAuditReportContent() {
                       href={lead.websiteUrl.startsWith("http") ? lead.websiteUrl : `https://${lead.websiteUrl}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-400 hover:underline flex items-center gap-1"
+                      className="text-cyan-400 hover:underline flex items-center gap-1"
                     >
-                      {lead.websiteUrl} <ExternalLink className="w-3 h-3" />
+                      {lead.websiteUrl} <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   </>
                 )}
@@ -170,18 +170,18 @@ function ClientAuditReportContent() {
             </div>
 
             {/* Score Badge */}
-            <div className="text-right shrink-0 p-4 rounded-xl bg-white/2 border border-white/5">
-              <span className="text-xs font-bold uppercase tracking-wider text-zinc-400 block mb-1">
+            <div className="text-right shrink-0 p-5 rounded-xl bg-white/3 border border-white/10">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">
                 Digital Health Score
               </span>
               <div className="flex items-baseline justify-end gap-1">
-                <span className="text-4xl font-black tabular-nums" style={{ color: scoreColor }}>
+                <span className="text-4xl sm:text-5xl font-black tabular-nums" style={{ color: scoreColor }}>
                   {score}
                 </span>
-                <span className="text-sm text-zinc-500">/100</span>
+                <span className="text-sm text-slate-400">/100</span>
               </div>
               <span
-                className="text-xs font-semibold px-2.5 py-0.5 rounded-full inline-block mt-2"
+                className="text-xs sm:text-sm font-semibold px-3 py-1 rounded-full inline-block mt-2"
                 style={{
                   color: scoreColor,
                   background: `${scoreColor}15`,
@@ -196,19 +196,19 @@ function ClientAuditReportContent() {
 
         {/* Core Web Vitals (if present) */}
         {audit.siteSignals?.pageSpeed && (
-          <div className="glass-lg p-6 rounded-2xl border border-white/8 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-base font-bold flex items-center gap-2 text-white">
-                <Gauge className="w-4 h-4 text-blue-400" /> Google Core Web Vitals (Mobile Performance)
+          <div className="glass-lg p-6 sm:p-7 rounded-2xl border border-white/10 space-y-4">
+            <div className="flex items-center justify-between flex-wrap gap-2">
+              <h2 className="text-lg font-bold flex items-center gap-2 text-white">
+                <Gauge className="w-5 h-5 text-cyan-400" /> Google Core Web Vitals (Mobile Performance)
               </h2>
-              <span className="text-xs font-mono text-zinc-500">Official Google PSI Engine</span>
+              <span className="text-xs sm:text-sm font-mono text-slate-400">Official Google PSI Engine</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
-              <div className="rounded-xl p-4 bg-white/2 border border-white/5">
-                <p className="text-xs text-zinc-400 font-medium">Mobile Performance</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 text-center">
+              <div className="rounded-xl p-4 bg-white/3 border border-white/8">
+                <p className="text-xs sm:text-sm text-slate-300 font-medium">Mobile Performance</p>
                 <p
-                  className="text-2xl font-black mt-1 tabular-nums"
+                  className="text-2xl sm:text-3xl font-black mt-1 tabular-nums"
                   style={{
                     color:
                       audit.siteSignals.pageSpeed.mobilePerformanceScore >= 75
@@ -222,10 +222,10 @@ function ClientAuditReportContent() {
                 </p>
               </div>
 
-              <div className="rounded-xl p-4 bg-white/2 border border-white/5">
-                <p className="text-xs text-zinc-400 font-medium">Mobile SEO Score</p>
+              <div className="rounded-xl p-4 bg-white/3 border border-white/8">
+                <p className="text-xs sm:text-sm text-slate-300 font-medium">Mobile SEO Score</p>
                 <p
-                  className="text-2xl font-black mt-1 tabular-nums"
+                  className="text-2xl sm:text-3xl font-black mt-1 tabular-nums"
                   style={{
                     color:
                       audit.siteSignals.pageSpeed.seoScore >= 80
@@ -239,10 +239,10 @@ function ClientAuditReportContent() {
                 </p>
               </div>
 
-              <div className="rounded-xl p-4 bg-white/2 border border-white/5">
-                <p className="text-xs text-zinc-400 font-medium">Largest Contentful Paint</p>
+              <div className="rounded-xl p-4 bg-white/3 border border-white/8">
+                <p className="text-xs sm:text-sm text-slate-300 font-medium">Largest Contentful Paint</p>
                 <p
-                  className="text-2xl font-black mt-1 tabular-nums"
+                  className="text-2xl sm:text-3xl font-black mt-1 tabular-nums"
                   style={{
                     color:
                       audit.siteSignals.pageSpeed.lcpMs <= 2500
@@ -260,31 +260,31 @@ function ClientAuditReportContent() {
         )}
 
         {/* Verified Technical Gaps & Conversion Friction */}
-        <div className="glass-lg p-6 rounded-2xl border border-white/8 space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="glass-lg p-6 sm:p-7 rounded-2xl border border-white/10 space-y-4">
+          <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <h2 className="text-base font-bold text-white">Verified Technical Gaps</h2>
-              <p className="text-xs text-zinc-400 mt-0.5">Concrete evidence audited from public DOM signals</p>
+              <h2 className="text-lg font-bold text-white">Verified Technical Gaps</h2>
+              <p className="text-xs sm:text-sm text-slate-300 mt-0.5">Concrete evidence audited from public DOM signals</p>
             </div>
-            <span className="text-xs text-zinc-500 font-mono">
+            <span className="text-xs sm:text-sm text-cyan-400 font-mono font-semibold">
               {audit.analystOutput?.verifiedGaps?.length ?? 0} Critical Areas
             </span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-3.5">
             {audit.analystOutput?.verifiedGaps?.map((gap, i) => (
               <div
                 key={i}
-                className="rounded-xl p-4 bg-white/2 border border-white/6 space-y-2 hover:border-white/10 transition-colors"
+                className="rounded-xl p-5 bg-white/3 border border-white/8 space-y-2 hover:border-cyan-400/30 transition-colors"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-blue-500/10 border border-blue-500/20 text-blue-400">
+                  <span className="text-xs font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-md bg-cyan-500/12 border border-cyan-400/25 text-cyan-300">
                     {gap.category}
                   </span>
                 </div>
-                <h3 className="text-sm font-semibold text-zinc-100">{gap.finding}</h3>
-                <p className="text-xs text-zinc-400 italic">Evidence: {gap.exactEvidence}</p>
-                <p className="text-xs font-medium text-amber-400">↳ Business Impact: {gap.businessImpact}</p>
+                <h3 className="text-base sm:text-lg font-bold text-white">{gap.finding}</h3>
+                <p className="text-xs sm:text-sm text-slate-300 italic">Evidence: {gap.exactEvidence}</p>
+                <p className="text-xs sm:text-sm font-semibold text-amber-400">↳ Business Impact: {gap.businessImpact}</p>
               </div>
             ))}
           </div>
@@ -292,35 +292,41 @@ function ClientAuditReportContent() {
 
         {/* Competitor Benchmark Comparison */}
         {audit.analystOutput?.competitorBenchmark && (
-          <div className="glass-lg p-6 rounded-2xl border border-white/8 space-y-3">
-            <h2 className="text-base font-bold text-white flex items-center gap-2">
-              <Globe className="w-4 h-4 text-blue-400" /> Local Competitor Benchmark
+          <div className="glass-lg p-6 sm:p-7 rounded-2xl border border-white/10 space-y-3">
+            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+              <Globe className="w-5 h-5 text-cyan-400" /> Local Competitor Benchmark
             </h2>
-            <p className="text-sm text-zinc-300 leading-relaxed bg-white/2 p-4 rounded-xl border border-white/5">
+            <p className="text-sm sm:text-base text-slate-200 leading-relaxed bg-white/3 p-4 rounded-xl border border-white/8">
               {audit.analystOutput.competitorBenchmark}
             </p>
           </div>
         )}
 
         {/* Action Call to Action Card — Connected to Nxt Apex */}
-        <div className="p-6 sm:p-10 rounded-2xl bg-gradient-to-r from-blue-900/35 via-indigo-900/25 to-purple-900/20 border border-blue-500/30 text-center space-y-5">
-          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-500/15 border border-blue-500/30 text-blue-300">
+        <div
+          className="p-7 sm:p-10 rounded-2xl text-center space-y-5"
+          style={{
+            background: "linear-gradient(135deg, rgba(6, 182, 212, 0.14) 0%, rgba(10, 15, 24, 0.92) 100%)",
+            border: "1px solid rgba(34, 211, 238, 0.35)",
+          }}
+        >
+          <div className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-300">
             Nxt Apex · Web Engineering &amp; AI Automation
           </div>
-          <div className="space-y-2 max-w-2xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl font-black text-white">
+          <div className="space-y-2.5 max-w-2xl mx-auto">
+            <h2 className="text-2xl sm:text-4xl font-black text-white">
               Let Nxt Apex Fix These Gaps in Under 7 Days
             </h2>
-            <p className="text-sm text-zinc-300 leading-relaxed">
+            <p className="text-base text-slate-200 leading-relaxed">
               Where modern web development meets smart AI automation. We build high-converting web architectures, optimize Core Web Vitals, and deploy automated WhatsApp &amp; AI lead capture workflows tailored for {lead.businessName}.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
             <a
               href="https://nxt-apex.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary inline-flex items-center justify-center gap-2 px-6 py-3 text-sm sm:text-base font-bold rounded-xl w-full sm:w-auto"
+              className="btn-primary inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-bold rounded-xl w-full sm:w-auto"
             >
               Explore Nxt Apex Solutions <ExternalLink className="w-4 h-4" />
             </a>
@@ -330,9 +336,9 @@ function ClientAuditReportContent() {
               )}&body=${encodeURIComponent(
                 `Hi Nxt Apex Team,\n\nWe reviewed our Digital Health Audit for ${lead.businessName} (Score: ${score}/100) and would like to schedule a 10-minute walkthrough to fix our technical & conversion gaps.`
               )}`}
-              className="btn-ghost inline-flex items-center justify-center gap-2 px-6 py-3 text-sm sm:text-base font-semibold rounded-xl w-full sm:w-auto text-zinc-200"
+              className="btn-ghost inline-flex items-center justify-center gap-2 px-7 py-3.5 text-base font-semibold rounded-xl w-full sm:w-auto text-slate-100"
             >
-              <Calendar className="w-4 h-4 text-blue-400" /> Book a 10-Min Strategy Call
+              <Calendar className="w-4 h-4 text-cyan-400" /> Book a 10-Min Strategy Call
             </a>
           </div>
         </div>
@@ -340,13 +346,13 @@ function ClientAuditReportContent() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 py-6 border-t border-white/6 text-center text-xs text-zinc-500">
+      <footer className="relative z-10 py-6 border-t border-white/10 text-center text-xs sm:text-sm text-slate-400">
         Generated by ZeroCold Intelligence Engine · An{" "}
         <a
           href="https://nxt-apex.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-400 hover:underline font-semibold"
+          className="text-cyan-400 hover:underline font-semibold"
         >
           Nxt Apex
         </a>{" "}
@@ -362,7 +368,7 @@ export default function ClientAuditReportPage() {
       fallback={
         <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-6 text-center">
           <div className="space-y-4">
-            <div className="w-10 h-10 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
             <p className="text-sm font-semibold text-zinc-400">Loading verified digital footprint audit...</p>
           </div>
         </div>
