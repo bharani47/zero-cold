@@ -58,7 +58,7 @@ export function SiteSignalsPanel({ siteSignals, mlScore }: SiteSignalsPanelProps
       </div>
 
       {/* Signal badges */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2 gap-1.5">
         <Badge label="HTTPS"        value={siteSignals.hasHttps}              icon={<Shield className="w-3.5 h-3.5" />} />
         <Badge label="Mobile Ready" value={siteSignals.hasViewportMeta}       icon={<Smartphone className="w-3.5 h-3.5" />} />
         <Badge label="Meta SEO"     value={!!siteSignals.metaDescription}      icon={<Search className="w-3.5 h-3.5" />} />

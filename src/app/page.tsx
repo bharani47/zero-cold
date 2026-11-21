@@ -105,7 +105,7 @@ export default function LandingPage() {
 
       {/* ═══ NAV ═══ */}
       <header className="sticky top-0 z-50 nav-blur">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+        <div className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
           <Link href="/" className="flex items-center gap-2 sm:gap-3 select-none shrink-0">
             <ZLogo size={34} />
             <div className="flex items-baseline">
@@ -135,7 +135,7 @@ export default function LandingPage() {
       <main className="relative z-10 flex-1">
 
         {/* ═══ HERO ═══ */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pt-14 sm:pt-24 pb-14 sm:pb-20 text-center">
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 xl:pt-24 pb-14 sm:pb-16 xl:pb-20 text-center">
           {/* Badge */}
           <div className="inline-flex items-center justify-center gap-2 mb-8 px-3 py-1.5 rounded-2xl sm:rounded-full text-[11px] sm:text-xs font-semibold max-w-full text-center leading-snug"
             style={{ background: "rgba(37,99,235,0.1)", border: "1px solid rgba(37,99,235,0.25)", color: "#60a5fa" }}>
@@ -143,7 +143,7 @@ export default function LandingPage() {
             Startup Buildathon India 2026 · Team Code Ruptors · Google DeepMind × Google Cloud
           </div>
 
-          <h1 className="text-[2.5rem] sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6 break-words"
+          <h1 className="text-[2.5rem] sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.05] mb-6 break-words"
             style={{ color: "var(--text-1)" }}>
             Stop guessing.<br />
             <span style={{
@@ -160,7 +160,7 @@ export default function LandingPage() {
             AI-powered outbound intelligence for digital agencies. Verified signals, ML-scored leads, and Critic-audited cold pitches — in under 30 seconds.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 xl:mb-16">
             <Link
               href="/login"
               className="btn-primary text-base font-bold px-8 py-4 rounded-2xl flex items-center gap-2 w-full sm:w-auto justify-center"
@@ -197,7 +197,7 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ STATS STRIP ═══ */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-14 sm:pb-20">
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-14 sm:pb-20">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {STATS.map((s) => (
               <div
@@ -221,7 +221,7 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ PROBLEM ═══ */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div
             className="rounded-3xl p-6 sm:p-14"
             style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.07)" }}
@@ -255,7 +255,7 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ HOW IT WORKS ═══ */}
-        <section id="how-it-works" className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        <section id="how-it-works" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div className="text-center mb-14">
             <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>HOW IT WORKS</div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
@@ -270,10 +270,10 @@ export default function LandingPage() {
             {STEPS.map((step, i) => (
               <div
                 key={step.num}
-                className="flex flex-col sm:flex-row gap-4 sm:gap-5 p-5 sm:p-8 rounded-2xl transition-all"
+                className="flex flex-col md:flex-row gap-4 md:gap-5 p-5 sm:p-6 lg:p-8 rounded-2xl transition-all"
                 style={{ background: "rgba(255,255,255,0.025)", border: "1px solid rgba(255,255,255,0.07)" }}
               >
-                <div className="flex items-start gap-4 sm:w-64 shrink-0">
+                <div className="flex items-start gap-4 md:w-56 lg:w-64 shrink-0">
                   <div className="text-2xl">{step.emoji}</div>
                   <div>
                     <div className="text-[10px] font-black tracking-widest mb-0.5" style={{ color: "var(--text-3)" }}>
@@ -297,7 +297,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className="hidden sm:flex items-center pl-2">
+                  <div className="hidden md:flex items-center pl-2">
                     <svg className="w-4 h-4" style={{ color: "var(--text-3)" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 12h14M12 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -309,7 +309,7 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ FEATURES ═══ */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div className="text-center mb-14">
             <div className="text-xs font-bold tracking-widest mb-3" style={{ color: "#2563eb" }}>DIFFERENTIATORS</div>
             <h2 className="text-3xl sm:text-4xl font-black tracking-tight" style={{ color: "var(--text-1)" }}>
@@ -331,7 +331,7 @@ export default function LandingPage() {
         </section>
 
         {/* ═══ CTA SECTION ═══ */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
+        <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div
             className="rounded-3xl p-6 sm:p-20 text-center"
             style={{
@@ -363,7 +363,7 @@ export default function LandingPage() {
 
       {/* ═══ FOOTER ═══ */}
       <footer className="relative z-10" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <ZLogo size={28} />
             <div className="flex items-baseline">

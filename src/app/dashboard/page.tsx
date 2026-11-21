@@ -428,7 +428,7 @@ export default function Dashboard() {
       <main className="relative z-10 flex-1 max-w-[1800px] mx-auto w-full px-3 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-5">
 
         {/* KPI STRIP */}
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           <KpiCard
             label="Total Prospects"
             value={kpis.total}
@@ -483,7 +483,7 @@ export default function Dashboard() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-[1.3fr_1.3fr_1fr_0.9fr_1.3fr_auto] gap-2.5">
             <input
               placeholder="Business Name *"
               value={form.businessName}
@@ -522,7 +522,7 @@ export default function Dashboard() {
             <button
               onClick={() => runAudit()}
               disabled={isRunning || !form.businessName.trim()}
-              className="btn-primary flex items-center justify-center gap-2 px-4 py-2.5 text-base font-semibold"
+              className="btn-primary flex items-center justify-center gap-2 px-5 py-2.5 text-base font-semibold whitespace-nowrap"
             >
               {isRunning ? (
                 <>
@@ -541,10 +541,10 @@ export default function Dashboard() {
         </div>
 
         {/* SPLIT WORKSPACE */}
-        <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-5 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)] 2xl:grid-cols-[380px_minmax(0,1fr)] gap-4 xl:gap-5 items-start">
 
           {/* Left — Prospect Queue */}
-          <div className="space-y-3 anim-fade-up d-250">
+          <div className="space-y-3 anim-fade-up d-250 lg:sticky lg:top-[72px]">
             <div className="relative">
               <Search className="w-4 h-4 absolute left-3 top-3 text-zinc-500 pointer-events-none" />
               <input
@@ -581,7 +581,7 @@ export default function Dashboard() {
             </div>
 
             <div
-              className="space-y-2 overflow-y-auto pr-0.5 max-h-[420px] lg:max-h-[calc(100vh-350px)]"
+              className="space-y-2 overflow-y-auto pr-0.5 max-h-[420px] lg:max-h-[calc(100vh-190px)]"
             >
               {leads.length === 0 && (
                 <div
@@ -635,8 +635,10 @@ export default function Dashboard() {
 
             {selectedAudit && (
               <>
-                <SiteSignalsPanel siteSignals={selectedAudit.siteSignals} mlScore={selectedAudit.mlScore} />
-                <AnalystPanel analyst={selectedAudit.analystOutput} />
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 items-start">
+                  <div className="min-w-0"><SiteSignalsPanel siteSignals={selectedAudit.siteSignals} mlScore={selectedAudit.mlScore} /></div>
+                  <div className="min-w-0"><AnalystPanel analyst={selectedAudit.analystOutput} /></div>
+                </div>
                 <CriticPanel critic={selectedAudit.criticAudit} writerDraft={selectedAudit.writerDraft} />
                 <ApprovalBox
                   key={selectedLead?.id ?? selectedAudit.businessName}

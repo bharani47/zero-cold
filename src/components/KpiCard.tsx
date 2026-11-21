@@ -23,7 +23,7 @@ export function KpiCard({ label, value, sub, icon, animDelay = "0ms" }: KpiCardP
         </div>
       </div>
       <div>
-        <span className="text-2xl sm:text-4xl font-black text-zinc-50 tracking-tight tabular-nums leading-none break-words">
+        <span className="text-2xl sm:text-3xl 2xl:text-4xl font-black text-zinc-50 tracking-tight tabular-nums leading-none break-words">
           {value}
         </span>
         {sub && (
