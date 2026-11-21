@@ -150,16 +150,19 @@ export default function LandingPage() {
                 <span className="text-lg sm:text-xl font-black tracking-tight text-blue-500 ml-1">COLD</span>
               </div>
             </Link>
-            <span
-              className="hidden md:inline-flex items-center gap-1.5 text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full"
+            <a
+              href="https://nxt-apex.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full hover:border-blue-500/40 transition-colors"
               style={{
                 background: "rgba(37,99,235,0.1)",
-                border: "1px solid rgba(37,99,235,0.22)",
+                border: "1px solid rgba(37,99,235,0.25)",
                 color: "#93c5fd",
               }}
             >
-              v2.4 · BQML + Gemini
-            </span>
+              by NXT APEX ↗
+            </a>
           </div>
 
           {/* Center nav links */}
@@ -167,7 +170,7 @@ export default function LandingPage() {
             <a href="#comparison" className="hover:text-white transition-colors">Why ZeroCold</a>
             <a href="#how-it-works" className="hover:text-white transition-colors">5-Agent Pipeline</a>
             <a href="#bigquery-ml" className="hover:text-white transition-colors">BigQuery ML</a>
-            <a href="#features" className="hover:text-white transition-colors">Capabilities</a>
+            <a href="#ecosystem" className="hover:text-white transition-colors">Nxt Apex Ecosystem</a>
           </nav>
 
           {/* Right CTAs */}
@@ -194,9 +197,12 @@ export default function LandingPage() {
         {/* ═══ HERO SECTION ═══ */}
         <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 xl:pt-20 pb-14 sm:pb-20">
           <div className="text-center max-w-4xl mx-auto">
-            {/* Event / Architecture Badge */}
-            <div
-              className="inline-flex items-center justify-center gap-2 mb-6 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold max-w-full"
+            {/* Nxt Apex Venture Badge */}
+            <a
+              href="https://nxt-apex.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 mb-6 px-3.5 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold max-w-full hover:border-blue-400/40 transition-colors"
               style={{
                 background: "rgba(37,99,235,0.1)",
                 border: "1px solid rgba(37,99,235,0.25)",
@@ -204,8 +210,8 @@ export default function LandingPage() {
               }}
             >
               <Sparkles className="w-3.5 h-3.5 text-blue-400 shrink-0" />
-              <span>Startup Buildathon India 2026 · Team Code Ruptors · Google DeepMind × Google Cloud</span>
-            </div>
+              <span>An Nxt Apex Product · Where Modern Web Engineering Meets Smart AI Automation ↗</span>
+            </a>
 
             <h1
               className="text-4xl sm:text-6xl xl:text-7xl font-black tracking-tight leading-[1.06] mb-6"
@@ -714,6 +720,150 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* ═══ NXT APEX × ZEROCOLD REVENUE FLYWHEEL & PLANS ═══ */}
+        <section id="ecosystem" className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24 scroll-mt-20">
+          <div className="text-center mb-12">
+            <div className="text-xs font-bold tracking-widest uppercase mb-2.5 text-blue-500">
+              THE NXT APEX ECOSYSTEM
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white">
+              Two engines. One client-acquisition machine.
+            </h2>
+            <p className="text-sm sm:text-base mt-2.5 max-w-2xl mx-auto" style={{ color: "var(--text-2)" }}>
+              ZeroCold powers autonomous lead discovery and technical auditing, seamlessly feeding high-intent prospects into{" "}
+              <a
+                href="https://nxt-apex.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-400 hover:underline font-semibold"
+              >
+                Nxt Apex
+              </a>{" "}
+              for full-stack web engineering and AI automation fulfillment—or operating as a standalone SaaS for your own agency.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {/* Tier 1: Freelancer / Indie */}
+            <div className="card p-6 sm:p-7 flex flex-col justify-between gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-400">
+                    Solo Operator
+                  </span>
+                  <span className="badge badge-zinc">Self-Serve SaaS</span>
+                </div>
+                <div>
+                  <div className="text-3xl font-black text-white">Starter</div>
+                  <p className="text-xs text-zinc-400 mt-1">For solo web/SEO freelancers closing 3–5 clients/month</p>
+                </div>
+                <div className="space-y-2.5 pt-2 text-xs sm:text-sm text-zinc-300">
+                  {[
+                    "Live Cheerio DOM + Mobile PageSpeed audits",
+                    "BigQuery ML 0–100 lead urgency scoring",
+                    "3-Channel Critic-verified outreach generation",
+                    "Shareable /audit/[id] client report links",
+                    "1-Click CSV export & Mail/WhatsApp dispatch",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <Link
+                href="/login"
+                className="btn-ghost w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-center"
+              >
+                Start Free Workspace →
+              </Link>
+            </div>
+
+            {/* Tier 2: Growth Agency */}
+            <div
+              className="rounded-2xl p-6 sm:p-7 flex flex-col justify-between gap-6"
+              style={{
+                background: "rgba(37, 99, 235, 0.06)",
+                border: "1px solid rgba(37, 99, 235, 0.32)",
+              }}
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400">
+                    Agency Growth
+                  </span>
+                  <span className="badge badge-blue">Most Popular</span>
+                </div>
+                <div>
+                  <div className="text-3xl font-black text-white">Pro Agency</div>
+                  <p className="text-xs text-zinc-300 mt-1">For digital agencies scaling outbound deal flow</p>
+                </div>
+                <div className="space-y-2.5 pt-2 text-xs sm:text-sm text-zinc-200">
+                  {[
+                    "Everything in Starter + Cloud Firestore team sync",
+                    "Custom agency service offer presets & positioning",
+                    "White-label client audit reports with booking CTA",
+                    "Multi-model Gemini failover & priority throughput",
+                    "Bulk CRM CSV exports for Instantly / Smartlead",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <Link
+                href="/login"
+                className="btn-primary w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-bold text-center"
+              >
+                Launch Agency Workspace →
+              </Link>
+            </div>
+
+            {/* Tier 3: Nxt Apex Done-For-You Engineering */}
+            <div className="card p-6 sm:p-7 flex flex-col justify-between gap-6">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-blue-400">
+                    Nxt Apex Partner
+                  </span>
+                  <span className="badge badge-green">Done-For-You</span>
+                </div>
+                <div>
+                  <div className="text-3xl font-black text-white">Nxt Apex Studio</div>
+                  <p className="text-xs text-zinc-400 mt-1">
+                    Full-stack web development &amp; custom AI automation by Nxt Apex
+                  </p>
+                </div>
+                <div className="space-y-2.5 pt-2 text-xs sm:text-sm text-zinc-300">
+                  {[
+                    "End-to-end Next.js web apps & conversion redesigns",
+                    "Custom AI agent workflows & WhatsApp automations",
+                    "Core Web Vitals, technical SEO & schema engineering",
+                    "White-label fulfillment partner for your closed leads",
+                    "Direct engineering support from the Nxt Apex team",
+                  ].map((item) => (
+                    <div key={item} className="flex items-start gap-2.5">
+                      <CheckCircle2 className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <a
+                href="https://nxt-apex.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-ghost w-full py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold text-center text-blue-400 hover:text-blue-300"
+              >
+                Visit Nxt Apex Studio ↗
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* ═══ BOTTOM CONVERSION CTA ═══ */}
         <section className="max-w-6xl 2xl:max-w-7xl mx-auto px-4 sm:px-6 pb-16 sm:pb-24">
           <div
@@ -760,7 +910,16 @@ export default function LandingPage() {
             <span className="text-xs text-zinc-500 ml-2">· Outbound Intelligence</span>
           </div>
           <p className="text-xs text-center sm:text-right" style={{ color: "var(--text-3)" }}>
-            Gemini Multi-Agent Chain · BigQuery ML · Cloud Firestore · Team Code Ruptors · Startup Buildathon India 2026
+            ZeroCold Outbound Intelligence · An{" "}
+            <a
+              href="https://nxt-apex.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline font-semibold"
+            >
+              Nxt Apex
+            </a>{" "}
+            Product · Built with Gemini &amp; Google Cloud BigQuery ML
           </p>
         </div>
       </footer>

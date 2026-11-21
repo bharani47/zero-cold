@@ -15,9 +15,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ZeroCold – B2B Outbound Intelligence",
+  title: "ZeroCold by Nxt Apex — B2B Outbound & Footprint Intelligence",
   description:
-    "AI-powered cold outreach for digital agencies. Powered by Gemini + Firestore.",
+    "Autonomous B2B outbound intelligence platform by Nxt Apex. Real-time DOM & Core Web Vitals auditing, BigQuery ML lead scoring, and Critic-verified 3-channel outreach.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

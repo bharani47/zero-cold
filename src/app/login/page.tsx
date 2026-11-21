@@ -107,19 +107,30 @@ export default function LoginPage() {
       <div className="bg-gradient-layer" />
 
       {/* Top Bar */}
-      <header className="relative z-10 max-w-6xl w-full mx-auto flex items-center justify-between">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors hover:text-white"
-          style={{ color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Overview
-        </Link>
+      <header className="relative z-10 max-w-6xl w-full mx-auto flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-2.5">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-3 py-1.5 rounded-lg transition-colors hover:text-white"
+            style={{ color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}
+          >
+            <ArrowLeft className="w-4 h-4" />
+            ZeroCold Overview
+          </Link>
+          <a
+            href="https://nxt-apex.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-colors hover:text-blue-400"
+            style={{ color: "var(--text-2)", border: "1px solid var(--border)", background: "rgba(255,255,255,0.02)" }}
+          >
+            Nxt Apex Platform ↗
+          </a>
+        </div>
 
         <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          All 5 Pipeline Stages Operational
+          Nxt Apex × ZeroCold Engine Operational
         </div>
       </header>
 
@@ -277,8 +288,19 @@ export default function LoginPage() {
 
       {/* Bottom Footer */}
       <footer className="relative z-10 max-w-6xl w-full mx-auto text-center sm:flex items-center justify-between text-xs" style={{ color: "var(--text-3)" }}>
-        <span>ZeroCold Outbound Intelligence · Team Code Ruptors</span>
-        <span className="hidden sm:inline">Google DeepMind × Google Cloud Buildathon 2026</span>
+        <span>
+          ZeroCold Outbound Intelligence · An{" "}
+          <a
+            href="https://nxt-apex.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-400 hover:underline font-semibold"
+          >
+            Nxt Apex
+          </a>{" "}
+          Venture
+        </span>
+        <span className="hidden sm:inline">Where modern web development meets smart AI automation</span>
       </footer>
     </div>
   );

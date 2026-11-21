@@ -117,6 +117,28 @@ export function ApprovalBox({
     }
   };
 
+  const handleInsertReportLink = () => {
+    if (!leadId) return;
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://zero-cold.vercel.app";
+    const reportUrl = `${origin}/audit/${encodeURIComponent(leadId)}`;
+    if (activeTab === "email") {
+      if (!body.includes(reportUrl)) {
+        setBody((prev) => `${prev.trim()}\n\nLive Digital Health Audit: ${reportUrl}`);
+        setIsDirty(true);
+      }
+    } else if (activeTab === "followup") {
+      if (!followUpBody.includes(reportUrl)) {
+        setFollowUpBody((prev) => `${prev.trim()}\n\nFull Technical Audit Report: ${reportUrl}`);
+        setIsDirty(true);
+      }
+    } else {
+      if (!dmText.includes(reportUrl)) {
+        setDmText((prev) => `${prev.trim()} Here's the live audit report: ${reportUrl}`);
+        setIsDirty(true);
+      }
+    }
+  };
+
   const handleResetCurrentTab = () => {
     if (activeTab === "email") {
       setSubject(defaultSubject);
@@ -198,17 +220,30 @@ export function ApprovalBox({
           {leadId && (
             <>
               <button
+                onClick={handleInsertReportLink}
+                title="Append live client audit report URL directly into the current message"
+                className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer hover:bg-blue-500/20"
+                style={{
+                  color: "#93c5fd",
+                  border: "1px solid rgba(37,99,235,0.3)",
+                  background: "rgba(37,99,235,0.1)",
+                }}
+              >
+                <Link2 className="w-3.5 h-3.5" /> + Insert Report Link
+              </button>
+
+              <button
                 onClick={handleCopyReportLink}
                 title="Copy shareable white-label report link"
                 className="flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1.5 rounded-lg border transition-colors cursor-pointer"
                 style={{
-                  color: copiedLink ? "#4ade80" : "#93c5fd",
-                  border: copiedLink ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(37,99,235,0.3)",
-                  background: copiedLink ? "rgba(34,197,94,0.1)" : "rgba(37,99,235,0.1)",
+                  color: copiedLink ? "#4ade80" : "#d4d4d8",
+                  border: copiedLink ? "1px solid rgba(34,197,94,0.3)" : "1px solid rgba(255,255,255,0.1)",
+                  background: copiedLink ? "rgba(34,197,94,0.1)" : "rgba(255,255,255,0.03)",
                 }}
               >
-                {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Link2 className="w-3.5 h-3.5" />}
-                {copiedLink ? "Report Link Copied!" : "Copy Report Link"}
+                {copiedLink ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                {copiedLink ? "Link Copied!" : "Copy URL"}
               </button>
 
               <Link
@@ -217,7 +252,7 @@ export function ApprovalBox({
                 className="flex items-center gap-1 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-white/10 text-zinc-300 hover:text-white hover:bg-white/5 transition-colors"
                 title="Open client-facing white-label audit report in a new tab"
               >
-                Preview Report <ExternalLink className="w-3 h-3" />
+                Preview <ExternalLink className="w-3 h-3" />
               </Link>
             </>
           )}

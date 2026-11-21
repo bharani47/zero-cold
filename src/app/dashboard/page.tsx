@@ -25,6 +25,7 @@ import {
   Star,
   Cloud,
   HardDrive,
+  Download,
 } from "lucide-react";
 import {
   collection,
@@ -63,6 +64,12 @@ interface AuditForm {
   senderOffer: string;
 }
 
+const NXT_APEX_OFFER_CHIPS = [
+  "Nxt Apex: Full-stack web redesign, Core Web Vitals & local SEO",
+  "Nxt Apex: AI WhatsApp appointment booking & lead automation",
+  "Nxt Apex: Custom web app & conversion funnel engineering",
+];
+
 const QUICK_FILL_PRESETS: Array<{ label: string; form: AuditForm }> = [
   {
     label: "SmileCare Dental (No Website)",
@@ -73,7 +80,7 @@ const QUICK_FILL_PRESETS: Array<{ label: string; form: AuditForm }> = [
       city: "Chennai",
       googleRating: "4.8",
       reviewCount: "165",
-      senderOffer: "high-converting dental website, WhatsApp appointment funnel & local SEO",
+      senderOffer: "Nxt Apex: high-converting dental website, WhatsApp appointment funnel & local SEO",
     },
   },
   {
@@ -85,7 +92,7 @@ const QUICK_FILL_PRESETS: Array<{ label: string; form: AuditForm }> = [
       city: "Bengaluru",
       googleRating: "4.6",
       reviewCount: "92",
-      senderOffer: "conversion redesign, Core Web Vitals optimization & schema deployment",
+      senderOffer: "Nxt Apex: conversion redesign, Core Web Vitals optimization & schema deployment",
     },
   },
   {
@@ -97,7 +104,7 @@ const QUICK_FILL_PRESETS: Array<{ label: string; form: AuditForm }> = [
       city: "Mumbai",
       googleRating: "4.7",
       reviewCount: "210",
-      senderOffer: "automated trial class booking landing page & WhatsApp lead capture",
+      senderOffer: "Nxt Apex: automated trial class booking landing page & AI WhatsApp lead capture",
     },
   },
 ];
@@ -512,6 +519,63 @@ export default function Dashboard() {
     rejected: leads.filter((l) => l.status === "rejected").length,
   };
 
+  function handleExportCsv() {
+    if (leads.length === 0) return;
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://zero-cold.vercel.app";
+    const headers = [
+      "Business Name",
+      "Niche",
+      "City",
+      "Website URL",
+      "Google Rating",
+      "Reviews",
+      "ML Lead Score",
+      "Priority Tier",
+      "Status",
+      "Client Audit Report URL",
+      "Cold Email Subject",
+      "Cold Email Body",
+      "48h Follow-Up Subject",
+      "48h Follow-Up Body",
+      "WhatsApp / LinkedIn DM",
+    ];
+    const escapeCsv = (val: unknown) => {
+      const s = String(val ?? "").replace(/"/g, '""');
+      return `"${s}"`;
+    };
+    const rows = leads.map((l) => {
+      const ar = l.auditResult as unknown as AuditResult | undefined;
+      const critic = ar?.criticAudit;
+      return [
+        l.businessName,
+        l.niche,
+        l.city,
+        l.websiteUrl || "",
+        l.googleRating ?? "",
+        l.reviewCount ?? "",
+        l.leadScore,
+        l.priorityTier,
+        l.status,
+        `${origin}/audit/${encodeURIComponent(l.id)}`,
+        critic?.finalEmail?.subject ?? "",
+        critic?.finalEmail?.body ?? "",
+        critic?.followUpEmail?.subject ?? "",
+        critic?.followUpEmail?.body ?? "",
+        critic?.whatsappOrLinkedinDm ?? "",
+      ]
+        .map(escapeCsv)
+        .join(",");
+    });
+    const csvContent = [headers.map(escapeCsv).join(","), ...rows].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `zerocold-nxtapex-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   async function handleSignOut() {
     try {
       window.sessionStorage.removeItem("zc_guest");
@@ -557,8 +621,22 @@ export default function Dashboard() {
               </div>
             </Link>
 
+            <a
+              href="https://nxt-apex.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full hover:border-blue-500/40 transition-colors"
+              style={{
+                background: "rgba(37,99,235,0.1)",
+                border: "1px solid rgba(37,99,235,0.22)",
+                color: "#93c5fd",
+              }}
+            >
+              by NXT APEX ↗
+            </a>
+
             <div
-              className="hidden md:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold max-w-[340px] truncate"
+              className="hidden lg:flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold max-w-[320px] truncate"
               style={{ border: "1px solid rgba(255,255,255,0.08)", color: "var(--text-2)", background: "rgba(255,255,255,0.02)" }}
             >
               <Sparkles className="w-3.5 h-3.5 text-blue-400 shrink-0" />
@@ -566,7 +644,18 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 sm:gap-3 ml-auto min-w-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 ml-auto min-w-0">
+            {leads.length > 0 && (
+              <button
+                onClick={handleExportCsv}
+                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:text-white cursor-pointer"
+                style={{ color: "#93c5fd", border: "1px solid rgba(37,99,235,0.28)", background: "rgba(37,99,235,0.08)" }}
+                title="Export audited prospects and verified 3-channel pitches to CSV"
+              >
+                <Download className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Export CSV ({leads.length})</span>
+              </button>
+            )}
             {/* Sync mode badge */}
             {user ? (
               <div
@@ -773,19 +862,36 @@ export default function Dashboard() {
             </button>
           </div>
 
-          {/* Secondary Service Offer Row */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          {/* Secondary Service Offer Row + Nxt Apex Service Chips */}
+          <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2">
             <div className="flex-1 flex items-center gap-2">
               <span className="text-xs font-semibold text-zinc-400 shrink-0 hidden sm:inline">
                 Agency Offer:
               </span>
               <input
-                placeholder="Your Service Offer (e.g. web redesign, local SEO & WhatsApp booking automation)"
+                placeholder="Your Service Offer (e.g. Nxt Apex web redesign, local SEO & AI WhatsApp booking automation)"
                 value={form.senderOffer}
                 onChange={(e) => set("senderOffer")(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && runAudit()}
                 className="input px-3 py-1.5 text-xs sm:text-sm w-full"
               />
+            </div>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {NXT_APEX_OFFER_CHIPS.map((chip) => (
+                <button
+                  key={chip}
+                  type="button"
+                  onClick={() => set("senderOffer")(chip)}
+                  className="text-[11px] font-medium px-2.5 py-1 rounded-md transition-colors cursor-pointer hover:text-white"
+                  style={
+                    form.senderOffer === chip
+                      ? { background: "rgba(37,99,235,0.2)", border: "1px solid rgba(37,99,235,0.35)", color: "#93c5fd" }
+                      : { background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)", color: "var(--text-2)" }
+                  }
+                >
+                  {chip.replace("Nxt Apex: ", "")}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -1065,7 +1171,16 @@ export default function Dashboard() {
             </span>
           </div>
           <span className="text-xs" style={{ color: "var(--text-3)" }}>
-            Google Cloud BigQuery ML · Gemini Multi-Agent Chain · Cloud Firestore · Team: Code Ruptors · Startup Buildathon India 2026
+            ZeroCold Outbound Engine · Built by{" "}
+            <a
+              href="https://nxt-apex.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-400 hover:underline font-semibold"
+            >
+              Nxt Apex
+            </a>{" "}
+            (Web Engineering &amp; Smart AI Automation)
           </span>
         </div>
       </footer>
