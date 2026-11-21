@@ -84,6 +84,10 @@ export default function Dashboard() {
     }
     const unsub = onAuthStateChanged(auth, (u) => {
       if (!u) {
+        if (window.sessionStorage.getItem("zc_guest") === "1") {
+          setAuthLoading(false);
+          return;
+        }
         router.replace("/login");
       } else {
         setUser(u);
@@ -356,6 +360,7 @@ export default function Dashboard() {
   };
 
   async function handleSignOut() {
+    try { window.sessionStorage.removeItem("zc_guest"); } catch { /* ignore */ }
     if (auth) {
       try { await signOut(auth); } catch { /* ignore */ }
     }

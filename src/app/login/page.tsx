@@ -54,7 +54,13 @@ export default function LoginPage() {
       router.replace("/dashboard");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Sign-in failed";
-      setError(msg.includes("popup-closed") ? "Sign-in cancelled." : "Sign-in failed. Please try again.");
+      setError(
+        msg.includes("popup-closed")
+          ? "Sign-in cancelled."
+          : msg.includes("unauthorized-domain")
+          ? "This domain is not yet authorized in Firebase. Use guest mode below."
+          : "Sign-in failed. You can continue in guest mode below."
+      );
     } finally {
       setLoading(false);
     }
@@ -144,6 +150,17 @@ export default function LoginPage() {
               {error}
             </p>
           )}
+
+          <button
+            onClick={() => {
+              try { window.sessionStorage.setItem("zc_guest", "1"); } catch { /* ignore */ }
+              router.push("/dashboard");
+            }}
+            className="w-full text-center text-xs font-semibold py-2 rounded-lg transition-colors"
+            style={{ color: "var(--text-2)", border: "1px dashed rgba(255,255,255,0.1)" }}
+          >
+            Continue as guest (demo mode) →
+          </button>
         </div>
 
         {/* Footer note */}
