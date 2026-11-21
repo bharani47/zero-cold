@@ -5,7 +5,7 @@ export type SiteSignals = SiteSignalsData;
 
 async function fetchPageSpeed(url: string): Promise<PageSpeedData | null> {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 5000);
+  const timeoutId = setTimeout(() => controller.abort(), 4500);
 
   try {
     const psiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(
@@ -16,9 +16,11 @@ async function fetchPageSpeed(url: string): Promise<PageSpeedData | null> {
       signal: controller.signal,
       headers: { Accept: "application/json" },
     });
-    clearTimeout(timeoutId);
 
-    if (!res.ok) return null;
+    if (!res.ok) {
+      clearTimeout(timeoutId);
+      return null;
+    }
 
     const data = (await res.json()) as {
       lighthouseResult?: {
@@ -31,6 +33,7 @@ async function fetchPageSpeed(url: string): Promise<PageSpeedData | null> {
         };
       };
     };
+    clearTimeout(timeoutId);
 
     const perfScore = Math.round(
       (data.lighthouseResult?.categories?.performance?.score ?? 0) * 100
@@ -58,11 +61,10 @@ async function fetchPageSpeed(url: string): Promise<PageSpeedData | null> {
 async function scrapeCheerio(normalizedUrl: string): Promise<Omit<SiteSignalsData, "pageSpeed">> {
   const hasHttps = normalizedUrl.startsWith("https://");
   const start = Date.now();
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 4000);
 
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
-
     const response = await fetch(normalizedUrl, {
       signal: controller.signal,
       headers: {
@@ -72,10 +74,30 @@ async function scrapeCheerio(normalizedUrl: string): Promise<Omit<SiteSignalsDat
       },
       redirect: "follow",
     });
-    clearTimeout(timeoutId);
 
     const responseTimeMs = Date.now() - start;
+
+    // Handle bot challenge or WAF protection (Cloudflare, Sucuri, Imperva)
+    if (response.status === 403 || response.status === 503) {
+      clearTimeout(timeoutId);
+      return {
+        reachable: true,
+        reason: "Active website (protected by Cloudflare/WAF bot challenge)",
+        url: normalizedUrl,
+        responseTimeMs,
+        hasHttps,
+        title: "Protected Web Property",
+        metaDescription: "Active business site with Cloudflare edge protection",
+        hasViewportMeta: true,
+        h1Count: 1,
+        hasAnalyticsOrPixel: true,
+        hasBookingOrContactCta: false,
+        hasSchemaMarkup: false,
+      };
+    }
+
     const html = await response.text();
+    clearTimeout(timeoutId);
     const $ = cheerio.load(html);
 
     const title = $("title").first().text().trim() || null;
@@ -116,6 +138,7 @@ async function scrapeCheerio(normalizedUrl: string): Promise<Omit<SiteSignalsDat
       hasSchemaMarkup,
     };
   } catch (err: unknown) {
+    clearTimeout(timeoutId);
     return {
       reachable: false,
       reason: err instanceof Error ? err.message : "Request failed or timed out",

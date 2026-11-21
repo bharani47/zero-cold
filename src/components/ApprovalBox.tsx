@@ -318,6 +318,32 @@ export function ApprovalBox({
             : "Copy DM Message"}
         </button>
 
+        {activeTab !== "dm" ? (
+          <a
+            href={`mailto:?subject=${encodeURIComponent(
+              activeTab === "email" ? subject : followUpSubject
+            )}&body=${encodeURIComponent(
+              activeTab === "email" ? body : followUpBody
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost flex items-center gap-1.5 px-3.5 py-2.5 text-base font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+            title="Launch default email client with draft preloaded"
+          >
+            <Mail className="w-4 h-4" /> Open in Mail
+          </a>
+        ) : (
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(dmText)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ghost flex items-center gap-1.5 px-3.5 py-2.5 text-base font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
+            title="Open WhatsApp Web with pre-filled message"
+          >
+            <MessageSquare className="w-4 h-4" /> Open WhatsApp
+          </a>
+        )}
+
         <button
           onClick={handleReject}
           disabled={saving || currentStatus === "rejected"}

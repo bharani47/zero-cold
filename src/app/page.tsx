@@ -211,7 +211,15 @@ export default function Home() {
       }
     } catch (err: unknown) {
       timersRef.current.forEach(clearTimeout);
-      const msg = err instanceof Error ? err.message : "Audit request failed";
+      let msg = err instanceof Error ? err.message : "Audit request failed";
+      try {
+        const parsed = typeof msg === "string" && msg.startsWith("{") ? JSON.parse(msg) : null;
+        if (parsed?.error?.message) {
+          msg = parsed.error.message;
+        }
+      } catch {
+        // Keep original message if parsing fails
+      }
       setAuditError(msg);
       setActiveStep(0);
     } finally {

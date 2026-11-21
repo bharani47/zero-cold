@@ -7,8 +7,21 @@ import { scoreLead } from "@/lib/leadScorer";
 import type { AuditRequest } from "@/types/audit";
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY ?? "" });
-const FLASH = process.env.GEMINI_FLASH_MODEL || "gemini-3.5-flash-lite";
-const PRO = process.env.GEMINI_PRO_MODEL || "gemini-flash-latest";
+
+const FLASH_MODELS = [
+  process.env.GEMINI_FLASH_MODEL,
+  "gemini-3.8-flash",
+  "gemini-3.5-flash",
+  "gemini-3.5-flash-lite",
+  "gemini-2.5-flash-lite",
+].filter(Boolean) as string[];
+
+const PRO_MODELS = [
+  process.env.GEMINI_PRO_MODEL,
+  "gemini-3.5-flash",
+  "gemini-3.8-flash",
+  "gemini-2.5-flash-lite",
+].filter((m): m is string => Boolean(m) && m !== "gemini-flash-latest");
 
 // Simple in-memory IP rate limiter: max 20 requests per IP per hour
 const ipRateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -40,13 +53,43 @@ function cleanJsonText(raw: string): string {
   return cleaned.trim();
 }
 
+async function callGeminiWithFailover(
+  candidates: string[],
+  contents: string,
+  schemaConfig: Record<string, unknown>
+): Promise<{ text: string; modelUsed: string }> {
+  let lastErr: unknown = null;
+
+  for (const model of candidates) {
+    try {
+      const response = await ai.models.generateContent({
+        model,
+        contents,
+        config: schemaConfig as unknown as undefined,
+      });
+
+      const text = response.text ? cleanJsonText(response.text) : "";
+      if (text) {
+        return { text, modelUsed: model };
+      }
+    } catch (err: unknown) {
+      console.warn(`Gemini call failed for ${model}:`, err instanceof Error ? err.message : err);
+      lastErr = err;
+      // Brief jittered pause before trying next candidate if high-demand/rate-limited
+      await new Promise((r) => setTimeout(r, 400));
+    }
+  }
+
+  throw lastErr || new Error("All candidate Gemini models failed");
+}
+
 async function runAnalyst(
   businessName: string,
   niche: string,
   city: string,
   siteSignals: Record<string, unknown>,
   mlScore: number
-): Promise<{ result: unknown; latencyMs: number }> {
+): Promise<{ result: unknown; latencyMs: number; model: string }> {
   const t = Date.now();
   const prompt = `You are a senior digital marketing analyst evaluating local businesses in ${city}.
 
@@ -59,10 +102,10 @@ ${JSON.stringify(siteSignals, null, 2)}
 Audit this business's digital footprint against top local competitors in ${city}. 
 Return a strict JSON analysis with verified digital gaps, local competitor benchmark, and recommended angle.`;
 
-  const response = await ai.models.generateContent({
-    model: FLASH,
-    contents: prompt,
-    config: {
+  const { text, modelUsed } = await callGeminiWithFailover(
+    FLASH_MODELS,
+    prompt,
+    {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -86,11 +129,10 @@ Return a strict JSON analysis with verified digital gaps, local competitor bench
         },
         required: ["digitalGapScore", "verifiedGaps", "competitorBenchmark", "recommendedAngle"],
       },
-    },
-  });
+    }
+  );
 
-  const text = cleanJsonText(response.text ?? "{}");
-  return { result: JSON.parse(text), latencyMs: Date.now() - t };
+  return { result: JSON.parse(text), latencyMs: Date.now() - t, model: modelUsed };
 }
 
 async function runWriter(
@@ -99,7 +141,7 @@ async function runWriter(
   city: string,
   analystOutput: unknown,
   senderOffer: string
-): Promise<{ result: unknown; latencyMs: number }> {
+): Promise<{ result: unknown; latencyMs: number; model: string }> {
   const t = Date.now();
   const prompt = `You are an elite B2B cold outreach copywriter for digital agencies.
 
@@ -118,10 +160,10 @@ BANNED CLICHÉS: "I hope this finds you well", "synergy", "elevate your brand", 
 
 Return strict JSON adhering to schema.`;
 
-  const response = await ai.models.generateContent({
-    model: PRO,
-    contents: prompt,
-    config: {
+  const { text, modelUsed } = await callGeminiWithFailover(
+    PRO_MODELS,
+    prompt,
+    {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -146,23 +188,22 @@ Return strict JSON adhering to schema.`;
         },
         required: ["initialEmail", "followUpEmail", "whatsappOrLinkedinDm"],
       },
-    },
-  });
+    }
+  );
 
-  const text = cleanJsonText(response.text ?? "{}");
   const parsed = JSON.parse(text);
   // Attach backward-compatibility top-level subject/body
   parsed.subject = parsed.initialEmail?.subject ?? "";
   parsed.body = parsed.initialEmail?.body ?? "";
 
-  return { result: parsed, latencyMs: Date.now() - t };
+  return { result: parsed, latencyMs: Date.now() - t, model: modelUsed };
 }
 
 async function runCritic(
   writerDraft: unknown,
   analystOutput: unknown,
   siteSignals: Record<string, unknown>
-): Promise<{ result: unknown; latencyMs: number }> {
+): Promise<{ result: unknown; latencyMs: number; model: string }> {
   const t = Date.now();
   const prompt = `You are a strict B2B communication auditor verifying outbound outreach claims.
 
@@ -185,10 +226,10 @@ If all pass, preserve the original versions.
 
 Return strict JSON adhering to schema.`;
 
-  const response = await ai.models.generateContent({
-    model: FLASH,
-    contents: prompt,
-    config: {
+  const { text, modelUsed } = await callGeminiWithFailover(
+    FLASH_MODELS,
+    prompt,
+    {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -235,11 +276,10 @@ Return strict JSON adhering to schema.`;
           "whatsappOrLinkedinDm",
         ],
       },
-    },
-  });
+    }
+  );
 
-  const text = cleanJsonText(response.text ?? "{}");
-  return { result: JSON.parse(text), latencyMs: Date.now() - t };
+  return { result: JSON.parse(text), latencyMs: Date.now() - t, model: modelUsed };
 }
 
 export async function POST(req: NextRequest) {
@@ -290,8 +330,8 @@ export async function POST(req: NextRequest) {
     });
     const scorerMs = Date.now() - t2;
 
-    // Step 3: Analyst Agent (Gemini Flash)
-    const { result: analystResult, latencyMs: analystMs } = await runAnalyst(
+    // Step 3: Analyst Agent (Gemini Flash with Failover)
+    const { result: analystResult, latencyMs: analystMs, model: analystModel } = await runAnalyst(
       businessName,
       niche,
       city,
@@ -299,8 +339,8 @@ export async function POST(req: NextRequest) {
       mlResult.leadScore
     );
 
-    // Step 4: Writer Agent (Gemini Pro)
-    const { result: writerResult, latencyMs: writerMs } = await runWriter(
+    // Step 4: Writer Agent (Gemini Pro/Flash with Failover)
+    const { result: writerResult, latencyMs: writerMs, model: writerModel } = await runWriter(
       businessName,
       niche,
       city,
@@ -308,8 +348,8 @@ export async function POST(req: NextRequest) {
       senderOffer
     );
 
-    // Step 5: Critic Agent (Gemini Flash)
-    const { result: criticResult, latencyMs: criticMs } = await runCritic(
+    // Step 5: Critic Agent (Gemini Flash with Failover)
+    const { result: criticResult, latencyMs: criticMs, model: criticModel } = await runCritic(
       writerResult,
       analystResult,
       siteSignals as unknown as Record<string, unknown>
@@ -328,9 +368,9 @@ export async function POST(req: NextRequest) {
       pipeline: [
         { step: "Signal Extractor", model: "cheerio + PSI", latencyMs: extractorMs },
         { step: "ML Lead Scorer", model: "BigQuery ML (BQML)", latencyMs: scorerMs },
-        { step: "Analyst Agent", model: FLASH, latencyMs: analystMs },
-        { step: "Writer Agent", model: PRO, latencyMs: writerMs },
-        { step: "Critic Agent", model: FLASH, latencyMs: criticMs },
+        { step: "Analyst Agent", model: analystModel, latencyMs: analystMs },
+        { step: "Writer Agent", model: writerModel, latencyMs: writerMs },
+        { step: "Critic Agent", model: criticModel, latencyMs: criticMs },
       ],
     });
   } catch (err: unknown) {

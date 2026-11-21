@@ -281,7 +281,7 @@ function ClientAuditReportContent() {
           </div>
           <div className="pt-2">
             <a
-              href="mailto:contact@zerocold.agency?subject=Fixing%20our%20digital%20gaps%20from%20audit"
+              href={`mailto:contact@zerocold.agency?subject=Fixing%20our%20digital%20gaps%20-%20${encodeURIComponent(lead.businessName)}`}
               className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-base font-semibold rounded-xl"
             >
               <Calendar className="w-4 h-4" /> Book a 10-Min Strategy Call
