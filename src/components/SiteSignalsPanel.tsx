@@ -82,11 +82,11 @@ export function SiteSignalsPanel({ siteSignals, mlScore }: SiteSignalsPanelProps
             </span>
             <span className="text-xs font-mono text-slate-400">Google API</span>
           </div>
-          <div className="grid grid-cols-3 gap-2.5 text-center">
-            <div className="rounded-lg p-3 bg-white/3 border border-white/8">
-              <p className="text-xs text-slate-300 font-medium">Performance</p>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-lg p-2.5 sm:p-3 bg-white/3 border border-white/8 min-w-0">
+              <p className="text-[11px] sm:text-xs text-slate-300 font-medium truncate">Performance</p>
               <p
-                className="text-xl font-black mt-1 tabular-nums"
+                className="text-lg sm:text-xl font-black mt-1 tabular-nums"
                 style={{
                   color:
                     siteSignals.pageSpeed.mobilePerformanceScore >= 75
@@ -99,10 +99,10 @@ export function SiteSignalsPanel({ siteSignals, mlScore }: SiteSignalsPanelProps
                 {siteSignals.pageSpeed.mobilePerformanceScore}/100
               </p>
             </div>
-            <div className="rounded-lg p-3 bg-white/3 border border-white/8">
-              <p className="text-xs text-slate-300 font-medium">Mobile SEO</p>
+            <div className="rounded-lg p-2.5 sm:p-3 bg-white/3 border border-white/8 min-w-0">
+              <p className="text-[11px] sm:text-xs text-slate-300 font-medium truncate">Mobile SEO</p>
               <p
-                className="text-xl font-black mt-1 tabular-nums"
+                className="text-lg sm:text-xl font-black mt-1 tabular-nums"
                 style={{
                   color:
                     siteSignals.pageSpeed.seoScore >= 80
@@ -115,10 +115,10 @@ export function SiteSignalsPanel({ siteSignals, mlScore }: SiteSignalsPanelProps
                 {siteSignals.pageSpeed.seoScore}/100
               </p>
             </div>
-            <div className="rounded-lg p-3 bg-white/3 border border-white/8">
-              <p className="text-xs text-slate-300 font-medium">LCP (Load)</p>
+            <div className="rounded-lg p-2.5 sm:p-3 bg-white/3 border border-white/8 min-w-0">
+              <p className="text-[11px] sm:text-xs text-slate-300 font-medium truncate">LCP (Load)</p>
               <p
-                className="text-xl font-black mt-1 tabular-nums"
+                className="text-lg sm:text-xl font-black mt-1 tabular-nums"
                 style={{
                   color:
                     siteSignals.pageSpeed.lcpMs <= 2500
@@ -128,7 +128,7 @@ export function SiteSignalsPanel({ siteSignals, mlScore }: SiteSignalsPanelProps
                       : "#f87171",
                 }}
               >
-                {(siteSignals.pageSpeed.lcpMs / 1000).toFixed(1)}s
+                {((siteSignals.pageSpeed.lcpMs ?? 0) / 1000).toFixed(1)}s
               </p>
             </div>
           </div>

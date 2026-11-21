@@ -11,9 +11,10 @@ interface CriticPanelProps {
 export function CriticPanel({ critic, writerDraft }: CriticPanelProps) {
   const [showDraft, setShowDraft] = useState(false);
 
+  const groundednessScore = critic?.groundednessScore ?? 0;
   const scoreColor =
-    critic.groundednessScore >= 85 ? "#22c55e"
-    : critic.groundednessScore >= 60 ? "#f59e0b"
+    groundednessScore >= 85 ? "#22c55e"
+    : groundednessScore >= 60 ? "#f59e0b"
     : "#ef4444";
 
   return (
@@ -28,23 +29,23 @@ export function CriticPanel({ critic, writerDraft }: CriticPanelProps) {
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
           </div>
           <div>
-            <h3 className="text-base font-bold" style={{ color: "var(--text-1)" }}>
+            <h3 className="text-lg font-bold" style={{ color: "var(--text-1)" }}>
               Critic Groundedness Audit
             </h3>
-            <p className="text-xs mt-0.5" style={{ color: "var(--text-3)" }}>
+            <p className="text-xs sm:text-sm mt-0.5" style={{ color: "var(--text-2)" }}>
               Gemini Flash · factual claim verification against raw DOM signals
             </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
           <div className="text-right">
-            <span className="text-3xl font-black tabular-nums" style={{ color: scoreColor }}>
-              {critic.groundednessScore}
+            <span className="text-3xl sm:text-4xl font-black tabular-nums" style={{ color: scoreColor }}>
+              {groundednessScore}
             </span>
-            <span className="text-xs" style={{ color: "var(--text-3)" }}>/100</span>
+            <span className="text-xs sm:text-sm" style={{ color: "var(--text-3)" }}>/100</span>
           </div>
           <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            className="text-xs sm:text-sm font-semibold px-3 py-1 rounded-full"
             style={
               critic.passed
                 ? { color: "#4ade80", border: "1px solid rgba(34,197,94,0.25)", background: "rgba(34,197,94,0.1)" }
@@ -58,7 +59,7 @@ export function CriticPanel({ critic, writerDraft }: CriticPanelProps) {
 
       {/* Groundedness bar */}
       <div className="progress-track">
-        <div className="progress-fill" style={{ width: `${critic.groundednessScore}%`, background: scoreColor }} />
+        <div className="progress-fill" style={{ width: `${Math.min(100, Math.max(0, groundednessScore))}%`, background: scoreColor }} />
       </div>
 
       {/* Critique notes */}

@@ -103,7 +103,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-between px-5 py-6 sm:px-8 bg-grid-pattern" style={{ background: "var(--bg)" }}>
+    <div className="relative min-h-screen flex flex-col justify-between px-4 py-6 sm:px-8 bg-grid-pattern" style={{ backgroundColor: "var(--bg)" }}>
       <div className="bg-gradient-layer" />
 
       {/* Top Bar */}

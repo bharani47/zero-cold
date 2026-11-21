@@ -136,12 +136,12 @@ const BQML_WEIGHTS = [
 
 export default function LandingPage() {
   return (
-    <div className="relative min-h-screen flex flex-col bg-grid-pattern" style={{ background: "var(--bg)" }}>
+    <div className="relative min-h-screen flex flex-col bg-grid-pattern" style={{ backgroundColor: "var(--bg)" }}>
       <div className="bg-gradient-layer" />
 
       {/* ═══ TOP NAVIGATION ═══ */}
       <header className="sticky top-0 z-50 nav-blur w-full">
-        <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 h-18 flex items-center justify-between gap-4">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-8 h-16 sm:h-[72px] flex items-center justify-between gap-3 sm:gap-4">
           <div className="flex items-center gap-3.5">
             <Link href="/" className="flex items-center gap-3 select-none shrink-0">
               <ZLogo size={38} />
@@ -195,14 +195,14 @@ export default function LandingPage() {
 
       <main className="relative z-10 flex-1 w-full">
         {/* ═══ HERO SECTION ═══ */}
-        <section className="w-full max-w-7xl mx-auto px-5 sm:px-8 pt-14 sm:pt-20 pb-16 sm:pb-24">
+        <section className="w-full max-w-7xl mx-auto px-4 sm:px-8 pt-10 sm:pt-14 pb-14 sm:pb-20">
           <div className="text-center max-w-4xl mx-auto anim-fade-up">
             {/* Nxt Apex Venture Badge */}
             <a
               href="https://nxt-apex.vercel.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 mb-7 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold max-w-full hover:border-cyan-400/50 transition-all"
+              className="inline-flex items-center justify-center gap-2 mb-5 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold max-w-full hover:border-cyan-400/50 transition-all"
               style={{
                 background: "rgba(6, 182, 212, 0.12)",
                 border: "1px solid rgba(34, 211, 238, 0.32)",
@@ -214,7 +214,7 @@ export default function LandingPage() {
             </a>
 
             <h1
-              className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.08] mb-7"
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight leading-[1.08] mb-5"
               style={{ color: "var(--text-1)" }}
             >
               Outbound intelligence built on{" "}
@@ -231,7 +231,7 @@ export default function LandingPage() {
             </h1>
 
             <p
-              className="text-lg sm:text-xl lg:text-2xl max-w-3xl mx-auto mb-10 leading-relaxed"
+              className="text-base sm:text-xl lg:text-[1.35rem] max-w-3xl mx-auto mb-8 leading-relaxed"
               style={{ color: "var(--text-2)" }}
             >
               ZeroCold scrapes live DOM &amp; Core Web Vitals, scores conversion urgency with{" "}
@@ -240,10 +240,10 @@ export default function LandingPage() {
             </p>
 
             {/* Hero CTAs */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 mb-10 sm:mb-12">
               <Link
                 href="/login"
-                className="btn-primary text-base sm:text-lg font-bold px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 w-full sm:w-auto"
+                className="btn-primary text-base sm:text-lg font-bold px-8 py-3.5 rounded-xl flex items-center justify-center gap-2.5 w-full sm:w-auto"
               >
                 <Zap className="w-5 h-5" />
                 Start Auditing Leads Free
@@ -251,7 +251,7 @@ export default function LandingPage() {
               </Link>
               <a
                 href="#how-it-works"
-                className="btn-ghost text-base sm:text-lg font-semibold px-8 py-4 rounded-xl flex items-center justify-center gap-2.5 w-full sm:w-auto"
+                className="btn-ghost text-base sm:text-lg font-semibold px-8 py-3.5 rounded-xl flex items-center justify-center gap-2.5 w-full sm:w-auto"
               >
                 <Layers className="w-5 h-5 text-cyan-400" />
                 Inspect 5-Agent Pipeline
@@ -270,37 +270,37 @@ export default function LandingPage() {
           >
             {/* Window Chrome Bar */}
             <div
-              className="px-5 py-3.5 flex items-center justify-between gap-3 flex-wrap"
+              className="px-4 sm:px-5 py-3.5 flex items-center justify-between gap-3 flex-wrap"
               style={{
                 background: "rgba(255, 255, 255, 0.03)",
                 borderBottom: "1px solid rgba(255, 255, 255, 0.08)",
               }}
             >
-              <div className="flex items-center gap-2.5">
-                <span className="w-3 h-3 rounded-full bg-slate-700" />
-                <span className="w-3 h-3 rounded-full bg-slate-700" />
-                <span className="w-3 h-3 rounded-full bg-slate-700" />
-                <span className="ml-2 text-xs sm:text-sm font-mono text-slate-300">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="w-3 h-3 rounded-full bg-slate-700 shrink-0" />
+                <span className="w-3 h-3 rounded-full bg-slate-700 shrink-0" />
+                <span className="w-3 h-3 rounded-full bg-slate-700 shrink-0" />
+                <span className="ml-2 text-xs sm:text-sm font-mono text-slate-300 truncate">
                   zerocold://pipeline/5-stage-autonomous-audit
                 </span>
               </div>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="badge badge-cyan">BigQuery ML · 97.69% Acc</span>
                 <span className="badge badge-green">Critic Verified ✓</span>
               </div>
             </div>
 
-            {/* 3-Column Live Architecture Preview */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-white/10 p-6 sm:p-8 gap-7">
+            {/* 3-Column Live Architecture Preview — Symmetrical Dividers, Stage-Projector Safe */}
+            <div className="grid grid-cols-1 xl:grid-cols-3 divide-y xl:divide-y-0 xl:divide-x divide-white/10">
               {/* Col 1: DOM + PageSpeed Extraction */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
+              <div className="p-5 sm:p-6 space-y-4 min-w-0">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
-                    <Globe className="w-4 h-4" /> 1. Signal Extraction
+                    <Globe className="w-4 h-4 shrink-0" /> 1. Signal Extraction
                   </span>
                   <span className="text-xs font-mono text-slate-400">cheerio + Google PSI</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2.5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                   {[
                     { label: "HTTPS / SSL", ok: true, icon: Lock },
                     { label: "Mobile Viewport", ok: true, icon: Smartphone },
@@ -311,14 +311,14 @@ export default function LandingPage() {
                     return (
                       <div
                         key={item.label}
-                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold"
+                        className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold min-w-0"
                         style={
                           item.ok
                             ? { background: "rgba(34,197,94,0.08)", border: "1px solid rgba(34,197,94,0.2)", color: "#86efac" }
                             : { background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.22)", color: "#fca5a5" }
                         }
                       >
-                        <span className="flex items-center gap-2 truncate">
+                        <span className="flex items-center gap-2 min-w-0">
                           <Icon className="w-4 h-4 shrink-0" />
                           <span className="truncate">{item.label}</span>
                         </span>
@@ -328,37 +328,37 @@ export default function LandingPage() {
                   })}
                 </div>
                 <div
-                  className="rounded-xl p-3.5 flex items-center justify-between"
+                  className="rounded-xl p-3.5 flex items-center justify-between gap-3 flex-wrap"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}
                 >
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <Gauge className="w-5 h-5 text-amber-400 shrink-0" />
-                    <div>
+                    <div className="min-w-0">
                       <div className="text-sm font-semibold text-white">Core Web Vitals (Mobile)</div>
                       <div className="text-xs text-slate-300">LCP 4.2s · Mobile Perf 48/100</div>
                     </div>
                   </div>
-                  <span className="badge badge-amber">Friction Detected</span>
+                  <span className="badge badge-amber shrink-0">Friction Detected</span>
                 </div>
               </div>
 
               {/* Col 2: BigQuery ML Scoring */}
-              <div className="lg:pl-7 space-y-4 pt-6 lg:pt-0">
-                <div className="flex items-center justify-between">
+              <div className="p-5 sm:p-6 space-y-4 min-w-0">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
-                    <Cpu className="w-4 h-4" /> 2. BigQuery ML Scorer
+                    <Cpu className="w-4 h-4 shrink-0" /> 2. BigQuery ML Scorer
                   </span>
                   <span className="text-xs font-mono text-slate-400">ROC-AUC 0.9969</span>
                 </div>
                 <div
-                  className="rounded-xl p-4 flex items-center justify-between"
+                  className="rounded-xl p-4 flex items-center justify-between gap-3"
                   style={{ background: "rgba(6, 182, 212, 0.08)", border: "1px solid rgba(34, 211, 238, 0.25)" }}
                 >
-                  <div>
+                  <div className="min-w-0">
                     <div className="text-sm text-slate-300 font-medium">Conversion Urgency Score</div>
                     <div className="text-sm text-emerald-400 font-bold mt-0.5">High Priority Opportunity</div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right shrink-0">
                     <span className="text-4xl font-black text-emerald-400 tabular-nums">84</span>
                     <span className="text-sm text-slate-400">/100</span>
                   </div>
@@ -372,19 +372,19 @@ export default function LandingPage() {
                     { label: "Missing Online Booking CTA", val: "+2.66" },
                     { label: "Missing LocalBusiness Schema", val: "+1.84" },
                   ].map((f) => (
-                    <div key={f.label} className="flex items-center justify-between text-sm py-1">
+                    <div key={f.label} className="flex items-center justify-between gap-3 text-sm py-1">
                       <span className="text-slate-200 truncate">{f.label}</span>
-                      <span className="font-mono font-bold text-emerald-400">{f.val}</span>
+                      <span className="font-mono font-bold text-emerald-400 shrink-0">{f.val}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Col 3: 3-Agent Gemini Chain */}
-              <div className="lg:pl-7 space-y-4 pt-6 lg:pt-0">
-                <div className="flex items-center justify-between">
+              <div className="p-5 sm:p-6 space-y-4 min-w-0">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
                   <span className="text-sm font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4" /> 3. Analyst → Writer → Critic
+                    <ShieldCheck className="w-4 h-4 shrink-0" /> 3. Analyst → Writer → Critic
                   </span>
                   <span className="text-xs font-mono text-emerald-400 font-semibold">Groundedness 96%</span>
                 </div>
@@ -392,21 +392,21 @@ export default function LandingPage() {
                   className="rounded-xl p-4 space-y-2.5"
                   style={{ background: "rgba(255,255,255,0.03)", border: "1px solid var(--border)" }}
                 >
-                  <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center justify-between gap-2 flex-wrap text-xs">
                     <span className="font-bold text-white">Omni-Channel Output</span>
                     <span className="text-cyan-400 font-mono">Email · 48h Follow-Up · DM</span>
                   </div>
                   <p className="text-sm text-slate-200 leading-relaxed">
                     &ldquo;Noticed your mobile site takes 4.2s to load and lacks a direct WhatsApp or booking CTA—while 140+ Google reviewers actively search for appointments…&rdquo;
                   </p>
-                  <div className="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
+                  <div className="flex items-center justify-between gap-2 flex-wrap pt-2 border-t border-white/10 text-xs">
                     <span className="text-emerald-400 flex items-center gap-1.5 font-semibold">
-                      <CheckCircle2 className="w-3.5 h-3.5" /> All 3 claims verified against DOM
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" /> All 3 claims verified against DOM
                     </span>
                     <span className="text-slate-400 font-mono">68 words</span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between text-xs sm:text-sm px-1">
+                <div className="flex items-center justify-between gap-2 flex-wrap text-xs sm:text-sm px-1">
                   <span className="text-slate-300">Public White-Label Audit Link:</span>
                   <span className="font-mono text-cyan-400 font-semibold">/audit/verified-report ↗</span>
                 </div>
@@ -651,13 +651,13 @@ export default function LandingPage() {
                 </div>
                 {BQML_WEIGHTS.map((w) => (
                   <div key={w.feature} className="space-y-1.5">
-                    <div className="flex items-center justify-between text-xs sm:text-sm">
-                      <span className="font-medium text-slate-100">
+                    <div className="flex items-center justify-between gap-3 text-xs sm:text-sm">
+                      <span className="font-medium text-slate-100 min-w-0">
                         <code className="text-cyan-400 font-mono mr-2">{w.feature}</code>
                         {w.label}
                       </span>
                       <span
-                        className="font-mono font-bold tabular-nums"
+                        className="font-mono font-bold tabular-nums shrink-0"
                         style={{ color: w.positive ? "#4ade80" : "#22d3ee" }}
                       >
                         {w.weight}

@@ -297,16 +297,15 @@ export default function Dashboard() {
   }
 
   async function handleDeleteLead(id: string) {
-    setLeads((prev) => {
-      const remaining = prev.filter((l) => l.id !== id);
-      if (selectedLead?.id === id) {
-        const next = remaining[0] ?? null;
-        setSelectedLead(next);
-        setAuditResult(next?.auditResult ? (next.auditResult as unknown as AuditResult) : null);
-        setActiveStep(next?.auditResult ? 5 : -1);
-      }
-      return remaining;
-    });
+    const remaining = leads.filter((l) => l.id !== id);
+    setLeads(remaining);
+    if (selectedLead?.id === id) {
+      const next = remaining[0] ?? null;
+      setSelectedLead(next);
+      setAuditResult(next?.auditResult ? (next.auditResult as unknown as AuditResult) : null);
+      setActiveStep(next?.auditResult ? 5 : -1);
+      setAuditError(null);
+    }
 
     if (db && user) {
       try {
@@ -323,6 +322,11 @@ export default function Dashboard() {
 
     timersRef.current.forEach(clearTimeout);
     timersRef.current = [];
+
+    if (!data.leadId || data.leadId !== selectedLead?.id) {
+      setAuditResult(null);
+      if (!data.leadId) setSelectedLead(null);
+    }
 
     setIsRunning(true);
     setAuditError(null);
@@ -789,8 +793,8 @@ export default function Dashboard() {
             </div>
           </div>
 
-          {/* Primary Inputs Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-[1.4fr_1.3fr_1fr_0.9fr_0.65fr_0.65fr_auto] gap-2.5">
+          {/* Primary Inputs Row — Stage Projector & Wide Desktop Safe */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-[1.4fr_1.3fr_1fr_0.9fr_0.75fr_0.75fr_auto] gap-2.5">
             <input
               ref={businessNameInputRef}
               placeholder="Business Name *"
@@ -845,7 +849,7 @@ export default function Dashboard() {
             <button
               onClick={() => runAudit()}
               disabled={isRunning || !form.businessName.trim()}
-              className="btn-primary flex items-center justify-center gap-2 px-5 py-2.5 text-sm sm:text-base font-semibold whitespace-nowrap sm:col-span-2 lg:col-span-2 xl:col-span-1"
+              className="btn-primary flex items-center justify-center gap-2 px-5 py-2.5 text-sm sm:text-base font-bold whitespace-nowrap sm:col-span-2 lg:col-span-2 2xl:col-span-1"
             >
               {isRunning ? (
                 <>
@@ -863,9 +867,9 @@ export default function Dashboard() {
           </div>
 
           {/* Secondary Service Offer Row + Nxt Apex Service Chips */}
-          <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-2">
-            <div className="flex-1 flex items-center gap-2">
-              <span className="text-xs font-semibold text-zinc-400 shrink-0 hidden sm:inline">
+          <div className="flex flex-col xl:flex-row items-stretch xl:items-center gap-2.5">
+            <div className="flex-1 flex items-center gap-2 min-w-0">
+              <span className="text-xs sm:text-sm font-semibold text-slate-300 shrink-0 hidden sm:inline">
                 Agency Offer:
               </span>
               <input
@@ -873,7 +877,7 @@ export default function Dashboard() {
                 value={form.senderOffer}
                 onChange={(e) => set("senderOffer")(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && runAudit()}
-                className="input px-3 py-1.5 text-xs sm:text-sm w-full"
+                className="input px-3.5 py-2 text-xs sm:text-sm w-full min-w-0"
               />
             </div>
             <div className="flex items-center gap-1.5 flex-wrap">
@@ -882,7 +886,7 @@ export default function Dashboard() {
                   key={chip}
                   type="button"
                   onClick={() => set("senderOffer")(chip)}
-                  className="text-[11px] font-medium px-2.5 py-1 rounded-md transition-colors cursor-pointer hover:text-white"
+                  className="text-xs font-medium px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer hover:text-white"
                   style={
                     form.senderOffer === chip
                       ? { background: "rgba(6,182,212,0.18)", border: "1px solid rgba(34,211,238,0.38)", color: "#67e8f9" }
@@ -897,37 +901,37 @@ export default function Dashboard() {
         </div>
 
         {/* ═══ SPLIT WORKSPACE ═══ */}
-        <div className="grid grid-cols-1 lg:grid-cols-[330px_minmax(0,1fr)] 2xl:grid-cols-[380px_minmax(0,1fr)] gap-4 xl:gap-5 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[340px_minmax(0,1fr)] 2xl:grid-cols-[400px_minmax(0,1fr)] gap-5 items-start">
           {/* Left Column — Prospect Queue */}
-          <div className="space-y-3 anim-fade-up d-250 lg:sticky lg:top-[72px]">
+          <div className="space-y-3 anim-fade-up d-250 lg:sticky lg:top-[80px]">
             {/* Search & Sort Row */}
             <div className="flex items-center gap-2">
               <div className="relative flex-1">
-                <Search className="w-4 h-4 absolute left-3 top-2.5 text-zinc-500 pointer-events-none" />
+                <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400 pointer-events-none" />
                 <input
                   type="text"
                   placeholder="Search prospects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="input pl-9 pr-7 py-2 text-xs sm:text-sm w-full"
+                  className="input pl-9 pr-8 py-2 text-sm w-full"
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery("")}
-                    className="absolute right-2.5 top-2.5 text-zinc-500 hover:text-zinc-300 cursor-pointer"
+                    className="absolute right-2.5 top-3 text-slate-400 hover:text-white cursor-pointer"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-4 h-4" />
                   </button>
                 )}
               </div>
 
               <button
                 onClick={() => setSortBy((s) => (s === "recent" ? "score" : "recent"))}
-                className="text-xs font-semibold px-2.5 py-2 rounded-lg shrink-0 transition-colors cursor-pointer hover:text-white"
+                className="text-xs sm:text-sm font-semibold px-3 py-2 rounded-lg shrink-0 transition-colors cursor-pointer hover:text-cyan-300"
                 style={{
-                  background: "rgba(255,255,255,0.03)",
+                  background: "rgba(255,255,255,0.035)",
                   border: "1px solid var(--border)",
-                  color: "var(--text-2)",
+                  color: "var(--text-1)",
                 }}
                 title="Toggle sort order between most recent and highest ML score"
               >
@@ -935,16 +939,16 @@ export default function Dashboard() {
               </button>
             </div>
 
-            {/* Filter Tabs */}
+            {/* Filter Tabs — 2x2 on laptop/projector so labels NEVER clip, 4x1 on ultrawide */}
             <div
-              className="grid grid-cols-4 gap-1 p-1 rounded-xl"
+              className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 2xl:grid-cols-4 gap-1.5 p-1.5 rounded-xl"
               style={{ background: "rgba(255,255,255,0.025)", border: "1px solid var(--border)" }}
             >
               {(["all", "pending", "approved", "rejected"] as TabFilter[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className="text-xs sm:text-sm font-semibold py-2 px-1.5 rounded-lg transition-all duration-200 capitalize truncate cursor-pointer"
+                  className="text-xs sm:text-sm font-semibold py-2 px-2 rounded-lg transition-all duration-200 capitalize whitespace-nowrap cursor-pointer"
                   style={
                     tab === t
                       ? { background: "rgba(6,182,212,0.18)", color: "#67e8f9", border: "1px solid rgba(34,211,238,0.35)" }
@@ -1104,7 +1108,7 @@ export default function Dashboard() {
                 </div>
                 <CriticPanel critic={selectedAudit.criticAudit} writerDraft={selectedAudit.writerDraft} />
                 <ApprovalBox
-                  key={selectedLead?.id ?? selectedAudit.businessName}
+                  key={`${selectedLead?.id ?? selectedAudit.businessName}-${selectedLead?.updatedAt ?? 0}`}
                   critic={selectedAudit.criticAudit}
                   businessName={selectedAudit.businessName}
                   leadId={selectedLead?.id}

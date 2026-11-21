@@ -6,6 +6,7 @@ interface AnalystPanelProps {
 }
 
 export function AnalystPanel({ analyst }: AnalystPanelProps) {
+  const gapScore = analyst?.digitalGapScore ?? 0;
   return (
     <div className="glass-lg p-6 anim-fade-up d-150 space-y-5">
       {/* Header */}
@@ -16,7 +17,7 @@ export function AnalystPanel({ analyst }: AnalystPanelProps) {
         </div>
         <div className="text-right">
           <span className="text-3xl sm:text-4xl font-black tabular-nums text-cyan-400">
-            {analyst.digitalGapScore}
+            {gapScore}
           </span>
           <span className="text-xs sm:text-sm ml-1" style={{ color: "var(--text-3)" }}>/100 gap</span>
         </div>
@@ -27,8 +28,8 @@ export function AnalystPanel({ analyst }: AnalystPanelProps) {
         <div
           className="progress-fill"
           style={{
-            width: `${analyst.digitalGapScore}%`,
-            background: analyst.digitalGapScore >= 65 ? "linear-gradient(90deg, #06b6d4, #22d3ee)" : "#f59e0b",
+            width: `${Math.min(100, Math.max(0, gapScore))}%`,
+            background: gapScore >= 65 ? "linear-gradient(90deg, #06b6d4, #22d3ee)" : "#f59e0b",
           }}
         />
       </div>

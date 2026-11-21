@@ -76,10 +76,10 @@ function ClientAuditReportContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-[#05070b] flex items-center justify-center p-6 text-center">
         <div className="space-y-4">
           <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-sm font-semibold text-zinc-400">Loading verified digital footprint audit...</p>
+          <p className="text-sm font-semibold text-slate-300">Loading verified digital footprint audit...</p>
         </div>
       </div>
     );
@@ -87,16 +87,16 @@ function ClientAuditReportContent() {
 
   if (!lead || !lead.auditResult) {
     return (
-      <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-6 text-center">
-        <div className="max-w-md space-y-4 glass-lg p-5 sm:p-8 rounded-2xl border border-white/10">
+      <div className="min-h-screen bg-[#05070b] flex items-center justify-center p-6 text-center">
+        <div className="max-w-md space-y-4 glass-lg p-6 sm:p-8 rounded-2xl border border-white/10">
           <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto" />
-          <h1 className="text-xl font-bold text-white">Report Not Found</h1>
-          <p className="text-sm text-zinc-400">
+          <h1 className="text-2xl font-bold text-white">Report Not Found</h1>
+          <p className="text-sm sm:text-base text-slate-300">
             This digital audit report link may have expired or is still being generated.
           </p>
           <Link
             href="/"
-            className="btn-primary inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg mt-2"
+            className="btn-primary inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl mt-2"
           >
             <ArrowLeft className="w-4 h-4" /> Return to ZeroCold
           </Link>
@@ -366,10 +366,10 @@ export default function ClientAuditReportPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#07070a] flex items-center justify-center p-6 text-center">
+        <div className="min-h-screen bg-[#05070b] flex items-center justify-center p-6 text-center">
           <div className="space-y-4">
             <div className="w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-sm font-semibold text-zinc-400">Loading verified digital footprint audit...</p>
+            <p className="text-sm font-semibold text-slate-300">Loading verified digital footprint audit...</p>
           </div>
         </div>
       }
